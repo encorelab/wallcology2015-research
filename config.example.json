@@ -1,0 +1,28 @@
+{
+    "drowsy": {
+        "url": "https://drowsy.coati.encorelab.org",
+        "url_dev": "http://localhost:9292",
+        "db": "wallcology2015",
+        "username": "foo",
+        "password": "bar",
+        "uic_url": "https://ltg.evl.uic.edu/drowsy/poster"
+    },
+    "wakeful": {
+        "url": "https://coati.encorelab.org/faye",
+        "url_old": "http://wakeful.badger.encorelab.org:7777/faye",
+        "url_dev": "http://localhost:7777/faye"
+    },
+    "pikachu": {
+        "url": "///pikachu.coati.encorelab.org/"
+    },
+    "mqtt": {
+        "protocol": "tcp://",
+        "url": "ltg.evl.uic.edu",
+        "port": 1883,
+        "ws_protocol": "ws://",
+        "ws_port": 1884
+    },
+    "login_picker": true,
+    "runs":["ben", "michael"],
+    "project_name": "Wallcology 2015"
+}

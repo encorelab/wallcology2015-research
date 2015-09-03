@@ -1,0 +1,930 @@
+/********** T Y P O G R A P H Y **********/
+
+body {
+    font-family: 'Open Sans', 'HelveticaNeue', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 54px;
+    color: #444;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+h2 {
+    color: #555;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h3,
+label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+label {
+    vertical-align: middle;
+}
+
+textarea {
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+    color: #333;
+    width: 100%;
+    padding: 25px 2% 1%;
+}
+#review-details-screen textarea {
+    padding: 1% 2%;
+    height: 75px;
+}
+
+
+/********** R E S E A R C H **********/
+
+.side-nav .btn-circular {
+    margin-left: -25px;
+}
+
+.inner-wrapper,
+.side-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+.side-nav {
+    padding: 0 100px 0 0;
+}
+
+.side-nav button + button {
+    margin-top: 25px;
+}
+
+.btn {
+    margin-bottom: 20px;
+    height: 45px;
+    min-width: 175px;
+}
+
+.btn-base {
+    border-radius: 7px;
+    /*border: solid #ddd 1px;*/
+    background-image: none;
+    text-shadow: none;
+}
+
+/*circular buttons*/
+.btn-circular {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    padding: 0;
+}
+#proposal-screen .inner-wrapper .btn-circular,
+#review-details-screen .inner-wrapper .btn-circular {
+    margin-top: 25px;
+}
+
+#project-picker .modal-header {
+    border-bottom: none;
+}
+#project-picker button {
+    min-width: 500px;
+    max-width: 500px;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+    height: 55px;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+
+.project-partner-holder {
+    max-width: 915px;
+}
+.project-partner-holder button {
+    margin-right: 15px;
+    min-width: 150px;
+}
+.project-partner-holder button:nth-child(5n) {
+    margin-right: 0;
+}
+#submit-partners-btn {
+    height: 55px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* this should be changed, depending on the final colour of the button (used in the new-project sections) */
+.selected {
+    background: #fecc81 !important;
+}
+
+
+/********** P R O P O S A L **********/
+
+.proposal h2 {
+    color: #9282f3;
+}
+.proposal h3 {
+    padding-left: 25px;
+}
+.proposal textarea,
+.proposal button {
+    border: 2px solid #9282f3;
+}
+.proposal .btn-circular,
+#todo-screen .goto-proposal-btn {
+    background: #9282f3;
+    border: 2px solid #9282f3;
+}
+.proposal .btn-circular:hover,
+#todo-screen .goto-proposal-btn:hover {
+    background: #beb6f7;
+}
+.project-theme-holder {
+    width: 400px;
+    margin: 0 auto;
+}
+.project-theme-button {
+    height: 55px;
+    margin-bottom: 35px;
+}
+.project-theme-button:nth-child(odd) {
+    float: left;
+    margin-right: 25px;
+}
+.project-theme-button:nth-child(even) {
+    float: right;
+}
+
+/********** P R O J E C T **********/
+
+#project-write-screen,
+#project-read-screen {
+    position: relative;
+    height: 100%;
+    /*height: calc(100% - 50px);*/
+    padding-top: 50px;
+}
+/*#project-write-screen .inner-wrapper,
+#project-read-screen .inner-wrapper {
+    height: calc(100% - 50px);
+}*/
+
+.project h2 {
+    color: #41b050;
+}
+.project textarea,
+.project button,
+.project .btn {
+    border: 2px solid #41b050;
+}
+.project .btn-circular,
+#todo-screen .goto-project-btn {
+    background: #41b050;
+    border: 2px solid #41b050;
+}
+.project .btn-circular:hover,
+#todo-screen .goto-project-btn:hover {
+    background: #8dd098;
+}
+
+/********** R E V I E W **********/
+
+.review h2 {
+    color: #faa82d;
+}
+.review button,
+#submit-partners-btn {
+    border: 2px solid #faa82d;
+    background: #fecc81;
+}
+.review button:hover,
+#submit-partners-btn:hover {
+    background: #fff;
+}
+.review textarea {
+    border: 2px solid #faa82d;
+}
+.review .btn-circular,
+#todo-screen .goto-review-btn {
+    background: #faa82d;
+    border: 2px solid #faa82d;
+}
+.review .btn-circular:hover,
+#todo-screen .goto-review-btn:hover {
+    background: #fecc81;
+}
+#review-overview-screen .inner-wrapper {
+    display: flex;
+    /*position: static !important;*/
+    top: 75px;
+    transform: translateY(0);
+    -webkit-transform: translateY(0);
+    overflow: scroll;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+}
+#review-overview-screen .box1 {
+    -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    box-ordinal-group: 1;
+}
+#review-overview-screen .box2 {
+    -webkit-box-ordinal-group: 2;
+    -moz-box-ordinal-group: 2;
+    box-ordinal-group: 2;
+}
+#review-overview-screen .box3 {
+    -webkit-box-ordinal-group: 3;
+    -moz-box-ordinal-group: 3;
+    box-ordinal-group: 3;
+}
+#review-overview-screen .box4 {
+    -webkit-box-ordinal-group: 4;
+    -moz-box-ordinal-group: 4;
+    box-ordinal-group: 4;
+}
+#review-overview-screen .fail {
+    -webkit-box-ordinal-group: 100;
+    -moz-box-ordinal-group: 100;
+    box-ordinal-group: 100;
+}
+#review-overview-screen .own-review {
+    border: 2px solid #2DF2FA;
+    background: #81D3FE;
+}
+#review-overview-screen .own-review:hover {
+    background: #fff;
+}
+
+.box1,
+.box2,
+.box3,
+.box4,
+.fail {
+    margin-bottom: 20px;
+}
+
+.project-to-review-btn {
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#review-details-screen h3 {
+    padding-left: 25px;
+    color: #faa82d;
+    line-height: 1.3;
+    max-height: 100px;
+    overflow: scroll;
+}
+#review-details-screen #review-details-title {
+    padding-left: 0;
+    color: #555;
+    overflow: initial;
+}
+
+
+/********** T O D O  S C R E E N **********/
+.todo-btn {
+    color: #fff;
+    min-width: 350px;
+    display: block;
+    margin: 0 auto;
+    font-size: 24px;
+    height: 75px;
+    margin-bottom: 25px;
+    letter-spacing: 6px;
+}
+.todo-btn:hover {
+    color: #fff;
+}
+
+
+/********** P R O J E C T  R E A D  S C R E E N **********/
+
+#project-read-screen .inner-wrapper {
+    height: 100%;
+    margin-top: 75px;
+}
+.fa-pencil {
+    padding-left: 5px;
+}
+.fa-share-square-o {
+    padding-left: 6px;
+    padding-top: 3px;
+}
+
+/*to create the square tiles http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
+.tile-container {
+    outline-offset: -10px;
+/*    -moz-outline-radius: 10px; if we want rounded corners uncomment
+    -webkit-outline-radius: 10px;*/
+    float: left;
+    position: relative;
+    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
+    overflow: hidden;
+    min-height: 192px;
+}
+.tiles-list > li {
+    outline: 2px solid #41b050;
+    background: #fff;
+}
+.tiles-list .self {
+    outline: 3px dashed #99ff00;
+}
+/* change me - this doesn't look great */
+.tiles-list .cited {
+    outline: 2px solid #E64A19;
+}
+.tiles-list > li:last-child {
+    margin-bottom: 45px;
+}
+.tile {
+    position: absolute;
+    height: 86%; /* = 100% - 2*5% padding */
+    width: 90%; /* = 100% - 2*5% padding */
+    padding: 5%;
+    margin-top: 5%;
+    overflow: hidden;
+}
+.tile img,
+.tile video {
+    width: 100%;
+}
+.tile-title {
+    height: 27%;
+    max-height: 52px;
+    margin: 0;
+    padding-bottom: 15px;
+    overflow: hidden;
+    font-weight: 600;
+}
+.tile-body {
+    height: 75%;
+    margin-top: 5px;
+    overflow: hidden;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.fa-file-image-o,
+.fa-file-video-o {
+    font-size: 15em;
+    margin-left: 6%;
+}
+
+#project-read-screen .fa-star-o,
+#project-read-screen .fa-star {
+    bottom: 0;
+}
+.fa-circle {
+    position: absolute;
+    bottom: 1%;
+    right: 7%;
+    color: #fff;
+    z-index: 1;
+
+}
+
+
+/********** P R O J E C T  W R I T E  S C R E E N **********/
+
+.fa-arrow-left {
+    padding-right: 4px;
+}
+
+#tile-title-input {
+    margin-bottom: 25px;
+}
+
+#tile-body-container {
+    height: 250px;           /* random choice, change however you'd like */
+    margin-bottom: 25px;
+}
+
+#tile-body-input {
+    height: 250px;
+    padding-right: 60px;
+}
+
+.fa-lightbulb-o {
+    color: #41b050;
+    position: absolute;
+    top: 25%;
+    right: 2%;
+    padding: 10px 20px;
+}
+.fa-lightbulb-o:hover {
+    color: #8dd098;
+}
+
+.fa-star-o,
+.fa-star {
+    color: #fedf00;
+    position: absolute;
+    bottom: 25%;
+    right: 1%;
+    padding: 10px 20px;
+    z-index: 999;
+}
+.fa-star-o:hover,
+.fa-star:hover {
+    color: #ffff66;
+}
+
+.sentence-starter {
+    background: #8dd098;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+}
+.sentence-starter:hover{
+    background: #fff;
+}
+#project-write-screen button.close {
+    border: none;
+}
+
+#tile-details .modal-content,
+#sentence-starter-modal .modal-content {
+    border-radius: 0;
+    border: 2px solid #41b050;
+}
+
+#tile-details .tile-author {
+    padding-top: 10px;
+    color: #41b050;
+}
+
+/********** P R O J E C T  M E D I A  S C R E E N **********/
+
+#tile-media-upload-container {
+    /*height: 250px;*/
+    margin-bottom: 25px;
+    height: 100%;
+}
+.photo-wrapper,
+.self-photo-query {
+    display: inline-block;
+}
+#tile-media-upload-container input[type=file] {
+    margin: 15px 0 0 55px;
+}
+.photo-wrapper {
+    /*width: 37%;*/
+    max-width: 300px;
+    max-height: 400px;
+    /*overflow: hidden;*/
+}
+#tile-media-upload-container video,
+#tile-media-upload-container img {
+    width: 100%;
+    max-height: 400px;
+}
+.fa-spinner {
+    font-size: 14em;
+    position: absolute;
+    z-index: 999;
+    top: 13%;
+    left: 6%;
+    color: #41b050;
+    background: #fff;
+}
+.fa-play-circle {
+    position: absolute;
+    margin-top: 25px;
+    left: 125px;
+}
+.self-photo-query {
+    width: 50%;
+    height: 100%;
+    vertical-align: top;
+    margin-top: 10%;
+}
+#tile-media-upload-container .fa-star-o,
+#tile-media-upload-container .fa-star {
+    top: 0;
+}
+#tile-media-upload-container h3 {
+    text-align: center;
+}
+#self-originator-btn,
+#others-originator-btn {
+    display: block;
+    margin: 0 auto;
+    margin-top: 25px;
+    background: #8dd098;
+}
+#project-media-screen .selected {
+    background: #99ff00 !important;
+}
+#self-originator-btn:hover,
+#others-originator-btn:hover {
+    background: #fff;
+}
+
+
+/********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/
+
+.new-poster-theme-holder {
+    width: 400px;
+    margin: 0 auto;
+}
+.new-poster-theme-button {
+    height: 55px;
+    margin-bottom: 35px;
+}
+.new-poster-theme-button:nth-child(odd) {
+    float: left;
+    margin-right: 25px;
+}
+.new-poster-theme-button:nth-child(even) {
+    float: right;
+}
+#project-new-poster-screen .selected {
+    background: #8dd098 !important;
+}
+#project-new-poster-screen .selected:hover {
+    border: solid 2px #41b050;
+}
+
+
+/********** P R O J E C T  P O S T E R  C H U N K  S C R E E N **********/
+
+#project-poster-chunk-screen .btn-container {
+    width: 450px;
+    display: block;
+    margin: 50px auto 20px;
+}
+.poster-chunk .fa-pencil,
+.poster-chunk .fa-picture-o {
+    font-size: 2em;
+    color: #41b050;
+}
+.btn-container button:hover .fa {
+    color: #fff;
+}
+#project-poster-chunk-screen button + button {
+    margin-left: 45px;
+}
+#project-poster-chunk-screen .btn-container button,
+.chunk-edit-btn {
+    background: #fff;
+}
+#project-poster-chunk-screen .btn-container button:hover,
+.chunk-edit-btn:hover {
+    background: #8dd098;
+}
+.poster-chunk h3 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.poster-chunk .inner-wrapper {
+  height: 100%;
+  margin-top: 75px;
+}
+.poster-chunk textarea {
+    margin-bottom: 25px;
+}
+.fa-cloud-upload {
+    position: absolute;
+    right: 5%;
+}
+#project-poster-text-chunk-screen .fa-cloud-upload {
+    top: 215px;
+}
+#project-poster-media-chunk-screen .fa-cloud-upload {
+    top: 325px;
+}
+#poster-text-tiles-holder,
+#poster-media-tiles-holder {
+    height: 400px;
+    overflow-y: scroll;
+}
+.poster-chunk .fa-star-o,
+.poster-chunk .fa-star {
+    bottom: 0;
+    right: 0;
+}
+
+#media-chunk-media-holder img,
+#media-chunk-media-holder video {
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}
+#text-chunk-body-input {
+    height: 260px;
+}
+.chunk-edit-btn {
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 28px;
+    background: #8dd098;
+}
+.chunk-edit-btn:hover {
+    background: #fff;
+}
+#poster-chunk-holder div + div {
+    margin-top: 20px;
+}
+#poster-chunk-holder {
+    padding-bottom: 45px;
+}
+
+#text-chunk-upload-spinner, #media-chunk-upload-spinner {
+    position: absolute;
+    right: 3.8%;
+    top: 200px;
+    height: 100px;
+}
+
+#text-chunk-upload-spinner {
+    top: 200px;
+}
+#media-chunk-upload-spinner {
+    top: 310px;
+}
+
+/********** G L O B A L **********/
+
+body, html {
+    /*height: calc(100% - 50px);*/
+    height: 100%;
+}
+
+a,
+a:hover,
+button,
+button:hover,
+.btn,
+.btn:hover,
+i,
+i:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.margin-bottom-25 {
+    margin-bottom: 25px;
+}
+
+/* what's the correct way to do this? */
+.disabled {
+    pointer-events: none;
+    cursor: default;
+    /*background-color: #BDBDC1;*/      /* we probably want something a little more stark than this */
+    opacity: 0.7;
+}
+
+.hidden {
+    display: none;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+/*so the scroll bar appears at all times*/
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+#lock-screen {
+    height: 100%;
+    width: 100%;
+    background: black;
+}
+
+#lock-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/********** M O D A L S **********/
+/*for vertical centering; had to add .table & .table-cell divs to html*/
+.table {
+    display: table;
+    height:100%;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+/********** N A V B A R **********/
+
+.navbar-inverse .navbar-nav>.active>a {
+    background-image: -webkit-linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+    background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+}
+
+.username-display a {
+    max-height: 35px;
+    max-width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* This hides any element with class alert directly after an input field with a pattern (regex) */
+input[pattern] + .alert {
+    display: none;
+}
+
+/* If pattern (regex) is violated alert is shown */
+input[pattern]:invalid + .alert {
+    display: inline-block;
+}
+
+/* If pattern (regex) is violated submit button is hidden */
+input[pattern]:invalid ~ button {
+    display: none;
+}
+
+input:disabled {
+    display: none;
+}
+
+#login-button:disabled {
+    display: none;
+}
+
+.login-button {
+    margin: 1%;
+    min-width: 7.3em;
+}
+
+.input-alert {
+    margin-top: 2%;
+}
+
+
+/********** M E D I A  Q U E R I E S **********/
+
+/* Extra small devices (phones, less than 768px) */
+@media all and (max-width: 767px) {
+
+    .side-nav .btn-circular {
+        margin-left: 15px !important;
+    }
+
+}
+
+/*Small devices PORTRAIT (tablets, more than 768px tall)*/
+@media all and (min-height: 768px) and (orientation: portrait) {
+
+    .project-partner-holder button {
+        margin-right: 15px;
+        min-width: 140px;
+    }
+    .project-partner-holder button:nth-child(5n) {
+        margin-right: 15px;
+    }
+    .project-partner-holder button:nth-child(4n) {
+        margin-right: 0;
+    }
+
+    .username-display a {
+        max-width: 300px;
+        text-overflow: ellipsis;
+    }
+
+    .side-nav .btn-circular {
+        margin-left: -25px;
+    }
+
+    #proposal-screen textarea[name="research_question"],
+    #proposal-screen textarea[name="need_to_knows"],
+    #review-details-screen textarea {
+        height: 100px;
+    }
+
+    h2.box1 {
+        width: 495px;
+        margin-left: -10px;
+    }
+    h2.box3 {
+        width: 515px;
+        margin-left: -20px;
+    }
+
+    #review-details-screen h3[name="research_question"],
+    #review-details-screen h3[name="need_to_knows"] {
+        max-height: 150px;
+    }
+
+    .tile {
+        padding: 5% 7% 0 1%;
+        height: 87%;
+    }
+    .tile-title {
+        height: 23%;
+    }
+    .tile-body {
+        height: 69%;
+    }
+    .fa-file-image-o,
+    .fa-file-video-o {
+        font-size: 11em;
+        margin-left: 14px;
+    }
+    #project-read-screen .fa-star-o,
+    #project-read-screen .fa-star {
+        right: -1.5%;
+    }
+    .fa-circle {
+        bottom: 1.5%;
+    }
+    #tile-media-upload-container {
+        margin-left: 15%;
+    }
+    .self-photo-query {
+        margin-left: 8%;
+    }
+    .project-to-review-btn {
+        max-width: 475px;
+        text-overflow: ellipsis;
+    }
+    .poster-chunk .fa-star-o,
+    .poster-chunk .fa-star {
+        bottom: -1%;
+        right: -2%;
+    }
+    #media-chunk-media-holder + div {
+        text-align: left;
+    }
+}
+
+/* Large devices (LARGE DESKTOPS, 1200px and up) */
+@media all and (min-width: 1200px) {
+
+    .project-partner-holder button {
+        min-width: 170px;
+    }
+
+    .side-nav {
+        padding: 0 200px 0 0;
+    }
+
+    .tile-container {
+        padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
+    }
+    .fa-file-image-o,
+    .fa-file-video-o {
+        font-size: 13em;
+        margin-left: 5%;
+    }
+
+    .tile h3 {
+        font-size: 20px;
+    }
+    .tile .title-body {
+        font-size: 16px;
+        line-height: 1.2;
+    }
+
+}

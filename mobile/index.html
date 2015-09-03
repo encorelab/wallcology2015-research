@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Solar 2015 Research</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
+
+    <link href='///fonts.googleapis.com/css?family=Open+Sans:300italic,400,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link href="css/research.css" rel="stylesheet">
+
+<!--     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"> -->
+
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="../node_modules/underscore/underscore.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone/backbone.js"></script>
+
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/backbone.drowsy.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/wakeful.js"></script>
+
+    <script type="text/javascript" src="../bower_components/jquery-toastmessage-plugin/src/main/javascript/jquery.toastmessage.js"></script>
+    <script type="text/javascript" src="../bower_components/jquery.cookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../bower_components/purl/purl.js"></script>
+
+    <!-- Gugo's speedhack pubsub librarylet -->
+    <script type="text/javascript" src="../shared/js/mqttws31.js"></script>
+
+    <script type="text/javascript" src="../shared/js/skeletor.js"></script>
+    <script type="text/javascript" src="../shared/js/model.js"></script>
+    <script type="text/javascript" src="../shared/js/rollcall.js"></script>
+
+    <script type="text/javascript" src="js/research.js"></script>
+    <script type="text/javascript" src="js/research.view.js"></script>
+
+    <!-- Templates -->
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
+    <script id="text-tile-template" type="text/template">
+            <div class="tile" data-id=<%= id %>>
+                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+                <i class="fa fa-circle fa-3x"></i>
+                <h3 class="tile-title" data-id=<%= id %>><%= title %></h3>
+                <div class="tile-body" data-id=<%= id %>><%= body %></div>
+            </div>
+    </script>
+
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
+    <script id="photo-tile-template" type="text/template">
+            <div class="tile" data-id=<%= id %>>
+                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="tile-url" data-id=<%= id %>>
+                    <img src=<%= url %> data-id=<%= id %> />
+                </div>
+            </div>
+    </script>
+
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
+    <script id="video-tile-template" type="text/template">
+            <div class="tile" data-id=<%= id %>>
+                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="tile-url" data-id=<%= id %>>
+                    <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+                </div>
+            </div>
+    </script>
+    <!-- <video src=<%= url %> data-id=<%= id %>></video> -->
+
+    <script id="review-details-template" type="text/template" class="review">
+        <div class="row">
+                <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                    <button id="return-to-overview-btn" class="fa fa-arrow-left fa-3x btn-circular"></button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                    <% if (proposal.review_published) { %>
+                        <h3 id="review-details-title"><b><%= name %></b> has already been reviewed by <i><%= proposal.reviewer %></i>. You may view it, but not make any changes</h3>
+                    <% } else { %>
+                        <h3 id="review-details-title">You are currently reviewing <b><%= name %></b>. Read each section of your peer’s proposal, and add comments.</h3>
+                    <% } %>
+                    <h3 name="research_question"><%= proposal.research_question %></h3>
+                    <textarea class="input-field <%= (proposal.review_published || write_lock) ? 'disabled' : '' %>" data-nested="proposal" name="review_research_question" placeholder="Does this research question make sense? Do you have any suggestions of how it could be improved?"><%= proposal.review_research_question %></textarea>
+                    <h3 name="need_to_knows"><%= proposal.need_to_knows %></h3>
+                    <textarea class="input-field <%= (proposal.review_published || write_lock) ? 'disabled' : '' %> " data-nested="proposal" name="review_need_to_knows" placeholder="Is there anything else that you think your peers should consider?"><%= proposal.review_need_to_knows %></textarea>
+                    <% if (proposal.review_published === false && write_lock === false) { %>
+                        <button id="publish-review-btn" class="modify-proposal-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                        <button id="cancel-review-btn" class="modify-proposal-btn btn-circular fa fa-times fa-3x pull-right"></button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="chunk-list-template" type="text/template">
+        <div class='btn chunk-edit-btn type-<%= type %>' data-id='<%= _id %>'><%= body %></div>
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+               </button>
+                <a class="navbar-brand brand" href="#">Loading...</a>
+            </div>
+
+            <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav top-navigation">
+                    <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li>
+                    <li id="project-nav-btn" class="goto-project-btn top-nav-btn"><a href="#">Project</a></li>
+                    <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active username-display"><a></a></li>
+                    <li id="logout-user" class="active logout-user"><a>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="lock-screen" class="hidden">
+        <img src="img/lock-icon-white.png" id="lock-img"/>
+    </div>
+
+    <!-- ToDo Screen -->
+    <div id="todo-screen" class="container-fluid user-screen">
+        <div class="row">
+            <div class="inner-wrapper col-xs-8 col-xs-offset-2">
+                <h2>What would you like to work on today?</h2>
+                <button class="goto-proposal-btn todo-btn btn btn-base">PROPOSAL</button>
+                <button class="goto-project-btn todo-btn btn btn-base">PROJECT</button>
+                <button class="goto-review-btn todo-btn btn btn-base">REVIEW</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Screen -->
+    <div id="new-project-screen" class="container-fluid user-screen">
+        <div id="new-project-student-picker" class="row">
+            <div class="inner-wrapper col-xs-10 col-xs-offset-1">
+                <h2>Select the names of all students who will work on this project</h2>
+                <div class="project-partner-holder">
+                    <!-- populated by the view -->
+                </div>
+                <button id="submit-partners-btn" class="btn btn-base btn-default">Choose these partners</button>
+            </div>
+        </div>
+        <div id="new-project-theme-picker" class="row hidden">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Select the one theme that best fits your topic</h2>
+                <div class="project-theme-holder">
+                    <!-- populated by the view -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proposal Screen -->
+    <div id="proposal-screen" class="container-fluid user-screen proposal">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-splash-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Write your project proposal</h2>
+                <textarea name="name" placeholder="Project title"></textarea>
+                <h3>What is (are) your main research questions?</h3>
+                <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
+                <h3>What would you need to know in order to answer your research question(s)?</h3>
+                <textarea data-nested="proposal" name="need_to_knows" placeholder="1."></textarea>
+                <button id="publish-proposal-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Read Screen -->
+    <div id="project-read-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
+                <button id="nav-media-btn" class="fa fa-picture-o fa-3x btn-circular"></button>
+                <button id="nav-poster-btn" class="fa fa-clipboard fa-3x btn-circular"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <ul class="row tiles-list"></ul>
+                <!-- gets filled by the readScreenView -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Write Screen -->
+    <div id="project-write-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <textarea id="tile-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
+                <div id="tile-body-container">
+                    <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
+                    <textarea id="tile-body-input" class="input-field" name="body"></textarea>
+                    <i class="fa fa-star-o fa-4x favourite-icon favourite-icon-unselected"></i>
+                    <i class="fa fa-star fa-4x favourite-icon favourite-icon-selected"></i>
+                </div>
+                <button class="publish-tile-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-tile-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+            </div>
+        </div>
+
+        <!-- putting the modal in here since it's conceptually part of the view (collection, click listeners etc as well) -->
+        <div id="sentence-starter-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Select a sentence starter to use in your note</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!-- no reason for these to be buttons, switch to whatever -->
+                                <div><button class="btn sentence-starter">We wonder... </button></div>
+                                <div><button class="btn sentence-starter">We just found out that... </button></div>
+                                <div><button class="btn sentence-starter">Something that doesn’t make sense is... </button></div>
+                                <div><button class="btn sentence-starter">We conclude that... </button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Media Screen -->
+    <div id="project-media-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div id="tile-media-upload-container">
+                    <div class="photo-wrapper">
+                       <label for="photo-file" class="camera-icon-label"><img src="img/camera_icon.png" class="camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="photo-file" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <!-- this is shown while the file is being uploaded, needs to be styled to sit on top -->
+                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                       <!-- <img id="photo-upload-spinner" class="hidden" src="img/loading.gif" alt="photo upload spinner" /> -->
+                       <!-- <button id="play-video-btn" class="fa fa-play-circle fa-3x btn-circular"></button> -->
+                    </div>
+                    <div class="self-photo-query">
+                        <i class="fa fa-star-o fa-4x favourite-icon favourite-icon-unselected"></i>
+                        <i class="fa fa-star fa-4x favourite-icon favourite-icon-selected"></i>
+                        <h3>Is this a drawing, model, or other form of representation that you constructed yourself?</h3>
+                        <button id="self-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="self">Yes</button>
+                        <button id="others-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="other">No</button>
+                    </div>
+                </div>
+                <button class="publish-tile-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-tile-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project New Poster Screen -->
+    <div id="project-new-poster-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div>
+                    <h2>Give your poster a title</h2>
+                    <textarea name="poster_title" placeholder="Untitled poster"></textarea>
+                </div>
+                <div id="new-poster-theme-picker">
+                    <h2>Select all themes that relate to your topic</h2>
+                    <div class="new-poster-theme-holder">
+                        <!-- populated by the view -->
+                    </div>
+                </div>
+                <button class="create-poster-btn btn-circular fa fa-check fa-3x pull-right"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Poster Chunk Screen -->
+    <div id="project-poster-chunk-screen" class="container-fluid user-screen project poster-chunk">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Send new content to your poster</h2>
+                <div class="btn-container">
+                    <button id="create-text-chunk-btn" class="btn" data-type="text"><i class="fa fa-pencil fa-lg"></i>&nbsp;&nbsp;Create text content</button>
+                    <button id="create-media-chunk-btn" class="btn" data-type="media"><i class="fa fa-picture-o fa-lg"></i>&nbsp;&nbsp;Create media content</button>
+                </div>
+                <h3>You can edit content that has already been sent to your poster</h3>
+                <div id="poster-chunk-holder">
+                    <!-- populated by the view -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Poster Text Chunk Screen -->
+    <div id="project-poster-text-chunk-screen" class="container-fluid user-screen project poster-chunk">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
+                <button class="nav-chunk-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h3>Send text to your poster. You can select a tile to get you started.</h3>
+                <!-- <textarea id="text-chunk-title-input" class="input-field" name="title" placeholder="Untitled poster content"></textarea> -->
+                <textarea id="text-chunk-body-input" class="input-field" name="body" placeholder="Poster content"></textarea>
+                <button class="publish-chunk-btn btn-circular fa fa-cloud-upload fa-3x pull-right"></button>
+                <img src="img/loading.gif" id="text-chunk-upload-spinner" class="pull-right hidden"></img>
+                <!-- lololol, html/css is the best. Feel free to do this better :) -->
+                <div style="clear:both"></div>
+                <div id="poster-text-tiles-holder">
+                    <ul class="tiles-list">
+                        <!-- populated by the view -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Poster Media Chunk Screen -->
+    <div id="project-poster-media-chunk-screen" class="container-fluid user-screen project poster-chunk">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-chunk-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h3>Send media to your poster. You can select a tile to get you started.</h3>
+                <div id="media-chunk-media-holder" name="url">
+                    <!-- filled from a click event in the view -->
+                </div>
+                <h3>What do you want your peers to know about this media?</h3>
+                <textarea id="media-chunk-body-input" class="input-field" name="body" placeholder="Caption"></textarea>
+                <button class="publish-chunk-btn btn-circular fa fa-cloud-upload fa-3x pull-right"></button>
+                <img src="img/loading.gif" id="media-chunk-upload-spinner" class="pull-right hidden"></img>
+                <div style="clear:both"></div>
+                <div id="poster-media-tiles-holder">
+                    <ul class="tiles-list">
+                        <!-- populated by the view -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ReviewOverview Screen -->
+    <div id="review-overview-screen" class="container-fluid user-screen review">
+        <div class="row">
+            <div class="inner-wrapper col-xs-8 col-xs-offset-2">
+                <!-- Filled by ReviewsView and ReviewView -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ReviewDetails Screen -->
+    <div id="review-details-screen" class="container-fluid user-screen review">
+
+    </div>
+
+
+    <!-- Modals -->
+
+    <!-- Login Modal -->
+    <div id="login-picker" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="login-picker" aria-hidden="true">
+        <div class="table">
+            <div class="table-cell">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> -->
+                        <h3>Please log in</h3>
+                        </div>
+                        <div class="modal-body login-buttons">
+                        <!-- filled by javascript with buttons for user login -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="project-picker" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="login-picker" aria-hidden="true">
+        <div class="table">
+            <div class="table-cell">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h2>What would you like to do today?</h2>
+                        </div>
+                        <button class="btn btn-default btn-base" value="new">Start new project</button>
+                        <br/>
+                        <div class="modal-body projects-holder">
+                            <!-- filled by javascript with buttons for user login -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+          // extending jQuery http://stackoverflow.com/questions/31044/is-there-an-exists-function-for-jquery
+          jQuery.fn.exists = function(){return this.length>0;}
+          Skeletor.Mobile.init();
+          jQuery('.note-taking-toggle').hide();
+        });
+    </script>
+</body>
+</html>

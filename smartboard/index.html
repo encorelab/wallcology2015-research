@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Solar Brainstorm Smartboard</title>
+    <meta charset="utf-8">
+
+    <link href="css/smartboard.css" rel="stylesheet">
+
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+
+    <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+    <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> -->
+
+    <script type="text/javascript" src="../node_modules/underscore/underscore.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone/backbone.js"></script>
+
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/backbone.drowsy.js"></script>
+    <script type="text/javascript" src="../node_modules/backbone.drowsy.encorelab/wakeful.js"></script>
+
+    <script type="text/javascript" src="../shared/js/rollcall.js"></script>
+    <script type="text/javascript" src="../shared/js/skeletor.js"></script>
+    <script type="text/javascript" src="../shared/js/model.js"></script>
+
+
+    <script type="text/javascript" src="js/smartboard.js"></script>
+    <script type="text/javascript" src="js/smartboard.router.js"></script>
+    <script type="text/javascript" src="js/smartboard.view.js"></script>
+    <script type="text/javascript" src="js/smartboard.view.wall.js"></script>
+    <script type="text/javascript" src="js/smartboard.view.balloons.js"></script>
+</head>
+
+<body>
+    <div id="wall" class="loading">
+        <!-- <div id="tags-panel">
+            <div id="tags-tab">Tags</div>
+            <div id="tags-editor">...</div>
+        </div> -->
+
+        <div id="watermark"><img src="loader.gif" alt="Loading..." style="width: 400px" /></div>
+
+        <div id="add-tag-container">
+            <button id="add-tag-opener">Add Theme</button>
+            <input type="text" id="new-tag" />
+            <button id="submit-new-tag">✚</button>
+        </div>
+
+
+        <div id="action-buttons-container">
+            <button id="toggle-pause">Pause</button>
+
+            <!--
+            <button id="go-tagging">Tagging</button>
+            <button id="go-propose">Propose</button>
+            <button id="go-investigate">Investigate</button>
+            -->
+        </div>
+    </div>
+
+    <script>
+        jQuery(document).ready(function () {
+            // Skeletor.Smartboard.init();
+            Skeletor.Smartboard.Router.start();
+        });
+    </script>
+</body>
+</html>

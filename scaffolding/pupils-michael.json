@@ -1,0 +1,232 @@
+[
+    {
+        "username": "alexander",
+        "display_name": "Alexander",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "aman",
+        "display_name": "Aman",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "anika",
+        "display_name": "Anika",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "ayleen",
+        "display_name": "Ayleen",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "blaede",
+        "display_name": "Blaede",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "claire",
+        "display_name": "Claire",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "eli",
+        "display_name": "Eli",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "erin",
+        "display_name": "Erin",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "hamish",
+        "display_name": "Hamish",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "harper",
+        "display_name": "Harper",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "imogen",
+        "display_name": "Imogen",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "jayden",
+        "display_name": "Jayden",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "jessica",
+        "display_name": "Jessica",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "julia",
+        "display_name": "Julia",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "lindsay",
+        "display_name": "Lindsay",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "marten",
+        "display_name": "Marten",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "morgan",
+        "display_name": "Morgan",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "norah",
+        "display_name": "Norah",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "rahim",
+        "display_name": "Rahim",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "ruby",
+        "display_name": "Ruby",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "sam",
+        "display_name": "Sam",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "teadora",
+        "display_name": "Teadora",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "thomas",
+        "display_name": "Thomas",
+        "tags": [
+            "michael"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    }
+]
