@@ -42,6 +42,7 @@
 
   app.newProjectView = null;
   app.proposalsView = null;
+  app.chiTestView = null;
   app.projectReadView = null;
   app.projectWriteView = null;
   app.projectMediaView = null;
@@ -282,6 +283,9 @@
           jQuery('#project-nav-btn').addClass('active');
           jQuery('#project-read-screen').removeClass('hidden');
           // app.projectReadView.render();
+        } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
+          jQuery('#chi-test-nav-btn').addClass('active');
+          jQuery('#chi-test-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-review-btn')) {
           jQuery('#review-nav-btn').addClass('active');
           jQuery('#review-overview-screen').removeClass('hidden');

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Solar 2015 Research</title>
+    <title>Wallcology 2015 Research</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,7 @@
                    <span class="icon-bar"></span>
                    <span class="icon-bar"></span>
                    <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
                </button>
                 <a class="navbar-brand brand" href="#">Loading...</a>
             </div>
@@ -128,6 +129,7 @@
                     <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li>
                     <li id="project-nav-btn" class="goto-project-btn top-nav-btn"><a href="#">Project</a></li>
                     <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li>
+                    <li id="chi-test-nav-btn" class="goto-chi-test-btn top-nav-btn"><a href="#">Chi-test</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active username-display"><a></a></li>
@@ -153,6 +155,26 @@
         </div>
     </div>
 
+
+    <!-- Proposal Screen -->
+    <div id="proposal-screen" class="container-fluid user-screen proposal">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-splash-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Write your project proposal</h2>
+                <textarea name="name" placeholder="Project title"></textarea>
+                <h3>What is (are) your main research questions?</h3>
+                <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
+                <h3>What would you need to know in order to answer your research question(s)?</h3>
+                <textarea data-nested="proposal" name="need_to_knows" placeholder="1."></textarea>
+                <button id="publish-proposal-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
+            </div>
+        </div>
+    </div>
+
+
     <!-- New Project Screen -->
     <div id="new-project-screen" class="container-fluid user-screen">
         <div id="new-project-student-picker" class="row">
@@ -174,24 +196,15 @@
         </div>
     </div>
 
-    <!-- Proposal Screen -->
-    <div id="proposal-screen" class="container-fluid user-screen proposal">
+
+    <!-- Chi-Test Screen -->
+    <div id="chi-test-screen" class="container-fluid user-screen">
         <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
-                <button class="nav-splash-btn fa fa-arrow-left fa-3x btn-circular"></button>
-            </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <h2>Write your project proposal</h2>
-                <textarea name="name" placeholder="Project title"></textarea>
-                <h3>What is (are) your main research questions?</h3>
-                <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
-                <h3>What would you need to know in order to answer your research question(s)?</h3>
-                <textarea data-nested="proposal" name="need_to_knows" placeholder="1."></textarea>
-                <button id="publish-proposal-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
+                INSERT CHI STUFF HERE
             </div>
         </div>
     </div>
-
 
     <!-- Project Read Screen -->
     <div id="project-read-screen" class="container-fluid user-screen project">

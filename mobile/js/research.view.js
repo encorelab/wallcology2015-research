@@ -231,6 +231,28 @@
 
   });
 
+/**
+  ChiTestView
+**/
+// app.View.ChiTestView = Backbone.View.extend({
+
+//   initialize: function () {
+//     var view = this;
+//     console.log('Initializing ChiTestView...', view.el);
+//   },
+
+//   events: {
+
+//   },
+
+//   render: function () {
+//     var view = this;
+//     console.log("Rendering ChiTestView...");
+
+//   }
+
+// });
+
 
   /**
    ** Tile View
