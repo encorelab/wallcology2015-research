@@ -37,8 +37,6 @@
   app.runState = null;
   app.users = null;
   app.username = null;
-  app.groupname = null;
-  app.project = null;
 
   app.newProjectView = null;
   app.proposalsView = null;
@@ -160,9 +158,6 @@
       app.runState = Skeletor.getState('RUN');
       app.runState.wake(app.config.wakeful.url);
       app.runState.on('change', app.reflectRunState);
-
-      // console.log('Waking up the projects collection');
-      // Skeletor.Model.awake.projects.wake(app.config.wakeful.url);
     })
     .then(function() {
       // TODO - add me to config.json
@@ -182,74 +177,7 @@
     // decide on which screens to show/hide
     app.hideAllContainers();
 
-    showProjectPicker();
-  };
-
-  var showProjectPicker = function() {
-    // get collection of projects?
-    jQuery('.projects-holder').html('');
-
-    // get a list of projects that user is involved with
-    var myProjectsList = Skeletor.Model.awake.projects.filter(function(proj) {
-      return ( _.contains(proj.get('associated_users'), app.username) );
-    });
-
-    // sort list by oldest to newest (note append below)
-    myProjectsList.comparator = function(model) {
-      return model.get('created_at');
-    };
-
-    // create the html for each of these projects
-    _.each(myProjectsList, function(project) {
-      var button = jQuery('<button class="btn project-button btn-default btn-base">');
-      button.val(project.get('_id'));
-      button.text("Work on " + project.get('name'));
-      jQuery('.projects-holder').append(button);
-    });
-
-    // set up the click listeners for the projects
-    jQuery('#project-picker button').click(function() {
-      jQuery('#project-picker').modal('hide');
-      if (jQuery(this).val() === "new") {
-        setupProject("new");
-      } else {
-        // check if the state is paused and update screens accordingly - unhiding the start screen is now handled in reflectRunState
-        setupProject(jQuery(this).val());
-      }
-      return false;
-    });
-
-    jQuery('#project-picker').modal({keyboard: false, backdrop: 'static'});
-  };
-
-  var setupProject = function(projectId) {
-    var p = null;
-
-    if (projectId === "new") {
-      p = new Model.Project();
-      // we're going to make an (admittedly feeble) attempt at avoiding collisions here. Project names get overwritten pretty quickly, in principle, but...
-      var d = new Date();
-      var projName = "untitled project #" + d.getSeconds() + d.getMilliseconds();
-      p.set('name',projName);
-      p.wake(app.config.wakeful.url);
-      p.save();
-      Skeletor.Model.awake.projects.add(p);
-    } else {
-      // resume the previous project
-      p = Skeletor.Model.awake.projects.get(projectId);
-    }
-
-    app.project = p;
-    app.project.wake(app.config.wakeful.url);
-
-    // note that this is done again in newProjectView (think about making this awake?)
-    app.groupname = p.get('name');
-    jQuery('.username-display a').text(app.groupname);
-
-    // Render here?
-    app.notesReadView.render();
-
-    app.reflectRunState(projectId);
+    app.reflectRunState();
   };
 
   var setUpUI = function() {
@@ -272,22 +200,24 @@
       if (app.username) {
         jQuery('.top-nav-btn').removeClass('active');     // unmark all nav items
         app.hideAllContainers();
-        if (jQuery(this).hasClass('goto-proposal-btn')) {
-          jQuery('#proposal-nav-btn').addClass('active');
-          jQuery('#proposal-screen').removeClass('hidden');
-          app.proposalsView.render();
-        } else if (jQuery(this).hasClass('goto-notes-btn')) {
+        // if (jQuery(this).hasClass('goto-proposal-btn')) {
+        //   jQuery('#proposal-nav-btn').addClass('active');
+        //   jQuery('#proposal-screen').removeClass('hidden');
+        //   app.proposalsView.render();
+        // }
+        if (jQuery(this).hasClass('goto-notes-btn')) {
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
-          // app.notesReadView.render();
         } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
           jQuery('#chi-test-nav-btn').addClass('active');
           jQuery('#chi-test-screen').removeClass('hidden');
-        } else if (jQuery(this).hasClass('goto-review-btn')) {
-          jQuery('#review-nav-btn').addClass('active');
-          jQuery('#review-overview-screen').removeClass('hidden');
-          app.reviewsView.render();
-        } else {
+        }
+        // else if (jQuery(this).hasClass('goto-review-btn')) {
+        //   jQuery('#review-nav-btn').addClass('active');
+        //   jQuery('#review-overview-screen').removeClass('hidden');
+        //   app.reviewsView.render();
+        // }
+        else {
           console.log('ERROR: unknown nav button');
         }
       }
@@ -303,41 +233,40 @@
      * ======================================================
      */
 
-     if (app.newProjectView === null) {
-       app.newProjectView = new app.View.NewProjectView({
-         el: '#new-project-screen',
-         collection: Skeletor.Model.awake.projects
-       });
-     }
+     // if (app.newProjectView === null) {
+     //   app.newProjectView = new app.View.NewProjectView({
+     //     el: '#new-project-screen',
+     //     collection: Skeletor.Model.awake.projects
+     //   });
+     // }
 
-     if (app.proposalsView === null) {
-       app.proposalsView = new app.View.ProposalsView({
-         el: '#proposal-screen',
-         collection: Skeletor.Model.awake.projects
-       });
-     }
+     // if (app.proposalsView === null) {
+     //   app.proposalsView = new app.View.ProposalsView({
+     //     el: '#proposal-screen',
+     //     collection: Skeletor.Model.awake.projects
+     //   });
+     // }
 
      if (app.notesReadView === null) {
        app.notesReadView = new app.View.NotesReadView({
          el: '#notes-read-screen',
-         collection: Skeletor.Model.awake.tiles
+         collection: Skeletor.Model.awake.notes
        });
      }
 
      if (app.notesWriteView === null) {
        app.notesWriteView = new app.View.NotesWriteView({
          el: '#notes-write-screen',
-         collection: Skeletor.Model.awake.tiles
+         collection: Skeletor.Model.awake.notes
        });
      }
 
-
-     if (app.projectMediaView === null) {
-       app.projectMediaView = new app.View.ProjectMediaView({
-         el: '#project-media-screen',
-         collection: Skeletor.Model.awake.tiles
-       });
-     }
+     // if (app.projectMediaView === null) {
+     //   app.projectMediaView = new app.View.ProjectMediaView({
+     //     el: '#project-media-screen',
+     //     collection: Skeletor.Model.awake.notes
+     //   });
+     // }
 
      if (app.projectNewPosterView === null) {
        app.projectNewPosterView = new app.View.ProjectNewPosterView({
@@ -391,8 +320,6 @@
     var timestamp = id.substring(0,8);
     var seconds = parseInt(timestamp, 16);
     return seconds;
-    // date = new Date( parseInt(timestamp, 16) * 1000 );
-    // return date;
   };
 
   //TODO - parameterize all of this!
@@ -411,24 +338,6 @@
 
       // set reconnect interval
       connectTimer = setTimeout(tryConnect, intervalTime);
-      // function tryReconnect() {
-      //   // Connect
-      //   client.connect({
-      //     timeout: 90,
-      //     keepAliveInterval: 30,
-      //     onSuccess: function() {
-      //       abortTimer();
-      //       var receiveChannel = "IAMPOSTEROUT";
-      //       console.log("Connected to channel: " + receiveChannel);
-      //       client.subscribe(receiveChannel, {qos: 0});
-      //     },
-      //     onFailure: function (e) {
-      //       // We tried to connect and failed. We should try again but have a pause inbetween
-      //       console.error('Reconnect to MQTT client failed: '+e.errorCode+' - '+e.errorMessage);
-      //       jQuery().toastmessage('showErrorToast', "MQTT failure: Check WiFi and reload browser");
-      //     }
-      //   });
-      // }
     };
     // Register callback for received message
     client.onMessageArrived = function(message) {
@@ -648,7 +557,7 @@
   // WARNING: 'runstate' is a bit misleading, since this does more than run state now - this might want to be multiple functions
   // takes an optional parameter ("new" or an object id), if not being used with
   // this desperately needs to be broken up into several functions
-  app.reflectRunState = function(project) {
+  app.reflectRunState = function() {
     // checking paused status
     if (app.runState.get('paused') === true) {
       console.log('Locking screen...');
@@ -656,12 +565,7 @@
       jQuery('.user-screen').addClass('hidden');
     } else if (app.runState.get('paused') === false) {
       jQuery('#lock-screen').addClass('hidden');
-      if (project === "new") {
-        jQuery('#new-project-screen').removeClass('hidden');
-        app.newProjectView.render();
-      } else {
-        jQuery('#todo-screen').removeClass('hidden');
-      }
+      jQuery('#todo-screen').removeClass('hidden');
     }
   };
 
@@ -719,6 +623,84 @@
     var urlText = text.replace(urlRegex, '<a href="$1">$1</a>');
     return urlText;
   };
+
+
+
+
+
+
+
+
+
+  /********************* POSSIBLY USEFUL LATER ***********************/
+
+  var showProjectPicker = function() {
+    // get collection of projects?
+    jQuery('.projects-holder').html('');
+
+    // get a list of projects that user is involved with
+    var myProjectsList = Skeletor.Model.awake.projects.filter(function(proj) {
+      return ( _.contains(proj.get('associated_users'), app.username) );
+    });
+
+    // sort list by oldest to newest (note append below)
+    myProjectsList.comparator = function(model) {
+      return model.get('created_at');
+    };
+
+    // create the html for each of these projects
+    _.each(myProjectsList, function(project) {
+      var button = jQuery('<button class="btn project-button btn-default btn-base">');
+      button.val(project.get('_id'));
+      button.text("Work on " + project.get('name'));
+      jQuery('.projects-holder').append(button);
+    });
+
+    // set up the click listeners for the projects
+    jQuery('#project-picker button').click(function() {
+      jQuery('#project-picker').modal('hide');
+      if (jQuery(this).val() === "new") {
+        setupProject("new");
+      } else {
+        // check if the state is paused and update screens accordingly - unhiding the start screen is now handled in reflectRunState
+        setupProject(jQuery(this).val());
+      }
+      return false;
+    });
+
+    jQuery('#project-picker').modal({keyboard: false, backdrop: 'static'});
+  };
+
+  var setupProject = function(projectId) {
+    var p = null;
+
+    if (projectId === "new") {
+      p = new Model.Project();
+      // we're going to make an (admittedly feeble) attempt at avoiding collisions here. Project names get overwritten pretty quickly, in principle, but...
+      var d = new Date();
+      var projName = "untitled project #" + d.getSeconds() + d.getMilliseconds();
+      p.set('name',projName);
+      p.wake(app.config.wakeful.url);
+      p.save();
+      Skeletor.Model.awake.projects.add(p);
+    } else {
+      // resume the previous project
+      p = Skeletor.Model.awake.projects.get(projectId);
+    }
+
+    app.project = p;
+    app.project.wake(app.config.wakeful.url);
+
+    // note that this is done again in newProjectView (think about making this awake?)
+    app.groupname = p.get('name');
+    jQuery('.username-display a').text(app.groupname);
+
+    // Render here?
+    app.notesReadView.render();
+
+    //app.reflectRunState(projectId); ????
+  };
+
 
 
   this.Skeletor = Skeletor;

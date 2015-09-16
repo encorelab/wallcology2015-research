@@ -14,222 +14,221 @@
   /**
     NewProjectView
   **/
-  app.View.NewProjectView = Backbone.View.extend({
+  // app.View.NewProjectView = Backbone.View.extend({
 
-    initialize: function () {
-      var view = this;
-      console.log('Initializing NewProjectView...', view.el);
-    },
+  //   initialize: function () {
+  //     var view = this;
+  //     console.log('Initializing NewProjectView...', view.el);
+  //   },
 
-    events: {
-      'click #submit-partners-btn' : 'addPartnersToProject',
-      'click .project-theme-button': 'addThemeToProject'
-    },
+  //   events: {
+  //     'click #submit-partners-btn' : 'addPartnersToProject',
+  //     'click .project-theme-button': 'addThemeToProject'
+  //   },
 
-    addPartnersToProject: function() {
-      var view = this;
+  //   addPartnersToProject: function() {
+  //     var view = this;
 
-      // put all selecteds into the project
-      var partners = [];
-      _.each(jQuery('.selected'), function(b) {
-        partners.push(jQuery(b).val());
-      });
-      app.project.set('associated_users',partners);
-      app.project.save();
+  //     // put all selecteds into the project
+  //     var partners = [];
+  //     _.each(jQuery('.selected'), function(b) {
+  //       partners.push(jQuery(b).val());
+  //     });
+  //     app.project.set('associated_users',partners);
+  //     app.project.save();
 
-      // move to the next screen
-      jQuery('#new-project-student-picker').addClass('hidden');
-      jQuery('#new-project-theme-picker').removeClass('hidden');
-    },
+  //     // move to the next screen
+  //     jQuery('#new-project-student-picker').addClass('hidden');
+  //     jQuery('#new-project-theme-picker').removeClass('hidden');
+  //   },
 
-    addThemeToProject: function(ev) {
-      var view = this;
+  //   addThemeToProject: function(ev) {
+  //     var view = this;
 
-      app.project.set('theme',jQuery(ev.target).val());
-      app.project.save();
+  //     app.project.set('theme',jQuery(ev.target).val());
+  //     app.project.save();
 
-      jQuery().toastmessage('showSuccessToast', "You have created a new project!");
+  //     jQuery().toastmessage('showSuccessToast', "You have created a new project!");
 
-      // complete the newProject section and move to proposal section
-      jQuery('#new-project-theme-picker').addClass('hidden');
-      jQuery('#proposal-screen').removeClass('hidden');
-      jQuery('#proposal-nav-btn').addClass('active');
-    },
+  //     // complete the newProject section and move to proposal section
+  //     jQuery('#new-project-theme-picker').addClass('hidden');
+  //     jQuery('#proposal-screen').removeClass('hidden');
+  //     jQuery('#proposal-nav-btn').addClass('active');
+  //   },
 
-    render: function () {
-      var view = this;
-      console.log("Rendering NewProjectView...");
+  //   render: function () {
+  //     var view = this;
+  //     console.log("Rendering NewProjectView...");
 
-      // ADD THE USERS
-      jQuery('.project-partner-holder').html('');
-      if (app.users.length > 0) {
-        // sort the collection by username
-        app.users.comparator = function(model) {
-          return model.get('display_name');
-        };
-        app.users.sort();
+  //     // ADD THE USERS
+  //     jQuery('.project-partner-holder').html('');
+  //     if (app.users.length > 0) {
+  //       // sort the collection by username
+  //       app.users.comparator = function(model) {
+  //         return model.get('display_name');
+  //       };
+  //       app.users.sort();
 
-        app.users.each(function(user) {
-          var button = jQuery('<button class="btn project-partner-button btn-default btn-base">');
-          button.val(user.get('username'));
-          button.text(user.get('display_name'));
-          jQuery('.project-partner-holder').append(button);
+  //       app.users.each(function(user) {
+  //         var button = jQuery('<button class="btn project-partner-button btn-default btn-base">');
+  //         button.val(user.get('username'));
+  //         button.text(user.get('display_name'));
+  //         jQuery('.project-partner-holder').append(button);
 
-          // add the logged in user to the project
-          if (user.get('username') === app.username) {
-            button.addClass('selected');
-            button.addClass('disabled');
-          }
-        });
+  //         // add the logged in user to the project
+  //         if (user.get('username') === app.username) {
+  //           button.addClass('selected');
+  //           button.addClass('disabled');
+  //         }
+  //       });
 
-        //register click listeners
-        jQuery('.project-partner-button').click(function() {
-          jQuery(this).toggleClass('selected');
-        });
-      } else {
-        console.warn('Users collection is empty!');
-      }
+  //       //register click listeners
+  //       jQuery('.project-partner-button').click(function() {
+  //         jQuery(this).toggleClass('selected');
+  //       });
+  //     } else {
+  //       console.warn('Users collection is empty!');
+  //     }
 
-      // ADD THE THEMES AKA TAGS
-      jQuery('.project-theme-holder').html('');
-      if (Skeletor.Model.awake.tags.length > 0) {
-        Skeletor.Model.awake.tags.each(function(tag) {
-          var button = jQuery('<button class="btn project-theme-button btn-default btn-base">');
-          button.val(tag.get('name'));
-          button.text(tag.get('name'));
-          jQuery('.project-theme-holder').append(button);
-        });
-      } else {
-        console.warn('Tags collection is empty!');
-      }
-    }
+  //     // ADD THE THEMES AKA TAGS
+  //     jQuery('.project-theme-holder').html('');
+  //     if (Skeletor.Model.awake.tags.length > 0) {
+  //       Skeletor.Model.awake.tags.each(function(tag) {
+  //         var button = jQuery('<button class="btn project-theme-button btn-default btn-base">');
+  //         button.val(tag.get('name'));
+  //         button.text(tag.get('name'));
+  //         jQuery('.project-theme-holder').append(button);
+  //       });
+  //     } else {
+  //       console.warn('Tags collection is empty!');
+  //     }
+  //   }
 
-  });
+  // });
 
 
   /**
     ProposalsView
   **/
-  app.View.ProposalsView = Backbone.View.extend({
+  // app.View.ProposalsView = Backbone.View.extend({
 
-    initialize: function () {
-      var view = this;
-      console.log('Initializing ProposalsView...', view.el);
+  //   initialize: function () {
+  //     var view = this;
+  //     console.log('Initializing ProposalsView...', view.el);
 
-      view.collection.on('change', function(n) {
-        if (n.id === app.project.id) {
-          view.render();
-        }
-      });
-    },
+  //     view.collection.on('change', function(n) {
+  //       if (n.id === app.project.id) {
+  //         view.render();
+  //       }
+  //     });
+  //   },
 
-    events: {
-      'click #publish-proposal-btn' : 'publishProposal',
-      'click .nav-splash-btn'       : 'switchToSplashView',
-      'keyup :input'                : 'checkForAutoSave'
-    },
+  //   events: {
+  //     'click #publish-proposal-btn' : 'publishProposal',
+  //     'click .nav-splash-btn'       : 'switchToSplashView',
+  //     'keyup :input'                : 'checkForAutoSave'
+  //   },
 
-    switchToSplashView: function() {
-      app.resetToSplashScreen();
-    },
+  //   switchToSplashView: function() {
+  //     app.resetToSplashScreen();
+  //   },
 
-    publishProposal: function() {
-      var view = this;
-      var name = jQuery('#proposal-screen [name=name]').val();
+  //   publishProposal: function() {
+  //     var view = this;
+  //     var name = jQuery('#proposal-screen [name=name]').val();
 
-      if (name.length > 0) {
-        var researchQuestionVal = jQuery('#proposal-screen [name=research_question]').val();
-        var needToKnowsVal = jQuery('#proposal-screen [name=need_to_knows]').val();
+  //     if (name.length > 0) {
+  //       var researchQuestionVal = jQuery('#proposal-screen [name=research_question]').val();
+  //       var needToKnowsVal = jQuery('#proposal-screen [name=need_to_knows]').val();
 
-        app.clearAutoSaveTimer();
-        app.project.set('name',name);
-        var proposal = app.project.get('proposal');
-        proposal.research_question = researchQuestionVal;
-        proposal.need_to_knows = needToKnowsVal;
-        proposal.published = true;
-        app.project.set('proposal',proposal);
-        app.project.save();
+  //       app.clearAutoSaveTimer();
+  //       app.project.set('name',name);
+  //       var proposal = app.project.get('proposal');
+  //       proposal.research_question = researchQuestionVal;
+  //       proposal.need_to_knows = needToKnowsVal;
+  //       proposal.published = true;
+  //       app.project.set('proposal',proposal);
+  //       app.project.save();
 
-        // show who is 'logged in' as the group, since that's our 'user' in this case
-        app.groupname = name;
-        jQuery('.username-display a').text(app.groupname);
+  //       // show who is 'logged in' as the group, since that's our 'user' in this case
+  //       app.groupname = name;
+  //       jQuery('.username-display a').text(app.groupname);
 
-        // delete all previous proposal tiles for this project
-        // Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true }).forEach(function(tile) {
-        //   tile.destroy();
-        // });
+  //       // delete all previous proposal tiles for this project
+  //       // Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true }).forEach(function(tile) {
+  //       //   tile.destroy();
+  //       // });
 
-        // create the new proposal tiles
-        view.createProposalTile("Foundational knowledge", needToKnowsVal);
-        view.createProposalTile("Research question(s)", researchQuestionVal);
+  //       // create the new proposal tiles
+  //       view.createProposalNote("Foundational knowledge", needToKnowsVal);
+  //       view.createProposalNote("Research question(s)", researchQuestionVal);
 
-        jQuery().toastmessage('showSuccessToast', "Your proposal has been published. You can come back and edit any time...");
+  //       jQuery().toastmessage('showSuccessToast', "Your proposal has been published. You can come back and edit any time...");
 
-        app.resetToSplashScreen();
-      } else {
-        jQuery().toastmessage('showErrorToast', "Please enter a title!");
-      }
-    },
+  //       app.resetToSplashScreen();
+  //     } else {
+  //       jQuery().toastmessage('showErrorToast', "Please enter a title!");
+  //     }
+  //   },
 
-    createProposalTile: function(titleText, bodyText) {
-      var view = this;
+  //   createProposalNote: function(titleText, bodyText) {
+  //     var view = this;
 
-      var preexistingTile = Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true, 'title': titleText })[0];
+  //     var preexistingNote = Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true, 'title': titleText })[0];
 
-      if (preexistingTile) {
-        preexistingTile.set('body',bodyText);
-        preexistingTile.save();
-      } else {
-        var m = new Model.Tile();
-        m.set('project_id', app.project.id);
-        m.set('author', app.username);
-        m.set('type', "text");
-        m.set('title', titleText);
-        m.set('body', bodyText);
-        m.set('favourite', true);
-        m.set('from_proposal', true);
-        m.set('published', true);
-        m.wake(app.config.wakeful.url);
-        m.save();
-        Skeletor.Model.awake.tiles.add(m);
-      }
-    },
+  //     if (preexistingNote) {
+  //       preexistingNote.set('body',bodyText);
+  //       preexistingNote.save();
+  //     } else {
+  //       var m = new Model.Note();
+  //       m.set('project_id', app.project.id);
+  //       m.set('author', app.username);
+  //       m.set('type', "text");
+  //       m.set('title', titleText);
+  //       m.set('body', bodyText);
+  //       m.set('from_proposal', true);
+  //       m.set('published', true);
+  //       m.wake(app.config.wakeful.url);
+  //       m.save();
+  //       Skeletor.Model.awake.tiles.add(m);
+  //     }
+  //   },
 
-    // this version of autosave works with nested content. The nested structure must be spelled out *in the html*
-    // eg <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
-    checkForAutoSave: function(ev) {
-      var view = this,
-          field = ev.target.name,
-          input = ev.target.value;
-      // clear timer on keyup so that a save doesn't happen while typing
-      app.clearAutoSaveTimer();
+  //   // this version of autosave works with nested content. The nested structure must be spelled out *in the html*
+  //   // eg <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
+  //   checkForAutoSave: function(ev) {
+  //     var view = this,
+  //         field = ev.target.name,
+  //         input = ev.target.value;
+  //     // clear timer on keyup so that a save doesn't happen while typing
+  //     app.clearAutoSaveTimer();
 
-      // save after 10 keystrokes
-      app.autoSave(app.project, field, input, false, jQuery(ev.target).data("nested"));
+  //     // save after 10 keystrokes
+  //     app.autoSave(app.project, field, input, false, jQuery(ev.target).data("nested"));
 
-      // setting up a timer so that if we stop typing we save stuff after 5 seconds
-      app.autoSaveTimer = setTimeout(function(){
-        app.autoSave(app.project, field, input, true, jQuery(ev.target).data("nested"));
-      }, 5000);
-    },
+  //     // setting up a timer so that if we stop typing we save stuff after 5 seconds
+  //     app.autoSaveTimer = setTimeout(function(){
+  //       app.autoSave(app.project, field, input, true, jQuery(ev.target).data("nested"));
+  //     }, 5000);
+  //   },
 
-    render: function () {
-      var view = this;
-      console.log("Rendering ProposalsView...");
+  //   render: function () {
+  //     var view = this;
+  //     console.log("Rendering ProposalsView...");
 
-      jQuery('#proposal-screen [name=name]').text(app.project.get('name'));
-      jQuery('#proposal-screen [name=research_question]').text(app.project.get('proposal').research_question);
-      jQuery('#proposal-screen [name=need_to_knows]').text(app.project.get('proposal').need_to_knows);
+  //     jQuery('#proposal-screen [name=name]').text(app.project.get('name'));
+  //     jQuery('#proposal-screen [name=research_question]').text(app.project.get('proposal').research_question);
+  //     jQuery('#proposal-screen [name=need_to_knows]').text(app.project.get('proposal').need_to_knows);
 
-      // they can't be allowed to change the name of their project once they've first created it, since it's now the unique identifier (le sigh)
-      if (app.project && app.project.get('proposal').published === true) {
-        jQuery('#proposal-screen [name=name]').addClass('disabled');
-      } else {
-        jQuery('#proposal-screen [name=name]').removeClass('disabled');
-      }
-    }
+  //     // they can't be allowed to change the name of their project once they've first created it, since it's now the unique identifier (le sigh)
+  //     if (app.project && app.project.get('proposal').published === true) {
+  //       jQuery('#proposal-screen [name=name]').addClass('disabled');
+  //     } else {
+  //       jQuery('#proposal-screen [name=name]').removeClass('disabled');
+  //     }
+  //   }
 
-  });
+  // });
 
 /**
   ChiTestView
@@ -255,15 +254,15 @@
 
 
   /**
-   ** Tile View
+   ** Note View
    **/
-  app.View.Tile = Backbone.View.extend({
-    textTemplate: "#text-tile-template",
-    photoTemplate: "#photo-tile-template",
-    videoTemplate: "#video-tile-template",
+  app.View.Note = Backbone.View.extend({
+    textTemplate: "#text-note-template",
+    photoTemplate: "#photo-note-template",
+    videoTemplate: "#video-note-template",
 
     events: {
-      'click'   : 'editTile'
+      'click'   : 'editNote'
     },
 
     initialize: function () {
@@ -276,75 +275,58 @@
       return view;
     },
 
+    editNote: function(ev) {
+      var view = this;
+
+      app.hideAllContainers();
+
+      app.notesWriteView.model = view.model;
+      // app.notesWriteView.model.wake(app.config.wakeful.url);
+      jQuery('#notes-write-screen').removeClass('hidden');
+      app.notesWriteView.render();
+    },
+
     render: function () {
       var view = this,
-        tile = view.model,
+        note = view.model,
         listItemTemplate,
         listItem;
 
-      // different types - different tiles
-      if (tile.get('type') === "text") {
+      // different types - different notes
+      //if (note.get('type') === "text") {
         // if class is not set do it
-        if (!view.$el.hasClass('text-tile-container')) {
-          view.$el.addClass('text-tile-container');
+        if (!view.$el.hasClass('text-note-container')) {
+          view.$el.addClass('text-note-container');
         }
 
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'title': tile.get('title'), 'body': tile.get('body'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
-      } else if (tile.get('type') === "media" && app.photoOrVideo(tile.get('url')) === "photo") {
-        // if class is not set do it
-        if (!view.$el.hasClass('photo-tile-container')) {
-          view.$el.addClass('photo-tile-container');
-        }
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body') });
+      //}
+      // else if (note.get('type') === "media" && app.photoOrVideo(note.get('url')) === "photo") {
+      //   // if class is not set do it
+      //   if (!view.$el.hasClass('photo-note-container')) {
+      //     view.$el.addClass('photo-note-container');
+      //   }
 
-        listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
-      } else if (tile.get('type') === "media" && app.photoOrVideo(tile.get('url')) === "video") {
-        // if class is not set do it
-        if (!view.$el.hasClass('video-tile-container')) {
-          view.$el.addClass('video-tile-container');
-        }
+      //   listItemTemplate = _.template(jQuery(view.photoTemplate).text());
+      //   listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+      // } else if (note.get('type') === "media" && app.photoOrVideo(note.get('url')) === "video") {
+      //   // if class is not set do it
+      //   if (!view.$el.hasClass('video-note-container')) {
+      //     view.$el.addClass('video-note-container');
+      //   }
 
-        listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
-      } else {
-        throw "Unknown tile type!";
-      }
+      //   listItemTemplate = _.template(jQuery(view.videoTemplate).text());
+      //   listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+      // }
+      // else {
+      //   throw "Unknown note type!";
+      // }
 
       // Add the newly generated DOM elements to the vies's part of the DOM
       view.$el.html(listItem);
 
       return view;
-    },
-
-    editTile: function(ev) {
-      var view = this;
-
-      app.hideAllContainers();
-
-      if (view.model.get('type') === "text") {
-        app.projectWriteView.model = view.model;
-        // app.projectWriteView.model.wake(app.config.wakeful.url);
-        jQuery('#project-write-screen').removeClass('hidden');
-        app.projectWriteView.render();
-      } else {
-        app.projectMediaView.model = view.model;
-        // app.projectMediaView.model.wake(app.config.wakeful.url);
-
-        jQuery('#project-media-screen').removeClass('hidden');
-        app.projectMediaView.render();
-      }
-    },
-
-    newOrResumeOrEditMediaTile: function(ev) {
-      var view = this;
-
-      app.projectMediaView.model = view.model;
-      // app.projectMediaView.model.wake(app.config.wakeful.url);
-
-      app.hideAllContainers();
-      jQuery('#project-media-screen').removeClass('hidden');
-      app.projectMediaView.render();
     }
   });
 
@@ -366,19 +348,19 @@
       ** IMPORTANT: in addOne we check if the id of the model to be added exists in the DOM and only add it to the DOM if it is new
       */
       view.collection.on('change', function(n) {
-        if (app.project && n.get('project_id') === app.project.id && n.get('published') === true) {
+        if (n.get('published') === true) {
           view.addOne(n);
         }
       });
 
       /*
-      ** See above, but mostly we would want add and change in the tile view. But due to wakeness and published flag
+      ** See above, but mostly we would want add and change in the note view. But due to wakeness and published flag
       ** we are better of with using change and filtering to react only if published true.
       ** IMPORTANT: in addOne we check that id isn't already in the DOM
       */
       view.collection.on('add', function(n) {
         // If the add fires while project not chosen yet we get an error
-        if (app.project && n.get('project_id') === app.project.id && n.get('published') === true) {
+        if (n.get('published') === true) {
           view.addOne(n);
         }
       });
@@ -387,31 +369,26 @@
     },
 
     events: {
-      'click #nav-write-btn'         : 'createTextTile',
-      'click #nav-media-btn'         : 'createMediaTile',
-      'click #nav-poster-btn'        : 'switchToPosterView'
+      'click #nav-write-btn'         : 'createNote'
     },
 
-    createTextTile: function(ev) {
+    createNote: function(ev) {
       var view = this;
       var m;
 
       // check if we need to resume
-      // BIG NB! We use author here! This is the only place where we care about app.username in addition to app.project (we want you only to be able to resume your own notes)
-      var tileToResume = view.collection.findWhere({project_id: app.project.id, author: app.username, type: "text", published: false});
+      // BIG NB! We use author here! This is the only place where we care about app.username (we want you only to be able to resume your own notes)
+      var noteToResume = view.collection.findWhere({author: app.username, published: false});
 
-      if (tileToResume) {
-        // RESUME TILE
+      if (noteToResume) {
+        // RESUME NOTE
         console.log("Resuming...");
-        m = tileToResume;
+        m = noteToResume;
       } else {
-        // NEW TILE
-        console.log("Starting a new text tile...");
-        m = new Model.Tile();
-        m.set('project_id', app.project.id);
+        // NEW NOTE
+        console.log("Starting a new note...");
+        m = new Model.Note();
         m.set('author', app.username);
-        m.set('type', "text");
-        m.set('from_proposal', false);
         m.wake(app.config.wakeful.url);
         m.save();
         view.collection.add(m);
@@ -425,83 +402,47 @@
       app.notesWriteView.render();
     },
 
-    createMediaTile: function(ev) {
-      var view = this;
-      var m;
+    // switchToPosterView: function() {
+    //   // jQuery().toastmessage('showErrorToast', "It is not time for this yet, kids");
+    //   app.hideAllContainers();
+    //   // if there's a poster for this project already, go to chunk screen, else go to new poster screen
+    //   if (app.project.get('poster_title') && app.project.get('poster_title').length > 0) {
+    //     app.projectPosterChunkView.render();
+    //     jQuery('#project-poster-chunk-screen').removeClass('hidden');
+    //   } else {
+    //     app.projectNewPosterView.render();
+    //     jQuery('#project-new-poster-screen').removeClass('hidden');
+    //   }
+    // },
 
-      // check if we need to resume
-      // BIG NB! We use author here! This is the only place where we care about app.username in addition to app.project (we want you only to be able to resume your own notes)
-      var tileToResume = view.collection.findWhere({project_id: app.project.id, author: app.username, type: "media", published: false});
-
-      if (tileToResume) {
-        // RESUME TILE
-        console.log('Resuming...');
-        m = tileToResume;
-      } else {
-        // NEW TILE
-        console.log('Starting a new media tile...');
-        m = new Model.Tile();
-        m.set('project_id',app.project.id);
-        m.set('author', app.username);
-        m.set('type', "media");
-        m.set('from_proposal', false);
-        m.set('url', '');
-        m.wake(app.config.wakeful.url);
-        m.save();
-        view.collection.add(m);
-     }
-
-      app.projectMediaView.model = m;
-      app.projectMediaView.model.wake(app.config.wakeful.url);
-
-      app.hideAllContainers();
-      jQuery('#project-media-screen').removeClass('hidden');
-      app.projectMediaView.render();
-    },
-
-    switchToPosterView: function() {
-      // jQuery().toastmessage('showErrorToast', "It is not time for this yet, kids");
-      app.hideAllContainers();
-      // if there's a poster for this project already, go to chunk screen, else go to new poster screen
-      if (app.project.get('poster_title') && app.project.get('poster_title').length > 0) {
-        app.projectPosterChunkView.render();
-        jQuery('#project-poster-chunk-screen').removeClass('hidden');
-      } else {
-        app.projectNewPosterView.render();
-        jQuery('#project-new-poster-screen').removeClass('hidden');
-      }
-    },
-
-    addOne: function(tileModel) {
+    addOne: function(noteModel) {
       var view = this;
 
-      // check if the tile already exists
+      // check if the note already exists
       // http://stackoverflow.com/questions/4191386/jquery-how-to-find-an-element-based-on-a-data-attribute-value
-      if (view.$el.find("[data-id='" + tileModel.id + "']").length === 0 ) {
+      if (view.$el.find("[data-id='" + noteModel.id + "']").length === 0 ) {
         // wake up the project model
-        tileModel.wake(app.config.wakeful.url);
+        noteModel.wake(app.config.wakeful.url);
 
         // This is necessary to avoid Backbone putting all HTML into an empty div tag
-        var tileContainer = null;
-        if (tileModel.get('originator') === "self") {
-          tileContainer = jQuery('<li class="tile-container self col-xs-12 col-sm-4 col-lg-3" data-id="'+tileModel.id+'"></li>');
+        var noteContainer = null;
+        if (noteModel.get('originator') === "self") {
+          noteContainer = jQuery('<li class="note-container self col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
         } else {
-          tileContainer = jQuery('<li class="tile-container col-xs-12 col-sm-4 col-lg-3" data-id="'+tileModel.id+'"></li>');
+          noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
         }
 
         // handling new citation concept
-        if (tileModel.get('cited_from_user_uuid') && tileModel.get('cited_from_poster_uuid') && tileModel.get('cited_from_poster_item_uuid')) {
-          tileContainer.addClass('cited');
+        if (noteModel.get('cited_from_user_uuid') && noteModel.get('cited_from_poster_uuid') && noteModel.get('cited_from_poster_item_uuid')) {
+          noteContainer.addClass('cited');
         }
 
-        var tileView = new app.View.Tile({el: tileContainer, model: tileModel});
-        var listToAddTo = view.$el.find('.tiles-list');
-        listToAddTo.prepend(tileView.render().el);
+        var noteView = new app.View.Note({el: noteContainer, model: noteModel});
+        var listToAddTo = view.$el.find('.notes-list');
+        listToAddTo.prepend(noteView.render().el);
       } else {
-        console.log("The tile with id <"+tileModel.id+"> wasn't added since it already exists in the DOM");
+        console.log("The note with id <"+noteModel.id+"> wasn't added since it already exists in the DOM");
       }
-
-
     },
 
     render: function() {
@@ -513,16 +454,17 @@
         return model.get('created_at');
       };
 
-      var myPublishedTiles = view.collection.sort().where({published: true, project_id: app.project.id});
+      var myPublishedNotes = view.collection.sort().where({published: true});
 
       // clear the house
-      view.$el.find('.tiles-list').html("");
+      view.$el.find('.notes-list').html("");
 
-      myPublishedTiles.forEach(function (tile) {
-        view.addOne(tile);
+      myPublishedNotes.forEach(function (note) {
+        view.addOne(note);
       });
     }
   });
+//  START HERE above NOTES to NOTES
 
 
   /**
@@ -536,10 +478,9 @@
 
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
-      // 'click .cancel-tile-btn'            : 'cancelTile',
-      'click .publish-tile-btn'           : 'publishTile',
+      // 'click .cancel-note-btn'            : 'cancelNote',
+      'click .publish-note-btn'           : 'publishNote',
       'click #lightbulb-icon'             : 'showSentenceStarters',
-      'click .favourite-icon'             : 'toggleFavouriteStatus',
       'click .sentence-starter'           : 'appendSentenceStarter',
       'keyup :input'                      : 'checkForAutoSave'
     },
@@ -550,27 +491,11 @@
 
     appendSentenceStarter: function(ev) {
       // add the sentence starter text to the current body (note that this won't start the autoSave trigger)
-      var bodyText = jQuery('#tile-body-input').val();
+      var bodyText = jQuery('#note-body-input').val();
       bodyText += jQuery(ev.target).text();
-      jQuery('#tile-body-input').val(bodyText);
+      jQuery('#note-body-input').val(bodyText);
 
       jQuery('#sentence-starter-modal').modal('hide');
-    },
-
-    toggleFavouriteStatus: function(ev) {
-      var view = this;
-
-      jQuery('#project-write-screen .favourite-icon').addClass('hidden');
-
-      if (jQuery(ev.target).hasClass('favourite-icon-unselected')) {
-        jQuery('#project-write-screen .favourite-icon-selected').removeClass('hidden');
-        view.model.set('favourite',true);
-        view.model.save();
-      } else {
-        jQuery('#project-write-screen .favourite-icon-unselected').removeClass('hidden');
-        view.model.set('favourite',false);
-        view.model.save();
-      }
     },
 
     checkForAutoSave: function(ev) {
@@ -590,13 +515,13 @@
     },
 
     // destroy a model, if there's something to destroy
-    // cancelTile: function() {
+    // cancelNote: function() {
     //   var view = this;
 
-    //   // if there is a tile
+    //   // if there is a note
     //   if (view.model) {
     //     // confirm delete
-    //     if (confirm("Are you sure you want to delete this tile?")) {
+    //     if (confirm("Are you sure you want to delete this note?")) {
     //       app.clearAutoSaveTimer();
     //       view.model.destroy();
     //       // and we need to set it to null to 'remove' it from the local collection
@@ -607,10 +532,10 @@
     //   }
     // },
 
-    publishTile: function() {
+    publishNote: function() {
       var view = this;
-      var title = jQuery('#tile-title-input').val();
-      var body = jQuery('#tile-body-input').val();
+      var title = jQuery('#note-title-input').val();
+      var body = jQuery('#note-body-input').val();
 
       if (title.length > 0 && body.length > 0) {
         app.clearAutoSaveTimer();
@@ -619,13 +544,13 @@
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
         view.model.save();
-        jQuery().toastmessage('showSuccessToast', "Published to the tile wall!");
+        jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
         view.model = null;
         jQuery('.input-field').val('');
         view.switchToReadView();
       } else {
-        jQuery().toastmessage('showErrorToast', "You need to complete both fields to submit your tile...");
+        jQuery().toastmessage('showErrorToast', "You need to complete both fields to submit your note...");
       }
     },
 
@@ -638,15 +563,8 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
-      jQuery('.favourite-icon').addClass('hidden');
-      if (view.model.get('favourite') === true) {
-        jQuery('.favourite-icon-selected').removeClass('hidden');
-      } else {
-        jQuery('.favourite-icon-unselected').removeClass('hidden');
-      }
-
-      jQuery('#tile-title-input').val(view.model.get('title'));
-      jQuery('#tile-body-input').val(view.model.get('body'));
+      jQuery('#note-title-input').val(view.model.get('title'));
+      jQuery('#note-body-input').val(view.model.get('body'));
     }
   });
 
@@ -662,27 +580,10 @@
 
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
-      // 'click .cancel-tile-btn'            : 'cancelTile',
-      'click .publish-tile-btn'           : 'publishTile',
-      'click .favourite-icon'             : 'toggleFavouriteStatus',
+      // 'click .cancel-note-btn'            : 'cancelNote',
+      'click .publish-note-btn'           : 'publishNote',
       'click .originator-btn'             : 'toggleOriginator',
       'change #photo-file'                : 'uploadPhoto'
-    },
-
-    toggleFavouriteStatus: function(ev) {
-      var view = this;
-
-      jQuery('#project-media-screen .favourite-icon').addClass('hidden');
-
-      if (jQuery(ev.target).hasClass('favourite-icon-unselected')) {
-        jQuery('#project-media-screen .favourite-icon-selected').removeClass('hidden');
-        view.model.set('favourite',true);
-        view.model.save();
-      } else {
-        jQuery('#project-media-screen .favourite-icon-unselected').removeClass('hidden');
-        view.model.set('favourite',false);
-        view.model.save();
-      }
     },
 
     toggleOriginator: function(ev) {
@@ -737,13 +638,13 @@
       }
     },
 
-    // cancelTile: function() {
+    // cancelNote: function() {
     //   var view = this;
 
-    //   // if there is a tile
+    //   // if there is a note
     //   if (view.model) {
     //     // confirm delete
-    //     if (confirm("Are you sure you want to delete this tile?")) {
+    //     if (confirm("Are you sure you want to delete this note?")) {
     //       app.clearAutoSaveTimer();
     //       view.model.destroy();
     //       // and we need to set it to null to 'remove' it from the local collection
@@ -756,14 +657,14 @@
     //   }
     // },
 
-    publishTile: function() {
+    publishNote: function() {
       var view = this;
 
       if (view.model.get('url') && view.model.get('originator')) {
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
         view.model.save();
-        jQuery().toastmessage('showSuccessToast', "Published to the tile wall!");
+        jQuery().toastmessage('showSuccessToast', "Your note has been submitted!");
 
         view.model = null;
         jQuery('.input-field').val('');
@@ -783,14 +684,6 @@
     render: function() {
       var view = this;
       console.log("Rendering ProjectMediaView...");
-
-      // favourite button (the star)
-      jQuery('.favourite-icon').addClass('hidden');
-      if (view.model.get('favourite') === true) {
-        jQuery('.favourite-icon-selected').removeClass('hidden');
-      } else {
-        jQuery('.favourite-icon-unselected').removeClass('hidden');
-      }
 
       // originator buttons
       // doing it this way since I don't want to deal with radio buttons
@@ -943,15 +836,15 @@
 
 
   /**
-   ** PosterTile View
+   ** PosterNote View
    **/
-  app.View.PosterTile = Backbone.View.extend({
+  app.View.PosterNote = Backbone.View.extend({
     textTemplate: "#text-tile-template",
     photoTemplate: "#photo-tile-template",
     videoTemplate: "#video-tile-template",
 
     events: {
-      'click'   : 'copyTile'
+      'click'   : 'copyNote'
     },
 
     initialize: function () {
@@ -978,7 +871,7 @@
         }
 
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'title': tile.get('title'), 'body': tile.get('body'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
+        listItem = listItemTemplate({ 'id': tile.get('_id'), 'title': tile.get('title'), 'body': tile.get('body') });
       } else if (tile.get('type') === "media" && app.photoOrVideo(tile.get('url')) === "photo") {
         // if class is not set do it
         if (!view.$el.hasClass('photo-tile-container')) {
@@ -986,7 +879,7 @@
         }
 
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
+        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url') });
       } else if (tile.get('type') === "media" && app.photoOrVideo(tile.get('url')) === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-tile-container')) {
@@ -994,7 +887,7 @@
         }
 
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url'), 'star': (tile.get('favourite') ? 'fa-star' : 'fa-star-o') });
+        listItem = listItemTemplate({ 'id': tile.get('_id'), 'url': app.config.pikachu.url + tile.get('url') });
       } else {
         throw "Unknown tile type!";
       }
@@ -1015,7 +908,7 @@
       return view;
     },
 
-    copyTile: function(ev) {
+    copyNote: function(ev) {
       var view = this;
 
       // if the clicked tile is text

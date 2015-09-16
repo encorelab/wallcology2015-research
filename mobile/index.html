@@ -45,22 +45,20 @@
     <!-- Templates -->
     <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
          WARNING: DO not change this or the code will break -->
-    <script id="text-tile-template" type="text/template">
-            <div class="tile" data-id=<%= id %>>
-                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+    <script id="text-note-template" type="text/template">
+            <div class="note" data-id=<%= id %>>
                 <i class="fa fa-circle fa-3x"></i>
-                <h3 class="tile-title" data-id=<%= id %>><%= title %></h3>
-                <div class="tile-body" data-id=<%= id %>><%= body %></div>
+                <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+                <div class="note-body" data-id=<%= id %>><%= body %></div>
             </div>
     </script>
 
     <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
          WARNING: DO not change this or the code will break -->
-    <script id="photo-tile-template" type="text/template">
-            <div class="tile" data-id=<%= id %>>
-                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+    <script id="photo-note-template" type="text/template">
+            <div class="note" data-id=<%= id %>>
                 <i class="fa fa-circle fa-3x"></i>
-                <div class="tile-url" data-id=<%= id %>>
+                <div class="note-url" data-id=<%= id %>>
                     <img src=<%= url %> data-id=<%= id %> />
                 </div>
             </div>
@@ -68,11 +66,10 @@
 
     <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
          WARNING: DO not change this or the code will break -->
-    <script id="video-tile-template" type="text/template">
-            <div class="tile" data-id=<%= id %>>
-                <i class="fa fa-2x star-icon <%= star %>" data-id=<%= id %>></i>
+    <script id="video-note-template" type="text/template">
+            <div class="note" data-id=<%= id %>>
                 <i class="fa fa-circle fa-3x"></i>
-                <div class="tile-url" data-id=<%= id %>>
+                <div class="note-url" data-id=<%= id %>>
                     <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
                 </div>
             </div>
@@ -126,9 +123,9 @@
 
             <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav top-navigation">
-                    <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li>
+                    <!-- <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li> -->
                     <li id="notes-nav-btn" class="goto-notes-btn top-nav-btn"><a href="#">Notes</a></li>
-                    <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li>
+                    <!-- <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li> -->
                     <li id="chi-test-nav-btn" class="goto-chi-test-btn top-nav-btn"><a href="#">Chi-test</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -150,7 +147,7 @@
                 <h2>What would you like to work on today?</h2>
                 <!-- <button class="goto-proposal-btn todo-btn btn btn-base">PROPOSAL</button> -->
                 <button class="goto-notes-btn todo-btn btn btn-base">NOTES</button>
-                <button class="goto-review-btn todo-btn btn btn-base">REVIEW</button>
+                <!-- <button class="goto-review-btn todo-btn btn btn-base">REVIEW</button> -->
             </div>
         </div>
     </div>
@@ -212,13 +209,11 @@
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
                 <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
-                <button id="nav-media-btn" class="fa fa-picture-o fa-3x btn-circular"></button>
-                <button id="nav-poster-btn" class="fa fa-clipboard fa-3x btn-circular"></button>
             </div>
         </div>
         <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <ul class="row tiles-list"></ul>
+                <ul class="row notes-list"></ul>
                 <!-- gets filled by the readScreenView -->
             </div>
         </div>
@@ -231,15 +226,13 @@
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <textarea id="tile-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
-                <div id="tile-body-container">
+                <textarea id="note-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
+                <div id="note-body-container">
                     <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
-                    <textarea id="tile-body-input" class="input-field" name="body"></textarea>
-                    <i class="fa fa-star-o fa-4x favourite-icon favourite-icon-unselected"></i>
-                    <i class="fa fa-star fa-4x favourite-icon favourite-icon-selected"></i>
+                    <textarea id="note-body-input" class="input-field" name="body"></textarea>
                 </div>
-                <button class="publish-tile-btn btn-circular fa fa-check fa-3x pull-right"></button>
-                <!-- <button class="cancel-tile-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-note-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
             </div>
         </div>
 
@@ -275,7 +268,7 @@
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <div id="tile-media-upload-container">
+                <div id="note-media-upload-container">
                     <div class="photo-wrapper">
                        <label for="photo-file" class="camera-icon-label"><img src="img/camera_icon.png" class="camera-icon img-responsive" alt="camera icon" /></label>
                        <input id="photo-file" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
@@ -285,15 +278,13 @@
                        <!-- <button id="play-video-btn" class="fa fa-play-circle fa-3x btn-circular"></button> -->
                     </div>
                     <div class="self-photo-query">
-                        <i class="fa fa-star-o fa-4x favourite-icon favourite-icon-unselected"></i>
-                        <i class="fa fa-star fa-4x favourite-icon favourite-icon-selected"></i>
                         <h3>Is this a drawing, model, or other form of representation that you constructed yourself?</h3>
                         <button id="self-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="self">Yes</button>
                         <button id="others-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="other">No</button>
                     </div>
                 </div>
-                <button class="publish-tile-btn btn-circular fa fa-check fa-3x pull-right"></button>
-                <!-- <button class="cancel-tile-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-note-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
             </div>
         </div>
     </div>
