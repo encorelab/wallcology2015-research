@@ -12,226 +12,6 @@
 
 
   /**
-    NewProjectView
-  **/
-  // app.View.NewProjectView = Backbone.View.extend({
-
-  //   initialize: function () {
-  //     var view = this;
-  //     console.log('Initializing NewProjectView...', view.el);
-  //   },
-
-  //   events: {
-  //     'click #submit-partners-btn' : 'addPartnersToProject',
-  //     'click .project-theme-button': 'addThemeToProject'
-  //   },
-
-  //   addPartnersToProject: function() {
-  //     var view = this;
-
-  //     // put all selecteds into the project
-  //     var partners = [];
-  //     _.each(jQuery('.selected'), function(b) {
-  //       partners.push(jQuery(b).val());
-  //     });
-  //     app.project.set('associated_users',partners);
-  //     app.project.save();
-
-  //     // move to the next screen
-  //     jQuery('#new-project-student-picker').addClass('hidden');
-  //     jQuery('#new-project-theme-picker').removeClass('hidden');
-  //   },
-
-  //   addThemeToProject: function(ev) {
-  //     var view = this;
-
-  //     app.project.set('theme',jQuery(ev.target).val());
-  //     app.project.save();
-
-  //     jQuery().toastmessage('showSuccessToast', "You have created a new project!");
-
-  //     // complete the newProject section and move to proposal section
-  //     jQuery('#new-project-theme-picker').addClass('hidden');
-  //     jQuery('#proposal-screen').removeClass('hidden');
-  //     jQuery('#proposal-nav-btn').addClass('active');
-  //   },
-
-  //   render: function () {
-  //     var view = this;
-  //     console.log("Rendering NewProjectView...");
-
-  //     // ADD THE USERS
-  //     jQuery('.project-partner-holder').html('');
-  //     if (app.users.length > 0) {
-  //       // sort the collection by username
-  //       app.users.comparator = function(model) {
-  //         return model.get('display_name');
-  //       };
-  //       app.users.sort();
-
-  //       app.users.each(function(user) {
-  //         var button = jQuery('<button class="btn project-partner-button btn-default btn-base">');
-  //         button.val(user.get('username'));
-  //         button.text(user.get('display_name'));
-  //         jQuery('.project-partner-holder').append(button);
-
-  //         // add the logged in user to the project
-  //         if (user.get('username') === app.username) {
-  //           button.addClass('selected');
-  //           button.addClass('disabled');
-  //         }
-  //       });
-
-  //       //register click listeners
-  //       jQuery('.project-partner-button').click(function() {
-  //         jQuery(this).toggleClass('selected');
-  //       });
-  //     } else {
-  //       console.warn('Users collection is empty!');
-  //     }
-
-  //     // ADD THE THEMES AKA TAGS
-  //     jQuery('.project-theme-holder').html('');
-  //     if (Skeletor.Model.awake.tags.length > 0) {
-  //       Skeletor.Model.awake.tags.each(function(tag) {
-  //         var button = jQuery('<button class="btn project-theme-button btn-default btn-base">');
-  //         button.val(tag.get('name'));
-  //         button.text(tag.get('name'));
-  //         jQuery('.project-theme-holder').append(button);
-  //       });
-  //     } else {
-  //       console.warn('Tags collection is empty!');
-  //     }
-  //   }
-
-  // });
-
-
-  /**
-    ProposalsView
-  **/
-  // app.View.ProposalsView = Backbone.View.extend({
-
-  //   initialize: function () {
-  //     var view = this;
-  //     console.log('Initializing ProposalsView...', view.el);
-
-  //     view.collection.on('change', function(n) {
-  //       if (n.id === app.project.id) {
-  //         view.render();
-  //       }
-  //     });
-  //   },
-
-  //   events: {
-  //     'click #publish-proposal-btn' : 'publishProposal',
-  //     'click .nav-splash-btn'       : 'switchToSplashView',
-  //     'keyup :input'                : 'checkForAutoSave'
-  //   },
-
-  //   switchToSplashView: function() {
-  //     app.resetToSplashScreen();
-  //   },
-
-  //   publishProposal: function() {
-  //     var view = this;
-  //     var name = jQuery('#proposal-screen [name=name]').val();
-
-  //     if (name.length > 0) {
-  //       var researchQuestionVal = jQuery('#proposal-screen [name=research_question]').val();
-  //       var needToKnowsVal = jQuery('#proposal-screen [name=need_to_knows]').val();
-
-  //       app.clearAutoSaveTimer();
-  //       app.project.set('name',name);
-  //       var proposal = app.project.get('proposal');
-  //       proposal.research_question = researchQuestionVal;
-  //       proposal.need_to_knows = needToKnowsVal;
-  //       proposal.published = true;
-  //       app.project.set('proposal',proposal);
-  //       app.project.save();
-
-  //       // show who is 'logged in' as the group, since that's our 'user' in this case
-  //       app.groupname = name;
-  //       jQuery('.username-display a').text(app.groupname);
-
-  //       // delete all previous proposal tiles for this project
-  //       // Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true }).forEach(function(tile) {
-  //       //   tile.destroy();
-  //       // });
-
-  //       // create the new proposal tiles
-  //       view.createProposalNote("Foundational knowledge", needToKnowsVal);
-  //       view.createProposalNote("Research question(s)", researchQuestionVal);
-
-  //       jQuery().toastmessage('showSuccessToast', "Your proposal has been published. You can come back and edit any time...");
-
-  //       app.resetToSplashScreen();
-  //     } else {
-  //       jQuery().toastmessage('showErrorToast', "Please enter a title!");
-  //     }
-  //   },
-
-  //   createProposalNote: function(titleText, bodyText) {
-  //     var view = this;
-
-  //     var preexistingNote = Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true, 'title': titleText })[0];
-
-  //     if (preexistingNote) {
-  //       preexistingNote.set('body',bodyText);
-  //       preexistingNote.save();
-  //     } else {
-  //       var m = new Model.Note();
-  //       m.set('project_id', app.project.id);
-  //       m.set('author', app.username);
-  //       m.set('type', "text");
-  //       m.set('title', titleText);
-  //       m.set('body', bodyText);
-  //       m.set('from_proposal', true);
-  //       m.set('published', true);
-  //       m.wake(app.config.wakeful.url);
-  //       m.save();
-  //       Skeletor.Model.awake.tiles.add(m);
-  //     }
-  //   },
-
-  //   // this version of autosave works with nested content. The nested structure must be spelled out *in the html*
-  //   // eg <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
-  //   checkForAutoSave: function(ev) {
-  //     var view = this,
-  //         field = ev.target.name,
-  //         input = ev.target.value;
-  //     // clear timer on keyup so that a save doesn't happen while typing
-  //     app.clearAutoSaveTimer();
-
-  //     // save after 10 keystrokes
-  //     app.autoSave(app.project, field, input, false, jQuery(ev.target).data("nested"));
-
-  //     // setting up a timer so that if we stop typing we save stuff after 5 seconds
-  //     app.autoSaveTimer = setTimeout(function(){
-  //       app.autoSave(app.project, field, input, true, jQuery(ev.target).data("nested"));
-  //     }, 5000);
-  //   },
-
-  //   render: function () {
-  //     var view = this;
-  //     console.log("Rendering ProposalsView...");
-
-  //     jQuery('#proposal-screen [name=name]').text(app.project.get('name'));
-  //     jQuery('#proposal-screen [name=research_question]').text(app.project.get('proposal').research_question);
-  //     jQuery('#proposal-screen [name=need_to_knows]').text(app.project.get('proposal').need_to_knows);
-
-  //     // they can't be allowed to change the name of their project once they've first created it, since it's now the unique identifier (le sigh)
-  //     if (app.project && app.project.get('proposal').published === true) {
-  //       jQuery('#proposal-screen [name=name]').addClass('disabled');
-  //     } else {
-  //       jQuery('#proposal-screen [name=name]').removeClass('disabled');
-  //     }
-  //   }
-
-  // });
-
-
-  /**
    ** Note View
    **/
   app.View.Note = Backbone.View.extend({
@@ -437,7 +217,6 @@
       });
     }
   });
-//  START HERE above NOTES to NOTES
 
 
   /**
@@ -453,6 +232,7 @@
       'click .nav-read-btn'               : 'switchToReadView',
       // 'click .cancel-note-btn'            : 'cancelNote',
       'click .publish-note-btn'           : 'publishNote',
+      'click .add-media-btn'              : 'addMedia',
       'click #lightbulb-icon'             : 'showSentenceStarters',
       'click .sentence-starter'           : 'appendSentenceStarter',
       'keyup :input'                      : 'checkForAutoSave'
@@ -469,6 +249,10 @@
       jQuery('#note-body-input').val(bodyText);
 
       jQuery('#sentence-starter-modal').modal('hide');
+    },
+
+    addMedia: function(ev) {
+      console.log('Work in progress!');
     },
 
     checkForAutoSave: function(ev) {
@@ -680,6 +464,228 @@
       }
     }
   });
+
+
+
+
+/**
+  NewProjectView
+**/
+// app.View.NewProjectView = Backbone.View.extend({
+
+//   initialize: function () {
+//     var view = this;
+//     console.log('Initializing NewProjectView...', view.el);
+//   },
+
+//   events: {
+//     'click #submit-partners-btn' : 'addPartnersToProject',
+//     'click .project-theme-button': 'addThemeToProject'
+//   },
+
+//   addPartnersToProject: function() {
+//     var view = this;
+
+//     // put all selecteds into the project
+//     var partners = [];
+//     _.each(jQuery('.selected'), function(b) {
+//       partners.push(jQuery(b).val());
+//     });
+//     app.project.set('associated_users',partners);
+//     app.project.save();
+
+//     // move to the next screen
+//     jQuery('#new-project-student-picker').addClass('hidden');
+//     jQuery('#new-project-theme-picker').removeClass('hidden');
+//   },
+
+//   addThemeToProject: function(ev) {
+//     var view = this;
+
+//     app.project.set('theme',jQuery(ev.target).val());
+//     app.project.save();
+
+//     jQuery().toastmessage('showSuccessToast', "You have created a new project!");
+
+//     // complete the newProject section and move to proposal section
+//     jQuery('#new-project-theme-picker').addClass('hidden');
+//     jQuery('#proposal-screen').removeClass('hidden');
+//     jQuery('#proposal-nav-btn').addClass('active');
+//   },
+
+//   render: function () {
+//     var view = this;
+//     console.log("Rendering NewProjectView...");
+
+//     // ADD THE USERS
+//     jQuery('.project-partner-holder').html('');
+//     if (app.users.length > 0) {
+//       // sort the collection by username
+//       app.users.comparator = function(model) {
+//         return model.get('display_name');
+//       };
+//       app.users.sort();
+
+//       app.users.each(function(user) {
+//         var button = jQuery('<button class="btn project-partner-button btn-default btn-base">');
+//         button.val(user.get('username'));
+//         button.text(user.get('display_name'));
+//         jQuery('.project-partner-holder').append(button);
+
+//         // add the logged in user to the project
+//         if (user.get('username') === app.username) {
+//           button.addClass('selected');
+//           button.addClass('disabled');
+//         }
+//       });
+
+//       //register click listeners
+//       jQuery('.project-partner-button').click(function() {
+//         jQuery(this).toggleClass('selected');
+//       });
+//     } else {
+//       console.warn('Users collection is empty!');
+//     }
+
+//     // ADD THE THEMES AKA TAGS
+//     jQuery('.project-theme-holder').html('');
+//     if (Skeletor.Model.awake.tags.length > 0) {
+//       Skeletor.Model.awake.tags.each(function(tag) {
+//         var button = jQuery('<button class="btn project-theme-button btn-default btn-base">');
+//         button.val(tag.get('name'));
+//         button.text(tag.get('name'));
+//         jQuery('.project-theme-holder').append(button);
+//       });
+//     } else {
+//       console.warn('Tags collection is empty!');
+//     }
+//   }
+
+// });
+
+
+/**
+  ProposalsView
+**/
+// app.View.ProposalsView = Backbone.View.extend({
+
+//   initialize: function () {
+//     var view = this;
+//     console.log('Initializing ProposalsView...', view.el);
+
+//     view.collection.on('change', function(n) {
+//       if (n.id === app.project.id) {
+//         view.render();
+//       }
+//     });
+//   },
+
+//   events: {
+//     'click #publish-proposal-btn' : 'publishProposal',
+//     'click .nav-splash-btn'       : 'switchToSplashView',
+//     'keyup :input'                : 'checkForAutoSave'
+//   },
+
+//   switchToSplashView: function() {
+//     app.resetToSplashScreen();
+//   },
+
+//   publishProposal: function() {
+//     var view = this;
+//     var name = jQuery('#proposal-screen [name=name]').val();
+
+//     if (name.length > 0) {
+//       var researchQuestionVal = jQuery('#proposal-screen [name=research_question]').val();
+//       var needToKnowsVal = jQuery('#proposal-screen [name=need_to_knows]').val();
+
+//       app.clearAutoSaveTimer();
+//       app.project.set('name',name);
+//       var proposal = app.project.get('proposal');
+//       proposal.research_question = researchQuestionVal;
+//       proposal.need_to_knows = needToKnowsVal;
+//       proposal.published = true;
+//       app.project.set('proposal',proposal);
+//       app.project.save();
+
+//       // show who is 'logged in' as the group, since that's our 'user' in this case
+//       app.groupname = name;
+//       jQuery('.username-display a').text(app.groupname);
+
+//       // delete all previous proposal tiles for this project
+//       // Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true }).forEach(function(tile) {
+//       //   tile.destroy();
+//       // });
+
+//       // create the new proposal tiles
+//       view.createProposalNote("Foundational knowledge", needToKnowsVal);
+//       view.createProposalNote("Research question(s)", researchQuestionVal);
+
+//       jQuery().toastmessage('showSuccessToast', "Your proposal has been published. You can come back and edit any time...");
+
+//       app.resetToSplashScreen();
+//     } else {
+//       jQuery().toastmessage('showErrorToast', "Please enter a title!");
+//     }
+//   },
+
+//   createProposalNote: function(titleText, bodyText) {
+//     var view = this;
+
+//     var preexistingNote = Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true, 'title': titleText })[0];
+
+//     if (preexistingNote) {
+//       preexistingNote.set('body',bodyText);
+//       preexistingNote.save();
+//     } else {
+//       var m = new Model.Note();
+//       m.set('project_id', app.project.id);
+//       m.set('author', app.username);
+//       m.set('type', "text");
+//       m.set('title', titleText);
+//       m.set('body', bodyText);
+//       m.set('from_proposal', true);
+//       m.set('published', true);
+//       m.wake(app.config.wakeful.url);
+//       m.save();
+//       Skeletor.Model.awake.tiles.add(m);
+//     }
+//   },
+
+//   // this version of autosave works with nested content. The nested structure must be spelled out *in the html*
+//   // eg <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
+//   checkForAutoSave: function(ev) {
+//     var view = this,
+//         field = ev.target.name,
+//         input = ev.target.value;
+//     // clear timer on keyup so that a save doesn't happen while typing
+//     app.clearAutoSaveTimer();
+
+//     // save after 10 keystrokes
+//     app.autoSave(app.project, field, input, false, jQuery(ev.target).data("nested"));
+
+//     // setting up a timer so that if we stop typing we save stuff after 5 seconds
+//     app.autoSaveTimer = setTimeout(function(){
+//       app.autoSave(app.project, field, input, true, jQuery(ev.target).data("nested"));
+//     }, 5000);
+//   },
+
+//   render: function () {
+//     var view = this;
+//     console.log("Rendering ProposalsView...");
+
+//     jQuery('#proposal-screen [name=name]').text(app.project.get('name'));
+//     jQuery('#proposal-screen [name=research_question]').text(app.project.get('proposal').research_question);
+//     jQuery('#proposal-screen [name=need_to_knows]').text(app.project.get('proposal').need_to_knows);
+
+//     // they can't be allowed to change the name of their project once they've first created it, since it's now the unique identifier (le sigh)
+//     if (app.project && app.project.get('proposal').published === true) {
+//       jQuery('#proposal-screen [name=name]').addClass('disabled');
+//     } else {
+//       jQuery('#proposal-screen [name=name]').removeClass('disabled');
+//     }
+//   }
+
+// });
 
 
   /**

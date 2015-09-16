@@ -98,10 +98,10 @@ textarea {
     margin-top: 25px;
 }
 
-#project-picker .modal-header {
+#notes-picker .modal-header {
     border-bottom: none;
 }
-#project-picker button {
+#notes-picker button {
     min-width: 500px;
     max-width: 500px;
     overflow: hidden;
@@ -113,14 +113,14 @@ textarea {
 }
 
 
-.project-partner-holder {
+.notes-partner-holder {
     max-width: 915px;
 }
-.project-partner-holder button {
+.notes-partner-holder button {
     margin-right: 15px;
     min-width: 150px;
 }
-.project-partner-holder button:nth-child(5n) {
+.notes-partner-holder button:nth-child(5n) {
     margin-right: 0;
 }
 #submit-partners-btn {
@@ -129,7 +129,7 @@ textarea {
     margin: 0 auto;
 }
 
-/* this should be changed, depending on the final colour of the button (used in the new-project sections) */
+/* this should be changed, depending on the final colour of the button (used in the new-notes sections) */
 .selected {
     background: #fecc81 !important;
 }
@@ -156,19 +156,19 @@ textarea {
 #todo-screen .goto-proposal-btn:hover {
     background: #beb6f7;
 }
-.project-theme-holder {
+.notes-theme-holder {
     width: 400px;
     margin: 0 auto;
 }
-.project-theme-button {
+.notes-theme-button {
     height: 55px;
     margin-bottom: 35px;
 }
-.project-theme-button:nth-child(odd) {
+.notes-theme-button:nth-child(odd) {
     float: left;
     margin-right: 25px;
 }
-.project-theme-button:nth-child(even) {
+.notes-theme-button:nth-child(even) {
     float: right;
 }
 
@@ -186,22 +186,22 @@ textarea {
     height: calc(100% - 50px);
 }*/
 
-.project h2 {
-    color: #41b050;
+.notes h2 {
+    color: #006699;
 }
-.project textarea,
-.project button,
-.project .btn {
-    border: 2px solid #41b050;
+.notes textarea,
+.notes button,
+.notes .btn {
+    border: 2px solid #006699;
 }
-.project .btn-circular,
-#todo-screen .goto-project-btn {
-    background: #41b050;
-    border: 2px solid #41b050;
+.notes .btn-circular,
+#todo-screen .goto-notes-btn {
+    background: #006699;
+    border: 2px solid #006699;
 }
-.project .btn-circular:hover,
-#todo-screen .goto-project-btn:hover {
-    background: #8dd098;
+.notes .btn-circular:hover,
+#todo-screen .goto-notes-btn:hover {
+    background: #79ADC2;
 }
 
 /********** R E V I E W **********/
@@ -287,7 +287,7 @@ textarea {
     margin-bottom: 20px;
 }
 
-.project-to-review-btn {
+.notes-to-review-btn {
     width: 500px;
     display: block;
     margin: 0 auto;
@@ -349,7 +349,7 @@ textarea {
     min-height: 192px;
 }
 .notes-list > li {
-    outline: 2px solid #41b050;
+    outline: 2px solid #006699;
     background: #fff;
 }
 .notes-list .self {
@@ -431,14 +431,14 @@ textarea {
 }
 
 .fa-lightbulb-o {
-    color: #41b050;
+    color: #006699;
     position: absolute;
     top: 25%;
     right: 2%;
     padding: 10px 20px;
 }
 .fa-lightbulb-o:hover {
-    color: #8dd098;
+    color: #79ADC2;
 }
 
 .fa-star-o,
@@ -456,7 +456,7 @@ textarea {
 }
 
 .sentence-starter {
-    background: #8dd098;
+    background: #79ADC2;
     width: 100%;
     text-align: left;
     border-radius: 0;
@@ -471,12 +471,12 @@ textarea {
 #note-details .modal-content,
 #sentence-starter-modal .modal-content {
     border-radius: 0;
-    border: 2px solid #41b050;
+    border: 2px solid #006699;
 }
 
 #note-details .note-author {
     padding-top: 10px;
-    color: #41b050;
+    color: #006699;
 }
 
 /********** P R O J E C T  M E D I A  S C R E E N **********/
@@ -510,7 +510,7 @@ textarea {
     z-index: 999;
     top: 13%;
     left: 6%;
-    color: #41b050;
+    color: #006699;
     background: #fff;
 }
 .fa-play-circle {
@@ -536,9 +536,9 @@ textarea {
     display: block;
     margin: 0 auto;
     margin-top: 25px;
-    background: #8dd098;
+    background: #79ADC2;
 }
-#project-media-screen .selected {
+#notes-media-screen .selected {
     background: #99ff00 !important;
 }
 #self-originator-btn:hover,
@@ -564,11 +564,11 @@ textarea {
 .new-poster-theme-button:nth-child(even) {
     float: right;
 }
-#project-new-poster-screen .selected {
-    background: #8dd098 !important;
+#notes-new-poster-screen .selected {
+    background: #79ADC2 !important;
 }
-#project-new-poster-screen .selected:hover {
-    border: solid 2px #41b050;
+#notes-new-poster-screen .selected:hover {
+    border: solid 2px #006699;
 }
 
 
@@ -716,14 +716,14 @@ input:disabled {
 /*Small devices PORTRAIT (tablets, more than 768px tall)*/
 @media all and (min-height: 768px) and (orientation: portrait) {
 
-    .project-partner-holder button {
+    .notes-partner-holder button {
         margin-right: 15px;
         min-width: 140px;
     }
-    .project-partner-holder button:nth-child(5n) {
+    .notes-partner-holder button:nth-child(5n) {
         margin-right: 15px;
     }
-    .project-partner-holder button:nth-child(4n) {
+    .notes-partner-holder button:nth-child(4n) {
         margin-right: 0;
     }
 
@@ -780,7 +780,7 @@ input:disabled {
     .self-photo-query {
         margin-left: 8%;
     }
-    .project-to-review-btn {
+    .notes-to-review-btn {
         max-width: 475px;
         text-overflow: ellipsis;
     }
@@ -797,7 +797,7 @@ input:disabled {
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
 @media all and (min-width: 1200px) {
 
-    .project-partner-holder button {
+    .notes-partner-holder button {
         min-width: 170px;
     }
 
