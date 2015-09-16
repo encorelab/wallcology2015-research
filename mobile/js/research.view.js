@@ -230,28 +230,6 @@
 
   // });
 
-/**
-  ChiTestView
-**/
-  // app.View.ChiTestView = Backbone.View.extend({
-
-  //   initialize: function () {
-  //     var view = this;
-  //     console.log('Initializing ChiTestView...', view.el);
-  //   },
-
-  //   events: {
-
-  //   },
-
-  //   render: function () {
-  //     var view = this;
-  //     console.log("Rendering ChiTestView...");
-
-  //   }
-
-  // });
-
 
   /**
    ** Note View
@@ -295,8 +273,8 @@
       // different types - different notes
       //if (note.get('type') === "text") {
         // if class is not set do it
-        if (!view.$el.hasClass('text-note-container')) {
-          view.$el.addClass('text-note-container');
+        if (!view.$el.hasClass('note-container')) {
+          view.$el.addClass('note-container');
         }
 
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
@@ -430,11 +408,6 @@
           noteContainer = jQuery('<li class="note-container self col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
         } else {
           noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
-        }
-
-        // handling new citation concept
-        if (noteModel.get('cited_from_user_uuid') && noteModel.get('cited_from_poster_uuid') && noteModel.get('cited_from_poster_item_uuid')) {
-          noteContainer.addClass('cited');
         }
 
         var noteView = new app.View.Note({el: noteContainer, model: noteModel});

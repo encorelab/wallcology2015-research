@@ -174,15 +174,15 @@ textarea {
 
 /********** P R O J E C T **********/
 
-#project-write-screen,
-#project-read-screen {
+#note-write-screen,
+#note-read-screen {
     position: relative;
     height: 100%;
     /*height: calc(100% - 50px);*/
     padding-top: 50px;
 }
-/*#project-write-screen .inner-wrapper,
-#project-read-screen .inner-wrapper {
+/*#note-write-screen .inner-wrapper,
+#note-read-screen .inner-wrapper {
     height: calc(100% - 50px);
 }*/
 
@@ -325,7 +325,7 @@ textarea {
 
 /********** P R O J E C T  R E A D  S C R E E N **********/
 
-#project-read-screen .inner-wrapper {
+#note-read-screen .inner-wrapper {
     height: 100%;
     margin-top: 75px;
 }
@@ -337,8 +337,8 @@ textarea {
     padding-top: 3px;
 }
 
-/*to create the square tiles http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
-.tile-container {
+/*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
+.note-container {
     outline-offset: -10px;
 /*    -moz-outline-radius: 10px; if we want rounded corners uncomment
     -webkit-outline-radius: 10px;*/
@@ -348,21 +348,21 @@ textarea {
     overflow: hidden;
     min-height: 192px;
 }
-.tiles-list > li {
+.notes-list > li {
     outline: 2px solid #41b050;
     background: #fff;
 }
-.tiles-list .self {
+.notes-list .self {
     outline: 3px dashed #99ff00;
 }
 /* change me - this doesn't look great */
-.tiles-list .cited {
+.notes-list .cited {
     outline: 2px solid #E64A19;
 }
-.tiles-list > li:last-child {
+.notes-list > li:last-child {
     margin-bottom: 45px;
 }
-.tile {
+.note {
     position: absolute;
     height: 86%; /* = 100% - 2*5% padding */
     width: 90%; /* = 100% - 2*5% padding */
@@ -370,11 +370,11 @@ textarea {
     margin-top: 5%;
     overflow: hidden;
 }
-.tile img,
-.tile video {
+.note img,
+.note video {
     width: 100%;
 }
-.tile-title {
+.note-title {
     height: 27%;
     max-height: 52px;
     margin: 0;
@@ -382,7 +382,7 @@ textarea {
     overflow: hidden;
     font-weight: 600;
 }
-.tile-body {
+.note-body {
     height: 75%;
     margin-top: 5px;
     overflow: hidden;
@@ -396,8 +396,8 @@ textarea {
     margin-left: 6%;
 }
 
-#project-read-screen .fa-star-o,
-#project-read-screen .fa-star {
+#note-read-screen .fa-star-o,
+#note-read-screen .fa-star {
     bottom: 0;
 }
 .fa-circle {
@@ -416,16 +416,16 @@ textarea {
     padding-right: 4px;
 }
 
-#tile-title-input {
+#note-title-input {
     margin-bottom: 25px;
 }
 
-#tile-body-container {
+#note-body-container {
     height: 250px;           /* random choice, change however you'd like */
     margin-bottom: 25px;
 }
 
-#tile-body-input {
+#note-body-input {
     height: 250px;
     padding-right: 60px;
 }
@@ -464,24 +464,24 @@ textarea {
 .sentence-starter:hover{
     background: #fff;
 }
-#project-write-screen button.close {
+#note-write-screen button.close {
     border: none;
 }
 
-#tile-details .modal-content,
+#note-details .modal-content,
 #sentence-starter-modal .modal-content {
     border-radius: 0;
     border: 2px solid #41b050;
 }
 
-#tile-details .tile-author {
+#note-details .note-author {
     padding-top: 10px;
     color: #41b050;
 }
 
 /********** P R O J E C T  M E D I A  S C R E E N **********/
 
-#tile-media-upload-container {
+#note-media-upload-container {
     /*height: 250px;*/
     margin-bottom: 25px;
     height: 100%;
@@ -490,7 +490,7 @@ textarea {
 .self-photo-query {
     display: inline-block;
 }
-#tile-media-upload-container input[type=file] {
+#note-media-upload-container input[type=file] {
     margin: 15px 0 0 55px;
 }
 .photo-wrapper {
@@ -499,8 +499,8 @@ textarea {
     max-height: 400px;
     /*overflow: hidden;*/
 }
-#tile-media-upload-container video,
-#tile-media-upload-container img {
+#note-media-upload-container video,
+#note-media-upload-container img {
     width: 100%;
     max-height: 400px;
 }
@@ -524,11 +524,11 @@ textarea {
     vertical-align: top;
     margin-top: 10%;
 }
-#tile-media-upload-container .fa-star-o,
-#tile-media-upload-container .fa-star {
+#note-media-upload-container .fa-star-o,
+#note-media-upload-container .fa-star {
     top: 0;
 }
-#tile-media-upload-container h3 {
+#note-media-upload-container h3 {
     text-align: center;
 }
 #self-originator-btn,
@@ -756,14 +756,14 @@ input:disabled {
         max-height: 150px;
     }
 
-    .tile {
+    .note {
         padding: 5% 7% 0 1%;
         height: 87%;
     }
-    .tile-title {
+    .note-title {
         height: 23%;
     }
-    .tile-body {
+    .note-body {
         height: 69%;
     }
     .fa-file-image-o,
@@ -771,14 +771,10 @@ input:disabled {
         font-size: 11em;
         margin-left: 14px;
     }
-    #project-read-screen .fa-star-o,
-    #project-read-screen .fa-star {
-        right: -1.5%;
-    }
     .fa-circle {
         bottom: 1.5%;
     }
-    #tile-media-upload-container {
+    #note-media-upload-container {
         margin-left: 15%;
     }
     .self-photo-query {
@@ -809,7 +805,7 @@ input:disabled {
         padding: 0 200px 0 0;
     }
 
-    .tile-container {
+    .note-container {
         padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
     }
     .fa-file-image-o,
@@ -818,10 +814,10 @@ input:disabled {
         margin-left: 5%;
     }
 
-    .tile h3 {
+    .note h3 {
         font-size: 20px;
     }
-    .tile .title-body {
+    .note .title-body {
         font-size: 16px;
         line-height: 1.2;
     }

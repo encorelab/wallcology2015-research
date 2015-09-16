@@ -252,6 +252,7 @@
          el: '#notes-read-screen',
          collection: Skeletor.Model.awake.notes
        });
+       app.notesReadView.render();
      }
 
      if (app.notesWriteView === null) {
