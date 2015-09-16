@@ -23,6 +23,6 @@
         "ws_port": 1884
     },
     "login_picker": true,
-    "runs":["ben", "michael"],
+    "runs":["ben", "mike"],
     "project_name": "Wallcology 2015"
 }

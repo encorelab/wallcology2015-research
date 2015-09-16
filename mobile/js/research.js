@@ -261,7 +261,7 @@
       position : 'middle-center'
     });
 
-    jQuery('.brand').text("Research");
+    jQuery('.brand').text("Wallcology 2015");
   };
 
   var setUpClickListeners = function () {
@@ -617,12 +617,7 @@
     _.each(app.config.runs, function(run) {
       var button = jQuery('<button class="btn btn-default btn-base login-button">');
       button.val(run);
-      // hacky fix so that we don't have to mess around with run names (eg solar2015-michael)
-      if (run === "michael") {
-        button.text("mike");
-      } else {
-        button.text(run);
-      }
+      button.text(run);
       jQuery('.login-buttons').append(button);
     });
 

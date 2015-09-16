@@ -234,24 +234,24 @@
 /**
   ChiTestView
 **/
-// app.View.ChiTestView = Backbone.View.extend({
+  // app.View.ChiTestView = Backbone.View.extend({
 
-//   initialize: function () {
-//     var view = this;
-//     console.log('Initializing ChiTestView...', view.el);
-//   },
+  //   initialize: function () {
+  //     var view = this;
+  //     console.log('Initializing ChiTestView...', view.el);
+  //   },
 
-//   events: {
+  //   events: {
 
-//   },
+  //   },
 
-//   render: function () {
-//     var view = this;
-//     console.log("Rendering ChiTestView...");
+  //   render: function () {
+  //     var view = this;
+  //     console.log("Rendering ChiTestView...");
 
-//   }
+  //   }
 
-// });
+  // });
 
 
   /**
