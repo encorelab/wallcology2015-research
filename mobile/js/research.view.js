@@ -113,7 +113,7 @@
 
       /*
       ** See above, but mostly we would want add and change in the note view. But due to wakeness and published flag
-      ** we are better of with using change and filtering to react only if published true.
+      ** we are better off with using change and filtering to react only if published true.
       ** IMPORTANT: in addOne we check that id isn't already in the DOM
       */
       view.collection.on('add', function(n) {
@@ -253,6 +253,7 @@
 
     addMedia: function(ev) {
       console.log('Work in progress!');
+      view.model.set('media', "SOMEARRAY");
     },
 
     checkForAutoSave: function(ev) {
@@ -294,19 +295,26 @@
       var title = jQuery('#note-title-input').val();
       var body = jQuery('#note-body-input').val();
 
+      // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0) {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
+        // TODO: make these reflect dropdowns, species, if necessary
+        view.model.set('topic_tag', "relationships");
+        view.model.set('habitat_tag', 1);
+        view.model.set('species_tags', "this will be an array");
         view.model.set('modified_at', new Date());
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
         view.model = null;
         jQuery('.input-field').val('');
+        // TODO: clear the other fields (dropdowns, media)
         view.switchToReadView();
       } else {
+        // TODO: append for dropdowns
         jQuery().toastmessage('showErrorToast', "You need to complete both fields to submit your note...");
       }
     },
@@ -322,6 +330,7 @@
 
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
+      // TODO: add in dropdowns and media
     }
   });
 
