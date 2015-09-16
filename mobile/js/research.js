@@ -47,9 +47,6 @@
   app.notesWriteView = null;
   app.projectMediaView = null;
   app.projectNewPosterView = null;
-  app.projectPosterChunkView = null;
-  app.projectPosterTextChunkView = null;
-  app.projectPosterMediaChunkView = null;
   app.reviewsView = null;
   app.reviewDetailsView = null;
 
@@ -348,25 +345,6 @@
        });
      }
 
-     if (app.projectPosterChunkView === null) {
-       app.projectPosterChunkView = new app.View.ProjectPosterChunkView({
-         el: '#project-poster-chunk-screen',
-         collection: Skeletor.Model.awake.chunks
-       });
-     }
-
-     if (app.projectPosterTextChunkView === null) {
-       app.projectPosterTextChunkView = new app.View.ProjectPosterTextChunkView({
-         el: '#project-poster-text-chunk-screen'
-       });
-     }
-
-     if (app.projectPosterMediaChunkView === null) {
-       app.projectPosterMediaChunkView = new app.View.ProjectPosterMediaChunkView({
-         el: '#project-poster-media-chunk-screen'
-       });
-     }
-
     if (app.reviewsView === null) {
       app.reviewsView = new app.View.ReviewsView({
         el: '#review-overview-screen',
@@ -457,19 +435,6 @@
       // check if this is a delete msg, otherwise ignore it (for now)
       //var jsonMsg = JSON.parse(message.payloadString);
       console.log("Heard a message...");
-
-      // if (jsonMsg.action === "DELETE") {
-      //   console.log("Received delete message for " + message.payloadString);
-      //   // and the ugliness continues. What I'm doing here is getting the original oid for the object that we want to delete (by removing the tail end that tony's stuff needed)
-      //   // this should always return a singular object on the where... I think
-      //   var chunkId = jsonMsg.posterItemUuid.split(/-/)[0];
-      //   Skeletor.Model.awake.chunks.where({ '_id' : chunkId }).forEach(function(chunk) {
-      //     console.log("Deleting chunk with id: " + chunkId);
-      //     chunk.destroy();
-      //   });
-      // } else {
-      //   console.log("Received other message: " + message.payloadString + " and ignoring...");
-      // }
     };
     // Connect
     function tryConnect() {
@@ -698,16 +663,6 @@
         jQuery('#todo-screen').removeClass('hidden');
       }
     }
-  };
-
-  // Function to rebuild the posterItems array for poster collection
-  app.rebuildPosterItemsArray = function (projectId) {
-    var posterItems = [];
-    var myPublishedTextChunks = Skeletor.Model.awake.chunks.where({published: true, project_id: projectId, type: "text"});
-    var myPublishedMediaChunks = Skeletor.Model.awake.chunks.where({published: true, project_id: projectId, type: "media"});
-    myPublishedTextChunks.forEach(function(c) { posterItems.push(c.id + '-txtitem'); });
-    myPublishedMediaChunks.forEach(function(c) { posterItems.push(c.id + '-mediaitem'); posterItems.push(c.id + '-txtitem'); });
-    return posterItems;
   };
 
   app.resetToSplashScreen = function() {
