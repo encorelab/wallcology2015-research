@@ -349,16 +349,16 @@
   });
 
   /**
-   ** Tiles View
+   ** NOTES VIEWS
    **/
 
   /**
-    ProjectReadView
+    NotesReadView
   **/
-  app.View.ProjectReadView = Backbone.View.extend({
+  app.View.NotesReadView = Backbone.View.extend({
     initialize: function () {
       var view = this;
-      console.log('Initializing ProjectReadView...', view.el);
+      console.log('Initializing NotesReadView...', view.el);
 
       /* We should not have to listen to change on collection but on add. However, due to wakefulness
       ** and published false first we would see the element with add and see it getting created. Also not sure
@@ -417,12 +417,12 @@
         view.collection.add(m);
       }
 
-      app.projectWriteView.model = m;
-      app.projectWriteView.model.wake(app.config.wakeful.url);
+      app.notesWriteView.model = m;
+      app.notesWriteView.model.wake(app.config.wakeful.url);
 
       app.hideAllContainers();
-      jQuery('#project-write-screen').removeClass('hidden');
-      app.projectWriteView.render();
+      jQuery('#notes-write-screen').removeClass('hidden');
+      app.notesWriteView.render();
     },
 
     createMediaTile: function(ev) {
@@ -506,7 +506,7 @@
 
     render: function() {
       var view = this;
-      console.log("Rendering ProjectReadView...");
+      console.log("Rendering NotesReadView...");
 
       // sort newest to oldest (prepend!)
       view.collection.comparator = function(model) {
@@ -526,12 +526,12 @@
 
 
   /**
-    ProjectWriteView
+    NotesWriteView
   **/
-  app.View.ProjectWriteView = Backbone.View.extend({
+  app.View.NotesWriteView = Backbone.View.extend({
     initialize: function() {
       var view = this;
-      console.log('Initializing ProjectWriteView...', view.el);
+      console.log('Initializing NotesWriteView...', view.el);
     },
 
     events: {
@@ -631,12 +631,12 @@
 
     switchToReadView: function() {
       app.hideAllContainers();
-      jQuery('#project-read-screen').removeClass('hidden');
+      jQuery('#notes-read-screen').removeClass('hidden');
     },
 
     render: function () {
       var view = this;
-      console.log("Rendering ProjectWriteView...");
+      console.log("Rendering NotesWriteView...");
 
       jQuery('.favourite-icon').addClass('hidden');
       if (view.model.get('favourite') === true) {

@@ -43,8 +43,8 @@
   app.newProjectView = null;
   app.proposalsView = null;
   app.chiTestView = null;
-  app.projectReadView = null;
-  app.projectWriteView = null;
+  app.notesReadView = null;
+  app.notesWriteView = null;
   app.projectMediaView = null;
   app.projectNewPosterView = null;
   app.projectPosterChunkView = null;
@@ -250,7 +250,7 @@
     jQuery('.username-display a').text(app.groupname);
 
     // Render here?
-    app.projectReadView.render();
+    app.notesReadView.render();
 
     app.reflectRunState(projectId);
   };
@@ -279,10 +279,10 @@
           jQuery('#proposal-nav-btn').addClass('active');
           jQuery('#proposal-screen').removeClass('hidden');
           app.proposalsView.render();
-        } else if (jQuery(this).hasClass('goto-project-btn')) {
-          jQuery('#project-nav-btn').addClass('active');
-          jQuery('#project-read-screen').removeClass('hidden');
-          // app.projectReadView.render();
+        } else if (jQuery(this).hasClass('goto-notes-btn')) {
+          jQuery('#notes-nav-btn').addClass('active');
+          jQuery('#notes-read-screen').removeClass('hidden');
+          // app.notesReadView.render();
         } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
           jQuery('#chi-test-nav-btn').addClass('active');
           jQuery('#chi-test-screen').removeClass('hidden');
@@ -320,19 +320,20 @@
        });
      }
 
-     if (app.projectReadView === null) {
-       app.projectReadView = new app.View.ProjectReadView({
-         el: '#project-read-screen',
+     if (app.notesReadView === null) {
+       app.notesReadView = new app.View.NotesReadView({
+         el: '#notes-read-screen',
          collection: Skeletor.Model.awake.tiles
        });
      }
 
-     if (app.projectWriteView === null) {
-       app.projectWriteView = new app.View.ProjectWriteView({
-         el: '#project-write-screen',
+     if (app.notesWriteView === null) {
+       app.notesWriteView = new app.View.NotesWriteView({
+         el: '#notes-write-screen',
          collection: Skeletor.Model.awake.tiles
        });
      }
+
 
      if (app.projectMediaView === null) {
        app.projectMediaView = new app.View.ProjectMediaView({

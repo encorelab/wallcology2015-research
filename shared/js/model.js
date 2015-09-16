@@ -27,7 +27,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'projects', 'tiles', 'chunks', 'grabbed_poster_items'];
+    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'notes', 'projects', 'tiles', 'chunks', 'grabbed_poster_items'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -210,6 +210,20 @@
       this.Tags = this.db.Collection('tags').extend({
         model: Skeletor.Model.Tag
       });
+
+      this.Note = this.db.Document('notes').extend({
+        defaults: {
+          'created_at': new Date(),
+          'modified_at': new Date(),
+          'published': false,
+          'favourite': false
+        }
+      });
+
+      this.Notes = this.db.Collection('notes').extend({
+        model: Skeletor.Model.Note
+      });
+
 
       this.Project = this.db.Document('projects').extend({
         defaults: {
