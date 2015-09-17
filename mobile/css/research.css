@@ -320,16 +320,12 @@ textarea {
 
 /********** NOTES READ SCREEN **********/
 
-#note-read-screen .inner-wrapper {
-    height: 100%;
-    margin-top: 75px;
+#notes-read-screen .inner-wrapper {
+    height: 85%;
+    overflow-y: scroll;
 }
 .fa-pencil {
     padding-left: 5px;
-}
-.fa-share-square-o {
-    padding-left: 6px;
-    padding-top: 3px;
 }
 
 /*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
@@ -346,13 +342,6 @@ textarea {
 .notes-list > li {
     outline: 2px solid #006699;
     background: #fff;
-}
-.notes-list .self {
-    outline: 3px dashed #99ff00;
-}
-/* change me - this doesn't look great */
-.notes-list .cited {
-    outline: 2px solid #E64A19;
 }
 .notes-list > li:last-child {
     margin-bottom: 45px;
@@ -460,6 +449,7 @@ textarea {
     display: inline-block;
     margin-left: 5px;
 }
+
 #notes-write-screen .media-container {
     position: relative;
     display: inline-block;
@@ -493,25 +483,6 @@ textarea {
     color: #006699;
     background: #fff;
 }
-/*#note-media-upload-container input[type=file] {
-    margin: 15px 0 0 55px;
-}*/
-/*#note-media-upload-container video,
-#note-media-upload-container img {
-    width: 100%;
-    max-height: 400px;
-}*/
-/*.fa-play-circle {
-    position: absolute;
-    margin-top: 25px;
-    left: 125px;
-}*/
-/*#note-media-upload-container h3 {
-    text-align: center;
-}
-#notes-media-screen .selected {
-    background: #99ff00 !important;
-}*/
 
 
 /********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/
