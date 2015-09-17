@@ -172,15 +172,22 @@ textarea {
     float: right;
 }
 
-/********** NOTES **********/
-
-#note-write-screen,
-#note-read-screen {
-    position: relative;
-    height: 100%;
-    /*height: calc(100% - 50px);*/
-    padding-top: 50px;
+/********** TODO SCREEN **********/
+.todo-btn {
+    color: #fff;
+    min-width: 350px;
+    display: block;
+    margin: 0 auto;
+    font-size: 24px;
+    height: 75px;
+    margin-bottom: 25px;
+    letter-spacing: 6px;
 }
+.todo-btn:hover {
+    color: #fff;
+}
+
+/********** NOTES **********/
 .notes h2 {
     color: #006699;
 }
@@ -198,6 +205,181 @@ textarea {
 #todo-screen .goto-notes-btn:hover {
     background: #79ADC2;
 }
+
+/********** NOTES READ SCREEN **********/
+
+#notes-read-screen .inner-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+}
+.fa-pencil {
+    padding-left: 5px;
+}
+
+/*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
+.note-container {
+    outline-offset: -10px;
+/*    -moz-outline-radius: 10px; if we want rounded corners uncomment
+    -webkit-outline-radius: 10px;*/
+    float: left;
+    position: relative;
+    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
+    overflow: hidden;
+    min-height: 192px;
+}
+.notes-list > li {
+    outline: 2px solid #006699;
+    background: #fff;
+}
+.notes-list > li:last-child {
+    margin-bottom: 45px;
+}
+.note {
+    position: absolute;
+    height: 86%; /* = 100% - 2*5% padding */
+    width: 90%; /* = 100% - 2*5% padding */
+    padding: 5%;
+    margin-top: 5%;
+    overflow: hidden;
+}
+.note img,
+.note video {
+    width: 100%;
+}
+.note-title {
+    height: 27%;
+    max-height: 52px;
+    margin: 0;
+    padding-bottom: 15px;
+    overflow: hidden;
+    font-weight: 600;
+}
+.note-body {
+    height: 75%;
+    margin-top: 5px;
+    overflow: hidden;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+.fa-file-image-o,
+.fa-file-video-o {
+    font-size: 15em;
+    margin-left: 6%;
+}
+
+.fa-circle {
+    position: absolute;
+    bottom: 1%;
+    right: 7%;
+    color: #fff;
+    z-index: 1;
+}
+
+#note-details .modal-content,
+#sentence-starter-modal .modal-content {
+    border-radius: 0;
+    border: 2px solid #006699;
+}
+
+#note-details .note-author {
+    padding-top: 10px;
+    color: #006699;
+}
+
+/********** NOTES WRITE SCREEN **********/
+
+#notes-write-screen .inner-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+    margin-top: 5px;
+}
+
+.fa-arrow-left {
+    padding-right: 4px;
+}
+
+#note-title-input {
+    padding-top: 10px !important;
+    margin-bottom: 10px;
+}
+
+#note-body-container {
+    position: relative;
+    height: 200px;
+}
+
+#note-body-input {
+    padding-top: 15px !important;
+    height: 200px;
+    padding-right: 60px;
+}
+
+.fa-lightbulb-o {
+    color: #006699;
+    position: absolute;
+    top: -1%;
+    right: 0%;
+    padding: 10px 20px;
+}
+.fa-lightbulb-o:hover {
+    color: #79ADC2;
+}
+.sentence-starter {
+    background: #79ADC2;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+}
+.sentence-starter:hover{
+    background: #fff;
+}
+#note-write-screen button.close {
+    border: none;
+}
+
+.photo-wrapper {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+#note-media-container{
+    margin-top: 5px;
+}
+#notes-write-screen .media-container {
+    position: relative;
+    display: inline-block;
+    width: 255px;
+    height: 255px;          /* maybe rethink this in regards to aspect ratio */
+    margin: 5px 2.5px 0px 2.5px;
+}
+#notes-write-screen .media {
+    width: 255px;
+    height: 255px;          /* maybe rethink this in regards to aspect ratio */
+}
+#notes-write-screen .close-btn {
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    color: red;
+}
+
+#note-btn-container {
+    position: relative;
+    margin-top: 20px;
+}
+.camera-icon-label {
+    width: 60px;
+}
+#note-btn-container .fa-spinner {
+    font-size: 6em;
+    position: absolute;
+    z-index: 999;
+    top: -3%;
+    color: #006699;
+    background: #fff;
+}
+
 
 /********** R E V I E W **********/
 
@@ -300,190 +482,6 @@ textarea {
     color: #555;
     overflow: initial;
 }
-
-
-/********** T O D O  S C R E E N **********/
-.todo-btn {
-    color: #fff;
-    min-width: 350px;
-    display: block;
-    margin: 0 auto;
-    font-size: 24px;
-    height: 75px;
-    margin-bottom: 25px;
-    letter-spacing: 6px;
-}
-.todo-btn:hover {
-    color: #fff;
-}
-
-
-/********** NOTES READ SCREEN **********/
-
-#notes-read-screen .inner-wrapper {
-    height: 85%;
-    overflow-y: scroll;
-}
-.fa-pencil {
-    padding-left: 5px;
-}
-
-/*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
-.note-container {
-    outline-offset: -10px;
-/*    -moz-outline-radius: 10px; if we want rounded corners uncomment
-    -webkit-outline-radius: 10px;*/
-    float: left;
-    position: relative;
-    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
-    overflow: hidden;
-    min-height: 192px;
-}
-.notes-list > li {
-    outline: 2px solid #006699;
-    background: #fff;
-}
-.notes-list > li:last-child {
-    margin-bottom: 45px;
-}
-.note {
-    position: absolute;
-    height: 86%; /* = 100% - 2*5% padding */
-    width: 90%; /* = 100% - 2*5% padding */
-    padding: 5%;
-    margin-top: 5%;
-    overflow: hidden;
-}
-.note img,
-.note video {
-    width: 100%;
-}
-.note-title {
-    height: 27%;
-    max-height: 52px;
-    margin: 0;
-    padding-bottom: 15px;
-    overflow: hidden;
-    font-weight: 600;
-}
-.note-body {
-    height: 75%;
-    margin-top: 5px;
-    overflow: hidden;
-    line-height: 1.5;
-    font-weight: 300;
-}
-
-.fa-file-image-o,
-.fa-file-video-o {
-    font-size: 15em;
-    margin-left: 6%;
-}
-
-.fa-circle {
-    position: absolute;
-    bottom: 1%;
-    right: 7%;
-    color: #fff;
-    z-index: 1;
-}
-
-
-/********** NOTES WRITE SCREEN **********/
-
-.fa-arrow-left {
-    padding-right: 4px;
-}
-
-#note-title-input {
-    padding-top: 10px !important;
-    margin-bottom: 10px;
-}
-
-#note-body-container {
-    position: relative;
-    height: 200px;
-}
-
-#note-body-input {
-    padding-top: 15px !important;
-    height: 200px;
-    padding-right: 60px;
-}
-
-.fa-lightbulb-o {
-    color: #006699;
-    position: absolute;
-    top: -1%;
-    right: 0%;
-    padding: 10px 20px;
-}
-.fa-lightbulb-o:hover {
-    color: #79ADC2;
-}
-.sentence-starter {
-    background: #79ADC2;
-    width: 100%;
-    text-align: left;
-    border-radius: 0;
-}
-.sentence-starter:hover{
-    background: #fff;
-}
-#note-write-screen button.close {
-    border: none;
-}
-
-#note-details .modal-content,
-#sentence-starter-modal .modal-content {
-    border-radius: 0;
-    border: 2px solid #006699;
-}
-
-#note-details .note-author {
-    padding-top: 10px;
-    color: #006699;
-}
-
-.photo-wrapper {
-    display: inline-block;
-    margin-left: 5px;
-}
-
-#notes-write-screen .media-container {
-    position: relative;
-    display: inline-block;
-    width: 255px;
-    height: 255px;          /* maybe rethink this in regards to aspect ratio */
-    margin: 5px 2px 0px 2px;
-}
-#notes-write-screen .media {
-    width: 250px;
-    height: 250px;          /* maybe rethink this in regards to aspect ratio */
-}
-#notes-write-screen .close-btn {
-    position: absolute;
-    top: 2%;
-    right: 5%;
-    color: red;
-}
-
-#note-btn-container {
-    position: relative;
-    margin-top: 20px;
-}
-.camera-icon-label {
-    width: 60px;
-}
-#note-btn-container .fa-spinner {
-    font-size: 6em;
-    position: absolute;
-    z-index: 999;
-    top: -3%;
-    color: #006699;
-    background: #fff;
-}
-
 
 /********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/
 

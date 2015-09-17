@@ -20,7 +20,7 @@
     videoTemplate: "#video-note-template",
 
     events: {
-      'click'   : 'editNote'
+      'click' : 'editNote'
     },
 
     initialize: function () {
@@ -39,16 +39,15 @@
       app.hideAllContainers();
 
       app.notesWriteView.model = view.model;
-      // app.notesWriteView.model.wake(app.config.wakeful.url);
       jQuery('#notes-write-screen').removeClass('hidden');
       app.notesWriteView.render();
     },
 
     render: function () {
       var view = this,
-        note = view.model,
-        listItemTemplate,
-        listItem;
+          note = view.model,
+          listItemTemplate,
+          listItem;
 
       // different types - different notes
       //if (note.get('type') === "text") {
@@ -127,7 +126,7 @@
     },
 
     events: {
-      'click #nav-write-btn'         : 'createNote'
+      'click #nav-write-btn' : 'createNote'
     },
 
     createNote: function(ev) {
@@ -397,16 +396,24 @@
 
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
-      // TODO: add in dropdowns and media
-      // do we need to clear it out first?
+      // TODO: add in dropdowns
       jQuery('#note-media-container').html('');
       view.model.get('media').forEach(function(url) {
         view.appendOneMedia(url);
       });
+
+      // check is this user is allowed to edit this note
+      if (app.username !== view.model.get('author')) {
+        jQuery('#notes-write-screen .editable').addClass('disabled');
+      } else {
+        jQuery('#notes-write-screen .editable').removeClass('disabled');
+      }
     }
   });
 
 
+
+// TODO: delete me!
   /**
     ProjectMediaView
   **/
