@@ -215,6 +215,7 @@
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
+          'media': [],
           'published': false
         }
       });

@@ -172,7 +172,7 @@ textarea {
     float: right;
 }
 
-/********** P R O J E C T **********/
+/********** NOTES **********/
 
 #note-write-screen,
 #note-read-screen {
@@ -181,11 +181,6 @@ textarea {
     /*height: calc(100% - 50px);*/
     padding-top: 50px;
 }
-/*#note-write-screen .inner-wrapper,
-#note-read-screen .inner-wrapper {
-    height: calc(100% - 50px);
-}*/
-
 .notes h2 {
     color: #006699;
 }
@@ -323,7 +318,7 @@ textarea {
 }
 
 
-/********** P R O J E C T  R E A D  S C R E E N **********/
+/********** NOTES READ SCREEN **********/
 
 #note-read-screen .inner-wrapper {
     height: 100%;
@@ -396,65 +391,47 @@ textarea {
     margin-left: 6%;
 }
 
-#note-read-screen .fa-star-o,
-#note-read-screen .fa-star {
-    bottom: 0;
-}
 .fa-circle {
     position: absolute;
     bottom: 1%;
     right: 7%;
     color: #fff;
     z-index: 1;
-
 }
 
 
-/********** P R O J E C T  W R I T E  S C R E E N **********/
+/********** NOTES WRITE SCREEN **********/
 
 .fa-arrow-left {
     padding-right: 4px;
 }
 
 #note-title-input {
-    margin-bottom: 25px;
+    padding-top: 10px !important;
+    margin-bottom: 10px;
 }
 
 #note-body-container {
-    height: 250px;           /* random choice, change however you'd like */
-    margin-bottom: 25px;
+    position: relative;
+    height: 200px;
 }
 
 #note-body-input {
-    height: 250px;
+    padding-top: 15px !important;
+    height: 200px;
     padding-right: 60px;
 }
 
 .fa-lightbulb-o {
     color: #006699;
     position: absolute;
-    top: 25%;
-    right: 2%;
+    top: -1%;
+    right: 0%;
     padding: 10px 20px;
 }
 .fa-lightbulb-o:hover {
     color: #79ADC2;
 }
-
-.fa-star-o,
-.fa-star {
-    color: #fedf00;
-    position: absolute;
-    bottom: 25%;
-    right: 1%;
-    padding: 10px 20px;
-    z-index: 999;
-}
-.fa-star-o:hover,
-.fa-star:hover {
-    color: #ffff66;
-}
-
 .sentence-starter {
     background: #79ADC2;
     width: 100%;
@@ -479,72 +456,62 @@ textarea {
     color: #006699;
 }
 
-/********** P R O J E C T  M E D I A  S C R E E N **********/
-
-#note-media-upload-container {
-    /*height: 250px;*/
-    margin-bottom: 25px;
-    height: 100%;
-}
-.photo-wrapper,
-.self-photo-query {
-    display: inline-block;
-}
-#note-media-upload-container input[type=file] {
-    margin: 15px 0 0 55px;
-}
 .photo-wrapper {
-    /*width: 37%;*/
-    max-width: 300px;
-    max-height: 400px;
-    /*overflow: hidden;*/
+    display: inline-block;
+    margin-left: 5px;
 }
-#note-media-upload-container video,
-#note-media-upload-container img {
-    width: 100%;
-    max-height: 400px;
+#notes-write-screen .media-container {
+    position: relative;
+    display: inline-block;
+    width: 255px;
+    height: 255px;          /* maybe rethink this in regards to aspect ratio */
+    margin: 5px 2px 0px 2px;
 }
-.fa-spinner {
-    font-size: 14em;
+#notes-write-screen .media {
+    width: 250px;
+    height: 250px;          /* maybe rethink this in regards to aspect ratio */
+}
+#notes-write-screen .close-btn {
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    color: red;
+}
+
+#note-btn-container {
+    position: relative;
+    margin-top: 20px;
+}
+.camera-icon-label {
+    width: 60px;
+}
+#note-btn-container .fa-spinner {
+    font-size: 6em;
     position: absolute;
     z-index: 999;
-    top: 13%;
-    left: 6%;
+    top: -3%;
     color: #006699;
     background: #fff;
 }
-.fa-play-circle {
+/*#note-media-upload-container input[type=file] {
+    margin: 15px 0 0 55px;
+}*/
+/*#note-media-upload-container video,
+#note-media-upload-container img {
+    width: 100%;
+    max-height: 400px;
+}*/
+/*.fa-play-circle {
     position: absolute;
     margin-top: 25px;
     left: 125px;
-}
-.self-photo-query {
-    width: 50%;
-    height: 100%;
-    vertical-align: top;
-    margin-top: 10%;
-}
-#note-media-upload-container .fa-star-o,
-#note-media-upload-container .fa-star {
-    top: 0;
-}
-#note-media-upload-container h3 {
+}*/
+/*#note-media-upload-container h3 {
     text-align: center;
-}
-#self-originator-btn,
-#others-originator-btn {
-    display: block;
-    margin: 0 auto;
-    margin-top: 25px;
-    background: #79ADC2;
 }
 #notes-media-screen .selected {
     background: #99ff00 !important;
-}
-#self-originator-btn:hover,
-#others-originator-btn:hover {
-    background: #fff;
-}
+}*/
 
 
 /********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/

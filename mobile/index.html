@@ -234,8 +234,17 @@
                     <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
                     <textarea id="note-body-input" class="input-field" name="body"></textarea>
                 </div>
-                <button class="add-media-btn fa fa-picture-o fa-3x btn-circular"></button>
-                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+
+                <div id="note-media-container"></div>
+
+                <div id="note-btn-container">
+                    <div class="photo-wrapper">
+                       <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                    </div>
+                    <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                </div>
             </div>
         </div>
 
