@@ -373,6 +373,19 @@ textarea {
 }
 
 
+
+/********** R E V I E W **********/
+#chi-test-screen {
+    height: 100%;
+
+}
+#chi-test-screen iframe {
+    width: 100%;
+    height: calc(100% - 70px);
+    margin-top: 60px;
+}
+
+
 /********** R E V I E W **********/
 
 .review h2 {
