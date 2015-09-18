@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
+    <link href="../bower_components/polymer/polymer.html" rel="import">
+
+
+    <link rel="import" href="elements/test-app.html">
+    <link rel="import" href="elements/wallcology-selector.html">
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -222,13 +227,14 @@
     <!-- Notes Write Screen -->
     <div id="notes-write-screen" class="container-fluid user-screen notes">
         <div class="row">
-            <div>
-                SPECIES SELECTOR GOES HERE
-            </div>
             <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+              <div>
+<template is="dom-bind" id="app"><test-app></test-app></template>
+
+              </div>
                 <textarea id="note-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
                 <div id="note-body-container">
                     <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
