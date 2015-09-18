@@ -47,6 +47,7 @@
       var view = this,
           note = view.model,
           noteType,
+          firstMediaUrl,
           listItemTemplate,
           listItem;
 
@@ -54,9 +55,10 @@
       if (note.get('media').length === 0) {
         noteType = "text";
       } else if (note.get('media').length > 0) {
-        if (app.photoOrVideo(note.get('media')[0]) === "photo") {
+        firstMediaUrl = note.get('media')[0];
+        if (app.photoOrVideo(firstMediaUrl) === "photo") {
           noteType = "photo";
-        } else if (app.photoOrVideo(note.get('media')[0]) === "video") {
+        } else if (app.photoOrVideo(firstMediaUrl) === "video") {
           noteType = "video";
         } else {
           throw "Unknown media file type!";
@@ -78,14 +80,14 @@
           view.$el.addClass('photo-note-container');
         }
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
       } else if (noteType === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-note-container')) {
           view.$el.addClass('video-note-container');
         }
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
       }
       else {
         throw "Unknown note type!";
@@ -380,7 +382,16 @@
     },
 
     appendOneMedia: function(url) {
-      var el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media"></img><i class="fa fa-times fa-2x close-btn" data-url="'+url+'"/></span>'
+      var el;
+
+      if (app.photoOrVideo(url) === "photo") {
+        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media img-responsive"></img><i class="fa fa-times fa-2x close-btn" data-url="'+url+'"/></span>';
+      } else if (app.photoOrVideo(url) === "video") {
+        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x close-btn" data-url="'+url+'"/></span>';
+      } else {
+        el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
+        throw "Error trying to append media - unknown media type!";
+      }
       jQuery('#note-media-container').append(el);
     },
 

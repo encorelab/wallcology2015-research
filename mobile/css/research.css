@@ -268,14 +268,6 @@ textarea {
     margin-left: 6%;
 }
 
-.fa-circle {
-    position: absolute;
-    bottom: 1%;
-    right: 7%;
-    color: #fff;
-    z-index: 1;
-}
-
 #note-details .modal-content,
 #sentence-starter-modal .modal-content {
     border-radius: 0;
@@ -350,12 +342,12 @@ textarea {
     position: relative;
     display: inline-block;
     width: 255px;
-    height: 255px;          /* maybe rethink this in regards to aspect ratio */
+    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
     margin: 5px 2.5px 0px 2.5px;
 }
 #notes-write-screen .media {
     width: 255px;
-    height: 255px;          /* maybe rethink this in regards to aspect ratio */
+    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
 }
 #notes-write-screen .close-btn {
     position: absolute;
@@ -746,7 +738,7 @@ input:disabled {
     }
     .fa-file-image-o,
     .fa-file-video-o {
-        font-size: 13em;
+        font-size: 12em;
         margin-left: 5%;
     }
 
