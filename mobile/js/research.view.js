@@ -46,39 +46,50 @@
     render: function () {
       var view = this,
           note = view.model,
+          noteType,
           listItemTemplate,
           listItem;
 
-      // different types - different notes
-      //if (note.get('type') === "text") {
-        // if class is not set do it
+      // determine what kind of note this is, ie what kind of template do we want to use
+      if (note.get('media').length === 0) {
+        noteType = "text";
+      } else if (note.get('media').length > 0) {
+        if (app.photoOrVideo(note.get('media')[0]) === "photo") {
+          noteType = "photo";
+        } else if (app.photoOrVideo(note.get('media')[0]) === "video") {
+          noteType = "video";
+        } else {
+          throw "Unknown media file type!";
+        }
+      } else {
+        throw "Unknown note type!";
+      }
+
+      if (noteType === "text") {
+        //if class is not set do it
         if (!view.$el.hasClass('note-container')) {
           view.$el.addClass('note-container');
         }
-
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body') });
-      //}
-      // else if (note.get('type') === "media" && app.photoOrVideo(note.get('url')) === "photo") {
-      //   // if class is not set do it
-      //   if (!view.$el.hasClass('photo-note-container')) {
-      //     view.$el.addClass('photo-note-container');
-      //   }
-
-      //   listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-      //   listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
-      // } else if (note.get('type') === "media" && app.photoOrVideo(note.get('url')) === "video") {
-      //   // if class is not set do it
-      //   if (!view.$el.hasClass('video-note-container')) {
-      //     view.$el.addClass('video-note-container');
-      //   }
-
-      //   listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-      //   listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
-      // }
-      // else {
-      //   throw "Unknown note type!";
-      // }
+      } else if (noteType === "photo") {
+        // if class is not set do it
+        if (!view.$el.hasClass('photo-note-container')) {
+          view.$el.addClass('photo-note-container');
+        }
+        listItemTemplate = _.template(jQuery(view.photoTemplate).text());
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+      } else if (noteType === "video") {
+        // if class is not set do it
+        if (!view.$el.hasClass('video-note-container')) {
+          view.$el.addClass('video-note-container');
+        }
+        listItemTemplate = _.template(jQuery(view.videoTemplate).text());
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'url': app.config.pikachu.url + note.get('url') });
+      }
+      else {
+        throw "Unknown note type!";
+      }
 
       // Add the newly generated DOM elements to the vies's part of the DOM
       view.$el.html(listItem);

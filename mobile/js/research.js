@@ -108,8 +108,7 @@
           var currentUser = app.users.findWhere({username: app.username});
 
           if (currentUser) {
-            //jQuery('.username-display a').text(app.runId+' - '+currentUser.get('display_name'));
-            jQuery('.username-display a').text(app.runId+"'s class");
+            jQuery('.username-display a').text(app.runId+"'s class - "+currentUser.get('display_name'));
 
             hideLogin();
             showUsername();
@@ -426,7 +425,7 @@
         app.username = user.get('username');
 
         jQuery.cookie('brainstorm_mobile_username', app.username, { expires: 1, path: '/' });
-        jQuery('.username-display a').text(user.get('display_name'));
+        jQuery('.username-display a').text(app.runId+"'s class - "+user.get('display_name'));
 
         hideLogin();
         hideUserLoginPicker();
@@ -693,8 +692,8 @@
     app.project.wake(app.config.wakeful.url);
 
     // note that this is done again in newProjectView (think about making this awake?)
-    app.groupname = p.get('name');
-    jQuery('.username-display a').text(app.groupname);
+    //app.groupname = p.get('name');
+    //jQuery('.username-display a').text(app.groupname);
 
     // Render here?
     app.notesReadView.render();
