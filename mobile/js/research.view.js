@@ -62,7 +62,7 @@
         } else if (app.photoOrVideo(firstMediaUrl) === "video") {
           noteType = "video";
         } else {
-          throw "Unknown media file type!";
+          jQuery().toastmessage('showErrorToast', "You have uploaded a file that is not a supported file type! How did you manage to sneak it in there? Talk to Colin to resolve the issue...");
         }
       } else {
         throw "Unknown note type!";
@@ -75,6 +75,8 @@
         }
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body') });
+        // Add the newly generated DOM elements to the views's part of the DOM
+        view.$el.html(listItem);
       } else if (noteType === "photo") {
         // if class is not set do it
         if (!view.$el.hasClass('photo-note-container')) {
@@ -82,6 +84,8 @@
         }
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
+        // Add the newly generated DOM elements to the views's part of the DOM
+        view.$el.html(listItem);
       } else if (noteType === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-note-container')) {
@@ -89,13 +93,12 @@
         }
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
+        // Add the newly generated DOM elements to the views's part of the DOM
+        view.$el.html(listItem);
       }
       else {
         throw "Unknown note type!";
       }
-
-      // Add the newly generated DOM elements to the vies's part of the DOM
-      view.$el.html(listItem);
 
       return view;
     }
