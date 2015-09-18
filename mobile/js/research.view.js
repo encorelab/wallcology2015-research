@@ -9,6 +9,7 @@
   var Model = this.Skeletor.Model;
   Skeletor.Model = Model;
   app.View = {};
+  var MAX_FILE_SIZE = 20971520;
 
 
   /**
@@ -271,46 +272,52 @@
       var formData = new FormData();
       formData.append('file', file);
 
-      jQuery('#photo-upload-spinner').removeClass('hidden');
-      jQuery('.upload-icon').addClass('invisible');
-      jQuery('.publish-note-btn').addClass('disabled');
+      if (file.size < MAX_FILE_SIZE) {
+        jQuery('#photo-upload-spinner').removeClass('hidden');
+        jQuery('.upload-icon').addClass('invisible');
+        jQuery('.publish-note-btn').addClass('disabled');
 
-      jQuery.ajax({
-        url: app.config.pikachu.url,
-        type: 'POST',
-        success: success,
-        error: failure,
-        data: formData,
-        cache: false,
-        contentType: false,
-        processData: false
-      });
+        jQuery.ajax({
+          url: app.config.pikachu.url,
+          type: 'POST',
+          success: success,
+          error: failure,
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false
+        });
 
-      function failure(err) {
-        jQuery('#photo-upload-spinner').addClass('hidden');
-        jQuery('.upload-icon').removeClass('invisible');
-        jQuery('.publish-note-btn').removeClass('disabled');
-        jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
-      }
+        function failure(err) {
+          jQuery('#photo-upload-spinner').addClass('hidden');
+          jQuery('.upload-icon').removeClass('invisible');
+          jQuery('.publish-note-btn').removeClass('disabled');
+          jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
+        }
 
-      function success(data, status, xhr) {
-        jQuery('#photo-upload-spinner').addClass('hidden');
-        jQuery('.upload-icon').removeClass('invisible');
-        jQuery('.publish-note-btn').removeClass('disabled');
-        console.log("UPLOAD SUCCEEDED!");
-        console.log(xhr.getAllResponseHeaders());
+        function success(data, status, xhr) {
+          jQuery('#photo-upload-spinner').addClass('hidden');
+          jQuery('.upload-icon').removeClass('invisible');
+          jQuery('.publish-note-btn').removeClass('disabled');
+          console.log("UPLOAD SUCCEEDED!");
+          console.log(xhr.getAllResponseHeaders());
 
-        // clear out the label value if they for some reason want to upload the same thing...
+          // clear out the label value if they for some reason want to upload the same thing...
+          jQuery('.upload-icon').val('');
+
+          // update the model
+          var mediaArray = view.model.get('media');
+          mediaArray.push(data.url);
+          view.model.set('media', mediaArray);
+          view.model.save();
+          // update the view (TODO: bind this to an add event, eg do it right)
+          view.appendOneMedia(data.url);
+        }
+      } else {
+        jQuery().toastmessage('showErrorToast', "Max file size of 20MB exceeded");
         jQuery('.upload-icon').val('');
-
-        // update the model
-        var mediaArray = view.model.get('media');
-        mediaArray.push(data.url);
-        view.model.set('media', mediaArray);
-        view.model.save();
-        // update the view (TODO: bind this to an add event, eg do it right)
-        view.appendOneMedia(data.url);
       }
+
     },
 
     checkForAutoSave: function(ev) {
