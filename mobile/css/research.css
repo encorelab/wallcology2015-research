@@ -231,6 +231,9 @@ textarea {
     outline: 2px solid #006699;
     background: #fff;
 }
+.notes-list .myNote {
+    outline: 2px dashed #006699;
+}
 .notes-list > li:last-child {
     margin-bottom: 45px;
 }

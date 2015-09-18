@@ -75,8 +75,6 @@
         }
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body') });
-        // Add the newly generated DOM elements to the views's part of the DOM
-        view.$el.html(listItem);
       } else if (noteType === "photo") {
         // if class is not set do it
         if (!view.$el.hasClass('photo-note-container')) {
@@ -84,8 +82,6 @@
         }
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
-        // Add the newly generated DOM elements to the views's part of the DOM
-        view.$el.html(listItem);
       } else if (noteType === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-note-container')) {
@@ -93,12 +89,18 @@
         }
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
-        // Add the newly generated DOM elements to the views's part of the DOM
-        view.$el.html(listItem);
       }
       else {
         throw "Unknown note type!";
       }
+
+      // add the myNote class if needed
+      if (note.get('author') === app.username) {
+        view.$el.addClass('myNote');
+      }
+
+      // Add the newly generated DOM elements to the views's part of the DOM
+      view.$el.html(listItem);
 
       return view;
     }
