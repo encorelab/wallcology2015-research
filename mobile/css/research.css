@@ -43,11 +43,6 @@ textarea {
     width: 100%;
     padding: 25px 2% 1%;
 }
-#review-details-screen textarea {
-    padding: 1% 2%;
-    height: 75px;
-}
-
 
 /********** R E S E A R C H **********/
 
@@ -206,6 +201,19 @@ textarea {
     background: #79ADC2;
 }
 
+.note-type-selector-container {
+    width: 130px;
+    height: 35px;
+    color: white;
+}
+.note-type-selector-container select {
+    background-color: #006699;
+}
+.note-type-selector-container select:hover {
+    background-color: #79ADC2;
+}
+
+
 /********** NOTES READ SCREEN **********/
 
 #notes-read-screen .inner-wrapper {
@@ -232,7 +240,7 @@ textarea {
     background: #fff;
 }
 .notes-list .myNote {
-    outline: 2px dashed #006699;
+    outline: 2px dashed #006699;            /* overwrites standard border */
 }
 .notes-list > li:last-child {
     margin-bottom: 45px;
@@ -284,29 +292,30 @@ textarea {
 
 /********** NOTES WRITE SCREEN **********/
 
+.fa-arrow-left {
+    padding-right: 4px;
+}
+
 #notes-write-screen .inner-wrapper {
     height: 85%;
     overflow-y: scroll;
     margin-top: 5px;
 }
 
-.fa-arrow-left {
-    padding-right: 4px;
-}
-
 #note-title-input {
+    height: 45px;
     padding-top: 10px !important;
     margin-bottom: 10px;
 }
 
 #note-body-container {
     position: relative;
-    height: 200px;
+    height: 160px;
 }
 
 #note-body-input {
     padding-top: 15px !important;
-    height: 200px;
+    height: 160px;
     padding-right: 60px;
 }
 
@@ -489,6 +498,11 @@ textarea {
     padding-left: 0;
     color: #555;
     overflow: initial;
+}
+
+#review-details-screen textarea {
+    padding: 1% 2%;
+    height: 75px;
 }
 
 /********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/

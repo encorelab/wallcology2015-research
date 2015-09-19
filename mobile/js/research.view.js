@@ -292,35 +292,35 @@
           contentType: false,
           processData: false
         });
-
-        function failure(err) {
-          jQuery('#photo-upload-spinner').addClass('hidden');
-          jQuery('.upload-icon').removeClass('invisible');
-          jQuery('.publish-note-btn').removeClass('disabled');
-          jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
-        }
-
-        function success(data, status, xhr) {
-          jQuery('#photo-upload-spinner').addClass('hidden');
-          jQuery('.upload-icon').removeClass('invisible');
-          jQuery('.publish-note-btn').removeClass('disabled');
-          console.log("UPLOAD SUCCEEDED!");
-          console.log(xhr.getAllResponseHeaders());
-
-          // clear out the label value if they for some reason want to upload the same thing...
-          jQuery('.upload-icon').val('');
-
-          // update the model
-          var mediaArray = view.model.get('media');
-          mediaArray.push(data.url);
-          view.model.set('media', mediaArray);
-          view.model.save();
-          // update the view (TODO: bind this to an add event, eg do it right)
-          view.appendOneMedia(data.url);
-        }
       } else {
         jQuery().toastmessage('showErrorToast', "Max file size of 20MB exceeded");
         jQuery('.upload-icon').val('');
+      }
+
+      function failure(err) {
+        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-note-btn').removeClass('disabled');
+        jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
+      }
+
+      function success(data, status, xhr) {
+        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-note-btn').removeClass('disabled');
+        console.log("UPLOAD SUCCEEDED!");
+        console.log(xhr.getAllResponseHeaders());
+
+        // clear out the label value if they for some reason want to upload the same thing...
+        jQuery('.upload-icon').val('');
+
+        // update the model
+        var mediaArray = view.model.get('media');
+        mediaArray.push(data.url);
+        view.model.set('media', mediaArray);
+        view.model.save();
+        // update the view (TODO: bind this to an add event, eg do it right)
+        view.appendOneMedia(data.url);
       }
 
     },
@@ -363,15 +363,16 @@
       var view = this;
       var title = jQuery('#note-title-input').val();
       var body = jQuery('#note-body-input').val();
+      var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
 
       // TODO: check if dropdowns are satisfied
-      if (title.length > 0 && body.length > 0) {
+      if (title.length > 0 && body.length > 0 && noteType.length > 0) {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
-        // TODO: make these reflect dropdowns, species, if necessary
-        view.model.set('topic_tag', "relationships");
+        // TODO: make these reflect dropdowns, species, etc
+        view.model.set('note_type_tag', noteType);
         view.model.set('habitat_tag', 1);
         view.model.set('species_tags', "this will be an array");
         view.model.set('modified_at', new Date());
@@ -384,7 +385,7 @@
         view.switchToReadView();
       } else {
         // TODO: append for dropdowns
-        jQuery().toastmessage('showErrorToast', "You need to complete both fields to submit your note...");
+        jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
     },
 
@@ -428,6 +429,7 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
+      jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
       // TODO: add in dropdowns

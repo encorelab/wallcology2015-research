@@ -95,10 +95,6 @@
             </div>
         </div>
     </script>
-
-    <script id="chunk-list-template" type="text/template">
-        <div class='btn chunk-edit-btn type-<%= type %>' data-id='<%= _id %>'><%= body %></div>
-    </script>
 </head>
 
 <body>
@@ -215,9 +211,19 @@
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2 editable">
-                <!-- <div>
-                    SPECIES SELECTOR GOES HERE
-                </div> -->
+                <div class="selector-container">
+                    <span class="species-selector-container">SPECIES SELECTOR GOES HERE</span>
+                    <span class="note-type-selector-container">
+                        <select class="note-type-selector">
+                            <option value=""></option>
+                            <option value="Species">Species</option>
+                            <option value="Relationships">Relationships</option>
+                            <option value="Habitats">Habitats</option>
+                            <option value="Issues">Issues</option>
+                        </select>
+                    </span>
+
+                </div>
                 <textarea id="note-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
                 <div id="note-body-container">
                     <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
