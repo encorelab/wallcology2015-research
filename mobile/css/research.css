@@ -201,6 +201,9 @@ textarea {
     background: #79ADC2;
 }
 
+.selector-container {
+    height: 90px;
+}
 .note-type-selector-container {
     width: 130px;
     height: 35px;

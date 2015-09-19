@@ -165,6 +165,7 @@
         console.log("Starting a new note...");
         m = new Model.Note();
         m.set('author', app.username);
+        m.set('note_type_tag', "Note Type");        // set to the default
         m.wake(app.config.wakeful.url);
         m.save();
         view.collection.add(m);
@@ -249,12 +250,18 @@
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
       // 'click .cancel-note-btn'            : 'cancelNote',
+      'change .note-type-selector'        : 'updateNoteType',         // TODO: confirm this binding doens't leak out of this view
       'change #photo-file'                : 'uploadMedia',
       'click .close-btn'                  : 'removeOneMedia',
       'click .publish-note-btn'           : 'publishNote',
       'click #lightbulb-icon'             : 'showSentenceStarters',
       'click .sentence-starter'           : 'appendSentenceStarter',
       'keyup :input'                      : 'checkForAutoSave'
+    },
+
+    updateNoteType: function(ev) {
+      var view = this;
+      view.model.set('note_type_tag', jQuery('#notes-write-screen .note-type-selector :selected').val());
     },
 
     showSentenceStarters: function() {
@@ -366,13 +373,12 @@
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
 
       // TODO: check if dropdowns are satisfied
-      if (title.length > 0 && body.length > 0 && noteType.length > 0) {
+      if (title.length > 0 && body.length > 0 && noteType.length !== "Note Type") {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
         // TODO: make these reflect dropdowns, species, etc
-        view.model.set('note_type_tag', noteType);
         view.model.set('habitat_tag', 1);
         view.model.set('species_tags', "this will be an array");
         view.model.set('modified_at', new Date());
