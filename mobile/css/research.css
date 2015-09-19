@@ -732,9 +732,6 @@ input:disabled {
     .fa-circle {
         bottom: 1.5%;
     }
-    #note-media-upload-container {
-        margin-left: 15%;
-    }
     .self-photo-query {
         margin-left: 8%;
     }
@@ -746,9 +743,6 @@ input:disabled {
     .poster-chunk .fa-star {
         bottom: -1%;
         right: -2%;
-    }
-    #media-chunk-media-holder + div {
-        text-align: left;
     }
 }
 

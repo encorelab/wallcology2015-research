@@ -43,7 +43,6 @@
   app.chiTestView = null;
   app.notesReadView = null;
   app.notesWriteView = null;
-  app.projectMediaView = null;
   app.projectNewPosterView = null;
   app.reviewsView = null;
   app.reviewDetailsView = null;
@@ -260,13 +259,6 @@
          collection: Skeletor.Model.awake.notes
        });
      }
-
-     // if (app.projectMediaView === null) {
-     //   app.projectMediaView = new app.View.ProjectMediaView({
-     //     el: '#project-media-screen',
-     //     collection: Skeletor.Model.awake.notes
-     //   });
-     // }
 
      if (app.projectNewPosterView === null) {
        app.projectNewPosterView = new app.View.ProjectNewPosterView({
