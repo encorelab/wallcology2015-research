@@ -364,7 +364,7 @@ textarea {
     width: 255px;
     height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
 }
-#notes-write-screen .close-btn {
+#notes-write-screen .remove-btn {
     position: absolute;
     top: 2%;
     right: 5%;
@@ -387,7 +387,10 @@ textarea {
     background: #fff;
 }
 
-
+/* TODO: THIS NEEDS A LOT OF WORK ACROSS VARIOUS DEVICES */
+#photo-modal .photo-content {
+    max-width: 100%;
+}
 
 /********** R E V I E W **********/
 #chi-test-screen {
@@ -533,7 +536,7 @@ textarea {
 }
 
 
-/********** G L O B A L **********/
+/********** GLOBAL **********/
 
 body, html {
     /*height: calc(100% - 50px);*/
@@ -572,6 +575,13 @@ ul {
     opacity: 0.7;
 }
 
+.uneditable {
+    pointer-events: none;
+    cursor: default;
+    background-color: #BDBDC1;
+    opacity: 0.7;
+}
+
 .hidden {
     display: none;
 }
@@ -604,11 +614,11 @@ ul {
     transform: translate(-50%, -50%);
 }
 
-/********** M O D A L S **********/
+/********** MODALS **********/
 /*for vertical centering; had to add .table & .table-cell divs to html*/
 .table {
     display: table;
-    height:100%;
+    height: 100%;
 }
 .table-cell {
     display: table-cell;
@@ -616,7 +626,7 @@ ul {
 }
 
 
-/********** N A V B A R **********/
+/********** NAVBAR **********/
 
 .navbar-inverse .navbar-nav>.active>a {
     background-image: -webkit-linear-gradient(to bottom,#3c3c3c 0,#222 100%);
@@ -663,7 +673,7 @@ input:disabled {
 }
 
 
-/********** M E D I A  Q U E R I E S **********/
+/********** MEDIA QUERIES **********/
 
 /* Extra small devices (phones, less than 768px) */
 @media all and (max-width: 767px) {
@@ -671,7 +681,6 @@ input:disabled {
     .side-nav .btn-circular {
         margin-left: 15px !important;
     }
-
 }
 
 /*Small devices PORTRAIT (tablets, more than 768px tall)*/

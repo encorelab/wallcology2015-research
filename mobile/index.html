@@ -210,10 +210,10 @@
             <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2 editable">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container">SPECIES SELECTOR GOES HERE</span>
-                    <span class="note-type-selector-container pull-right">
+                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
                             <option value="Note Type">Note Type</option>
                             <option value="Species">Species</option>
@@ -224,15 +224,15 @@
                     </span>
 
                 </div>
-                <textarea id="note-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
+                <textarea id="note-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
                 <div id="note-body-container">
-                    <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
-                    <textarea id="note-body-input" class="input-field" name="body"></textarea>
+                    <i id="lightbulb-icon editable" class="fa fa-lightbulb-o fa-4x"></i>
+                    <textarea id="note-body-input" class="input-field editable" name="body"></textarea>
                 </div>
 
                 <div id="note-media-container"></div>
 
-                <div id="note-btn-container">
+                <div id="note-btn-container" class="editable">
                     <div class="photo-wrapper">
                        <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
                        <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
@@ -259,6 +259,23 @@
                                 <div><button class="btn sentence-starter">We just found out that... </button></div>
                                 <div><button class="btn sentence-starter">Something that doesn't make sense is... </button></div>
                                 <div><button class="btn sentence-starter">We conclude that... </button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="photo-content" />
                             </div>
                         </div>
                     </div>

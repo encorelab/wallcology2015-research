@@ -252,10 +252,11 @@
       // 'click .cancel-note-btn'            : 'cancelNote',
       'change .note-type-selector'        : 'updateNoteType',         // TODO: confirm this binding doens't leak out of this view
       'change #photo-file'                : 'uploadMedia',
-      'click .close-btn'                  : 'removeOneMedia',
+      'click .remove-btn'                 : 'removeOneMedia',
       'click .publish-note-btn'           : 'publishNote',
       'click #lightbulb-icon'             : 'showSentenceStarters',
       'click .sentence-starter'           : 'appendSentenceStarter',
+      'click .photo-container'            : 'openPhotoModal',
       'keyup :input'                      : 'checkForAutoSave'
     },
 
@@ -266,6 +267,11 @@
 
     showSentenceStarters: function() {
       jQuery('#sentence-starter-modal').modal({keyboard: true, backdrop: true});
+    },
+
+    openPhotoModal: function(ev) {
+      jQuery('#photo-modal .photo-content').attr('src', jQuery(ev.target).attr('src'));
+      jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
     },
 
     appendSentenceStarter: function(ev) {
@@ -373,7 +379,7 @@
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
 
       // TODO: check if dropdowns are satisfied
-      if (title.length > 0 && body.length > 0 && noteType.length !== "Note Type") {
+      if (title.length > 0 && body.length > 0 && noteType !== "Note Type") {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
@@ -387,7 +393,7 @@
 
         view.model = null;
         jQuery('.input-field').val('');
-        // TODO: clear the other fields (dropdowns, media)
+        // TODO: clear the other fields (dropdowns, media)?
         view.switchToReadView();
       } else {
         // TODO: append for dropdowns
@@ -404,9 +410,9 @@
       var el;
 
       if (app.photoOrVideo(url) === "photo") {
-        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media img-responsive"></img><i class="fa fa-times fa-2x close-btn" data-url="'+url+'"/></span>';
+        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media photo-container img-responsive"></img><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
       } else if (app.photoOrVideo(url) === "video") {
-        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x close-btn" data-url="'+url+'"/></span>';
+        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
       } else {
         el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
         throw "Error trying to append media - unknown media type!";
@@ -446,8 +452,10 @@
 
       // check is this user is allowed to edit this note
       if (app.username !== view.model.get('author')) {
+        jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
         jQuery('#notes-write-screen .editable').addClass('disabled');
       } else {
+        jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#notes-write-screen .editable').removeClass('disabled');
       }
     }
