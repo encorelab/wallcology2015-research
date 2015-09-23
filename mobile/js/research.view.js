@@ -95,7 +95,10 @@
       }
 
       // add the myNote class if needed
-      if (note.get('author') === app.username) {
+      if (note.get('note_type_tag') === "Big Idea") {
+        view.$el.addClass('classNote');
+
+      } else if (note.get('author') === app.username) {
         view.$el.addClass('myNote');
       }
 
@@ -202,12 +205,7 @@
         noteModel.wake(app.config.wakeful.url);
 
         // This is necessary to avoid Backbone putting all HTML into an empty div tag
-        var noteContainer = null;
-        if (noteModel.get('originator') === "self") {
-          noteContainer = jQuery('<li class="note-container self col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
-        } else {
-          noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
-        }
+        var noteContainer = noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
 
         var noteView = new app.View.Note({el: noteContainer, model: noteModel});
         var listToAddTo = view.$el.find('.notes-list');
@@ -387,6 +385,9 @@
       // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0 && noteType !== "Note Type") {
         app.clearAutoSaveTimer();
+        if (noteType === "Big Idea") {
+          view.model.set('author',"Class Note");
+        }
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
@@ -462,12 +463,12 @@
       });
 
       // check is this user is allowed to edit this note
-      if (app.username !== view.model.get('author')) {
-        jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
-        jQuery('#notes-write-screen .editable').addClass('disabled');
-      } else {
+      if (view.model.get('author') === app.username || view.model.get('note_type_tag') === "Big Idea") {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#notes-write-screen .editable').removeClass('disabled');
+      } else {
+        jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
+        jQuery('#notes-write-screen .editable').addClass('disabled');
       }
     }
   });

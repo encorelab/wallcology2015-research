@@ -245,6 +245,9 @@ textarea {
 .notes-list .myNote {
     outline: 2px dashed #006699;            /* overwrites standard border */
 }
+.notes-list .classNote {
+    outline: 2px solid #DB67E6;
+}
 .notes-list > li:last-child {
     margin-bottom: 45px;
 }
@@ -384,6 +387,7 @@ textarea {
     top: 2%;
     right: 5%;
     color: red;
+    z-index: 999;
 }
 
 #note-btn-container {
