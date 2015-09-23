@@ -404,6 +404,10 @@ textarea {
 #photo-modal .photo-content {
     max-width: 100%;
 }
+#photo-modal .download-photo-btn {
+    background: white;
+    border-radius: 4px;
+}
 
 /********** R E V I E W **********/
 #chi-test-screen {

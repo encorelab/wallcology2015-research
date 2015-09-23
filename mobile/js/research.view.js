@@ -270,7 +270,13 @@
     },
 
     openPhotoModal: function(ev) {
-      jQuery('#photo-modal .photo-content').attr('src', jQuery(ev.target).attr('src'));
+      var view = this;
+      var url = jQuery(ev.target).attr('src');
+      //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
+      //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
+      jQuery('#photo-modal .photo-content').attr('src', url);
+      jQuery('#photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#photo-modal .download-photo-btn a').attr('download',fileName);
       jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
     },
 

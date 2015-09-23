@@ -282,21 +282,12 @@
   };
 
 
-  //*************** MAIN FUNCTIONS (RENAME ME) ***************//
-
-  // Functions related to Write screen
-
-
-  // Functions related to Read screen
-
-
-
   //*************** HELPER FUNCTIONS ***************//
 
   app.photoOrVideo = function(url) {
     var type = null;
 
-    var extension = url.split('.').pop().toLowerCase();
+    var extension = app.parseExtension(url);
     if (extension === "jpg" || extension === "gif" || extension === "jpeg" || extension === "png") {
       type = "photo";
     } else if (extension === "mp4" || extension === "m4v" || extension === "mov") {
@@ -307,6 +298,11 @@
 
     return type;
   };
+
+  app.parseExtension = function(url) {
+    //url.split('.').pop().toLowerCase();
+    return url.substr(url.lastIndexOf('.') + 1).toLowerCase();
+  }
 
   var idToTimestamp = function(id) {
     var timestamp = id.substring(0,8);
