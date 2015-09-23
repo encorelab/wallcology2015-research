@@ -279,9 +279,11 @@ textarea {
 .note-url {
     height: 66%;
     margin-top: 5px;
+    overflow-y: hidden;
 }
 .note-url img {
-    height: 100%;
+    width: 100%;
+    /*height: 100%;*/
 }
 .note-author {
     float: right;
@@ -289,12 +291,12 @@ textarea {
     margin-right: 10%;
 }
 
-.fa-file-image-o,
+/*.fa-file-image-o,
 .fa-file-video-o {
-    font-size: 15em;
-    margin-left: 6%;
+    font-size: 9em;
+    margin-left: 21%;
 }
-
+*/
 #note-details .modal-content,
 #sentence-starter-modal .modal-content {
     border-radius: 0;
@@ -753,13 +755,13 @@ input:disabled {
     .note-body {
         height: 57%;                /* TODO: this is guesswork, check me on the ipad */;
     }
-    .note-url {
+    /*.note-url {
         height: 57%;
-    }
+    }*/
     .fa-file-image-o,
     .fa-file-video-o {
-        font-size: 11em;
-        margin-left: 14px;
+        font-size: 5em;
+        margin-left: 14px;                  /* TODO check me in ipad */
     }
     .fa-circle {
         bottom: 1.5%;
@@ -794,8 +796,8 @@ input:disabled {
     }
     .fa-file-image-o,
     .fa-file-video-o {
-        font-size: 12em;
-        margin-left: 5%;
+        font-size: 9em;
+        margin-left: 21%;
     }
 
     .note h3 {
