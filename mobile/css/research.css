@@ -261,7 +261,7 @@ textarea {
     width: 100%;
 }
 .note-title {
-    height: 27%;
+    height: 22%;
     max-height: 52px;
     margin: 0;
     padding-bottom: 15px;
@@ -269,11 +269,24 @@ textarea {
     font-weight: 600;
 }
 .note-body {
-    height: 75%;
+    height: 66%;
     margin-top: 5px;
     overflow: hidden;
     line-height: 1.5;
     font-weight: 300;
+}
+/* TODO: this need work - see img-responsive */
+.note-url {
+    height: 66%;
+    margin-top: 5px;
+}
+.note-url img {
+    height: 100%;
+}
+.note-author {
+    float: right;
+    margin-top: 5px;
+    margin-right: 10%;
 }
 
 .fa-file-image-o,
@@ -731,10 +744,13 @@ input:disabled {
         height: 87%;
     }
     .note-title {
-        height: 23%;
+        height: 18%;
     }
     .note-body {
-        height: 69%;
+        height: 57%;                /* TODO: this is guesswork, check me on the ipad */;
+    }
+    .note-url {
+        height: 57%;
     }
     .fa-file-image-o,
     .fa-file-video-o {

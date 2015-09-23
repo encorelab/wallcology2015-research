@@ -74,21 +74,21 @@
           view.$el.addClass('note-container');
         }
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body') });
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
       } else if (noteType === "photo") {
         // if class is not set do it
         if (!view.$el.hasClass('photo-note-container')) {
           view.$el.addClass('photo-note-container');
         }
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
       } else if (noteType === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-note-container')) {
           view.$el.addClass('video-note-container');
         }
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl });
+        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
       }
       else {
         throw "Unknown note type!";
