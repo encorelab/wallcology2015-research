@@ -406,6 +406,7 @@
       jQuery('#notes-read-screen').removeClass('hidden');
     },
 
+    // TODO: this can be done more cleanly/backbonely with views for the media containers
     appendOneMedia: function(url) {
       var el;
 
@@ -418,6 +419,10 @@
         throw "Error trying to append media - unknown media type!";
       }
       jQuery('#note-media-container').append(el);
+
+      // one lightweight way of doing captions for this wallcology
+      var noteBodyText = jQuery('#note-body-input').val();
+      jQuery('#note-body-input').val(noteBodyText + '\n\nMedia caption: ');
     },
 
     removeOneMedia: function(ev) {
