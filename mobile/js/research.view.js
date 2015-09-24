@@ -260,7 +260,23 @@
 
     updateNoteType: function(ev) {
       var view = this;
-      view.model.set('note_type_tag', jQuery('#notes-write-screen .note-type-selector :selected').val());
+      var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
+      view.model.set('note_type_tag', noteType);
+
+      // use this to populate the dropdown as well?
+      // put this in mongo at some point (and add to readme)
+      var sentenceStarters = {
+        "Species": ["We wonder...","We just found out that...","Something that doesn't make sense is...","We conclude that..."],
+        "Relationships": ["Rel1...","Rel2...","Rel3...","Rel4..."]
+      };
+      jQuery('#sentence-starter-modal .modal-body').html('');
+      if (sentenceStarters[noteType]) {
+        _.each(sentenceStarters[noteType], function(s) {
+          jQuery('#sentence-starter-modal .modal-body').append('<div><button class="btn sentence-starter">'+s+'</button></div>');
+        });
+      } else {
+        console.error('No sentence starters for this note type!');
+      }
     },
 
     showSentenceStarters: function() {
