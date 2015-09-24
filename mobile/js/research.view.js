@@ -121,6 +121,12 @@
       var view = this;
       console.log('Initializing NotesReadView...', view.el);
 
+      // populate the dropdown
+      jQuery('#notes-read-screen .note-type-selector').html('');
+      _.each(app.noteTypes, function(k, v) {
+        jQuery('#notes-read-screen .note-type-selector').append('<option value="'+v+'">'+v+'</option>');
+      });
+
       /* We should not have to listen to change on collection but on add. However, due to wakefulness
       ** and published false first we would see the element with add and see it getting created. Also not sure
       ** how delete would do and so on.
@@ -148,7 +154,14 @@
     },
 
     events: {
-      'click #nav-write-btn' : 'createNote'
+      'click #nav-write-btn'              : 'createNote',
+      'change .note-type-selector'        : 'filterNoteType'
+    },
+
+    filterNoteType: function(ev) {
+      var view = this;
+      var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
+      console.log(noteType);
     },
 
     createNote: function(ev) {
@@ -243,6 +256,12 @@
     initialize: function() {
       var view = this;
       console.log('Initializing NotesWriteView...', view.el);
+
+      // populate the dropdown (maybe move this since, it'll be used a lot of places)
+      jQuery('#notes-write-screen .note-type-selector').html('');
+      _.each(app.noteTypes, function(k, v) {
+        jQuery('#notes-write-screen .note-type-selector').append('<option value="'+v+'">'+v+'</option>');
+      });
     },
 
     events: {
@@ -263,15 +282,9 @@
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
       view.model.set('note_type_tag', noteType);
 
-      // use this to populate the dropdown as well?
-      // put this in mongo at some point (and add to readme)
-      var sentenceStarters = {
-        "Species": ["We wonder...","We just found out that...","Something that doesn't make sense is...","We conclude that..."],
-        "Relationships": ["Rel1...","Rel2...","Rel3...","Rel4..."]
-      };
       jQuery('#sentence-starter-modal .modal-body').html('');
-      if (sentenceStarters[noteType]) {
-        _.each(sentenceStarters[noteType], function(s) {
+      if (app.noteTypes[noteType]) {
+        _.each(app.noteTypes[noteType], function(s) {
           jQuery('#sentence-starter-modal .modal-body').append('<div><button class="btn sentence-starter">'+s+'</button></div>');
         });
       } else {

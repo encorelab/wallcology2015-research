@@ -50,6 +50,16 @@
   app.keyCount = 0;
   app.autoSaveTimer = window.setTimeout(function() { } ,10);
 
+  // put this in mongo at some point (and add to readme)
+  app.noteTypes = {
+    "Note Type": [],
+    "Species": ["We wonder...","We just found out that...","Something that doesn't make sense is...","We conclude that..."],
+    "Relationships": ["Rel1...","Rel2...","Rel3...","Rel4..."],
+    "Habitats": ["Hab1...","Hab2...","Hab3...","Hab4...","Hab5"],
+    "Issues": ["Iss1...","Iss2...","Iss3...","Iss4...","Iss5"],
+    "Big Idea": ["BI1...","BI2..."],
+  };
+
   app.init = function() {
     /* CONFIG */
     app.loadConfig('../config.json');

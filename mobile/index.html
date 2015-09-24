@@ -201,6 +201,14 @@
         </div>
         <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div class="selector-container">
+                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="note-type-selector-container pull-right editable">
+                        <select class="note-type-selector">
+                            <!-- filled by view -->
+                        </select>
+                    </span>
+                </div>
                 <ul class="row notes-list"></ul>
                 <!-- gets filled by the readScreenView -->
             </div>
@@ -218,15 +226,9 @@
                     <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
-                            <option value="Note Type">Note Type</option>
-                            <option value="Species">Species</option>
-                            <option value="Relationships">Relationships</option>
-                            <option value="Habitats">Habitats</option>
-                            <option value="Issues">Issues</option>
-                            <option value="Big Idea">Big Idea</option>
+                            <!-- filled by view -->
                         </select>
                     </span>
-
                 </div>
                 <textarea id="note-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
                 <div id="note-body-container">
