@@ -290,8 +290,10 @@ textarea {
 }
 .note-author {
     float: right;
-    margin-top: 5px;
-    margin-right: 10%;
+    margin-top: 12px;
+    margin-right: 3%;
+    line-height: 1.5;
+    font-weight: 300;
 }
 
 /*.fa-file-image-o,

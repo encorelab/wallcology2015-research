@@ -385,9 +385,9 @@
       // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0 && noteType !== "Note Type") {
         app.clearAutoSaveTimer();
-        if (noteType === "Big Idea") {
-          view.model.set('author',"Class Note");
-        }
+        // if (noteType === "Big Idea") {
+        //   view.model.set('author',"Class Note");
+        // }
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
@@ -398,10 +398,11 @@
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
+        view.switchToReadView();
+
+        // TODO: clear the other fields (dropdowns, media)?
         view.model = null;
         jQuery('.input-field').val('');
-        // TODO: clear the other fields (dropdowns, media)?
-        view.switchToReadView();
       } else {
         // TODO: append for dropdowns
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
@@ -409,8 +410,15 @@
     },
 
     switchToReadView: function() {
+      var view = this;
       app.hideAllContainers();
       jQuery('#notes-read-screen').removeClass('hidden');
+      // needs to unlock on back button as well
+      if (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === app.username) {
+        view.model.set('write_lock', "");
+        view.model.set('author','Class Note');
+        view.model.save();
+      }
     },
 
     // TODO: this can be done more cleanly/backbonely with views for the media containers
@@ -463,9 +471,14 @@
       });
 
       // check is this user is allowed to edit this note
-      if (view.model.get('author') === app.username || view.model.get('note_type_tag') === "Big Idea") {
+      if (view.model.get('author') === app.username || (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === "")) {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#notes-write-screen .editable').removeClass('disabled');
+        if (view.model.get('note_type_tag') === "Big Idea") {
+          view.model.set('write_lock', app.username);
+          view.model.set('author', app.users.findWhere({username: app.username}).get('display_name')+' is editing...');
+          view.model.save();
+        }
       } else {
         jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
         jQuery('#notes-write-screen .editable').addClass('disabled');
