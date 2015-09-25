@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
+    <link href="../bower_components/polymer/polymer.html" rel="import">
+
+
+    <link rel="import" href="../../bower_components/wallcology-selector/test-app.html">
+    <link rel="import" href="../../bower_components/wallcology-selector/wallcology-selector.html">
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -43,33 +48,36 @@
     <script type="text/javascript" src="js/research.view.js"></script>
 
     <!-- Templates -->
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="text-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-body" data-id=<%= id %>><%= body %></div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+                <div class="note-body" data-id=<%= id %>><%= body %></div>
+            </div>
     </script>
 
-<!-- ADD AUTHOR! -->
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="photo-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-url" data-id=<%= id %>>
-                <img src=<%= url %> data-id=<%= id %> />
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="note-url" data-id=<%= id %>>
+                    <img src=<%= url %> data-id=<%= id %> />
+                </div>
             </div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
     </script>
 
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="video-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-url" data-id=<%= id %>>
-                <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="note-url" data-id=<%= id %>>
+                    <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+                </div>
             </div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
     </script>
     <!-- <video src=<%= url %> data-id=<%= id %>></video> -->
 
@@ -98,6 +106,10 @@
             </div>
         </div>
     </script>
+
+    <script id="chunk-list-template" type="text/template">
+        <div class='btn chunk-edit-btn type-<%= type %>' data-id='<%= _id %>'><%= body %></div>
+    </script>
 </head>
 
 <body>
@@ -118,7 +130,6 @@
                 <ul class="nav navbar-nav top-navigation">
                     <!-- <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li> -->
                     <li id="notes-nav-btn" class="goto-notes-btn top-nav-btn"><a href="#">Notes</a></li>
-                    <li id="relationships-nav-btn" class="goto-relationships-btn top-nav-btn"><a href="#">Food Web</a></li>
                     <!-- <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li> -->
                     <li id="chi-test-nav-btn" class="goto-chi-test-btn top-nav-btn"><a href="#">Chi-test</a></li>
                 </ul>
@@ -141,191 +152,10 @@
                 <h2>What would you like to work on today?</h2>
                 <!-- <button class="goto-proposal-btn todo-btn btn btn-base">PROPOSAL</button> -->
                 <button class="goto-notes-btn todo-btn btn btn-base">NOTES</button>
-                <button class="goto-relationships-btn todo-btn btn btn-base">FOOD WEB</button>
                 <!-- <button class="goto-review-btn todo-btn btn btn-base">REVIEW</button> -->
             </div>
         </div>
     </div>
-
-    <!-- Notes Read Screen -->
-    <div id="notes-read-screen" class="container-fluid user-screen notes">
-        <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
-                <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
-                    <span class="note-type-selector-container pull-right editable">
-                        <select class="note-type-selector">
-                            <!-- filled by view -->
-                        </select>
-                    </span>
-                </div>
-                <ul class="row notes-list"></ul>
-                <!-- gets filled by the readScreenView -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Notes Write Screen -->
-    <div id="notes-write-screen" class="container-fluid user-screen notes">
-        <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
-                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
-            </div>
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
-                    <span class="note-type-selector-container pull-right editable">
-                        <select class="note-type-selector">
-                            <!-- filled by view -->
-                        </select>
-                    </span>
-                </div>
-                <textarea id="note-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
-                <div id="note-body-container">
-                    <i id="lightbulb-icon" class="fa fa-lightbulb-o fa-4x editable"></i>
-                    <textarea id="note-body-input" class="input-field editable" name="body"></textarea>
-                </div>
-
-                <div id="note-media-container"></div>
-
-                <div id="note-btn-container" class="editable">
-                    <div class="photo-wrapper">
-                       <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
-                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
-                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
-                    </div>
-                    <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- putting the modal in here since it's conceptually part of the view (collection, click listeners etc as well) -->
-        <div id="sentence-starter-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
-            <div class="table">
-                <div class="table-cell">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Select a sentence starter to use in your note</h4>
-                            </div>
-                            <div class="modal-body">
-                                <!-- filled in the view updateNoteType -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
-            <div class="table">
-                <div class="table-cell">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <!-- NB: not supported by Safari or IE. And FF makes a mess of it. -->
-                                <button class="download-photo-btn"><a href="unknown-url" download="unknown-file-name">Download this!</a></button>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <img class="photo-content" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Relationships Read Screen -->
-    <div id="relationships-read-screen" class="container-fluid user-screen relationships">
-        <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
-                <button id="nav-relationship-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
-                    <span class="relationship-type-selector-container pull-right editable">
-                        <select class="relationship-type-selector">
-                            <!-- filled by view -->
-                        </select>
-                    </span>
-                </div>
-                <ul class="row relationships-list"><!-- gets filled by the readView --></ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Relationships Write Screen -->
-    <div id="relationships-write-screen" class="container-fluid user-screen relationships">
-        <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
-                <button class="nav-relationship-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
-            </div>
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
-                </div>
-                <textarea id="relationship-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
-                <div id="relationship-body-container">
-                    <textarea id="relationship-body-input" class="input-field editable" name="body"></textarea>
-                </div>
-
-                <div id="relationship-media-container"></div>
-
-                <div id="relationship-btn-container" class="editable">
-                    <div class="photo-wrapper">
-                       <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
-                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
-                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
-                    </div>
-                    <button class="publish-relationship-btn btn-circular fa fa-check fa-3x pull-right"></button>
-                </div>
-            </div>
-        </div>
-
-        <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
-            <div class="table">
-                <div class="table-cell">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <!-- NB: not supported by Safari or IE. And FF makes a mess of it. -->
-                                <button class="download-photo-btn"><a href="unknown-url" download="unknown-file-name">Download this!</a></button>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <img class="photo-content" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chi-Test Screen -->
-    <div id="chi-test-screen" class="container-fluid user-screen">
-        <iframe src="http://ltg.evl.uic.edu:57880/wallcology/default/runs/wallcology-population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=default"></iframe>
-    </div>
-
-
-
-
-
-
-
-
 
 
     <!-- Proposal Screen -->
@@ -367,6 +197,107 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Chi-Test Screen -->
+    <div id="chi-test-screen" class="container-fluid user-screen">
+        <div class="row">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <!-- <iframe src="http://ltg.evl.uic.edu:57880/wallcology/default/runs/wallcology-relationships/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=default"></iframe> -->
+                <!-- <iframe src="http://www.encorelab.org"></iframe> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Read Screen -->
+    <div id="notes-read-screen" class="container-fluid user-screen notes">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <ul class="row notes-list"></ul>
+                <!-- gets filled by the readScreenView -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Write Screen -->
+    <div id="notes-write-screen" class="container-fluid user-screen notes">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+              <div>
+<template is="dom-bind" id="app"><test-app></test-app></template>
+
+              </div>
+                <textarea id="note-title-input" class="input-field" name="title" placeholder="Untitled Note"></textarea>
+                <div id="note-body-container">
+                    <i class="fa fa-lightbulb-o fa-4x" id="lightbulb-icon"></i>
+                    <textarea id="note-body-input" class="input-field" name="body"></textarea>
+                </div>
+                <button class="add-media-btn fa fa-picture-o fa-3x btn-circular"></button>
+                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+            </div>
+        </div>
+
+        <!-- putting the modal in here since it's conceptually part of the view (collection, click listeners etc as well) -->
+        <div id="sentence-starter-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Select a sentence starter to use in your note</h4>
+                            </div>
+                            <div class="modal-body">
+                                <!-- no reason for these to be buttons, switch to whatever -->
+                                <div><button class="btn sentence-starter">We wonder... </button></div>
+                                <div><button class="btn sentence-starter">We just found out that... </button></div>
+                                <div><button class="btn sentence-starter">Something that doesn't make sense is... </button></div>
+                                <div><button class="btn sentence-starter">We conclude that... </button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Project Media Screen -->
+    <div id="project-media-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div id="note-media-upload-container">
+                    <div class="photo-wrapper">
+                       <label for="photo-file" class="camera-icon-label"><img src="img/camera-icon.png" class="camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="photo-file" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <!-- this is shown while the file is being uploaded, needs to be styled to sit on top -->
+                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                       <!-- <img id="photo-upload-spinner" class="hidden" src="img/loading.gif" alt="photo upload spinner" /> -->
+                       <!-- <button id="play-video-btn" class="fa fa-play-circle fa-3x btn-circular"></button> -->
+                    </div>
+                    <div class="self-photo-query">
+                        <h3>Is this a drawing, model, or other form of representation that you constructed yourself?</h3>
+                        <button id="self-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="self">Yes</button>
+                        <button id="others-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="other">No</button>
+                    </div>
+                </div>
+                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-note-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+            </div>
+        </div>
+    </div>
+
 
     <!-- Project New Poster Screen -->
     <div id="project-new-poster-screen" class="container-fluid user-screen project">
