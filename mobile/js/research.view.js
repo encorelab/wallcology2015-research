@@ -34,6 +34,8 @@
       return view;
     },
 
+
+    // TODO: this will need to deal with relationships now
     editNote: function(ev) {
       var view = this;
 
@@ -97,12 +99,11 @@
       // add the myNote class if needed
       if (note.get('note_type_tag') === "Big Idea") {
         view.$el.addClass('classNote');
-
       } else if (note.get('author') === app.username) {
         view.$el.addClass('myNote');
       }
 
-      // Add the newly generated DOM elements to the views's part of the DOM
+      // Add the newly generated DOM elements to the view's part of the DOM
       view.$el.html(listItem);
 
       return view;
@@ -533,12 +534,6 @@
       var view = this;
       console.log('Initializing RelationshipsReadView...', view.el);
 
-      // populate the dropdown
-      jQuery('#relationships-read-screen .relationship-type-selector').html('');
-      _.each(app.relationshipTypes, function(k, v) {
-        jQuery('#relationships-read-screen .relationship-type-selector').append('<option value="'+v+'">'+v+'</option>');
-      });
-
       view.collection.on('change', function(n) {
         if (n.get('published') === true) {
           view.addOne(n);
@@ -556,8 +551,7 @@
     },
 
     events: {
-      'click #nav-relationship-write-btn'         : 'createRelationship',
-      'change .relationship-type-selector'        : 'render'
+      'click #nav-relationship-write-btn'         : 'createRelationship'
     },
 
     createRelationship: function(ev) {
@@ -598,9 +592,9 @@
         relationshipModel.wake(app.config.wakeful.url);
 
         // This is necessary to avoid Backbone putting all HTML into an empty div tag
-        var relationshipContainer = jQuery('<li class="relationship-container col-xs-12 col-sm-4 col-lg-3" data-id="'+relationshipModel.id+'"></li>');
+        var noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+relationshipModel.id+'"></li>');
 
-        var relationshipView = new app.View.Relationship({el: relationshipContainer, model: relationshipModel});
+        var relationshipView = new app.View.Note({el: noteContainer, model: relationshipModel});
         var listToAddTo = view.$el.find('.relationships-list');
         listToAddTo.prepend(relationshipView.render().el);
       } else {
@@ -664,10 +658,10 @@
       var url = jQuery(ev.target).attr('src');
       //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
       //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
-      jQuery('#photo-modal .photo-content').attr('src', url);
-      jQuery('#photo-modal .download-photo-btn a').attr('href',url);
-      //jQuery('#photo-modal .download-photo-btn a').attr('download',fileName);
-      jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
+      jQuery('#relationship-photo-modal .photo-content').attr('src', url);
+      jQuery('#relationship-photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#relationship-photo-modal .download-photo-btn a').attr('download',fileName);
+      jQuery('#relationship-photo-modal').modal({keyboard: true, backdrop: true});
     },
 
     uploadMedia: function() {
@@ -678,7 +672,7 @@
       formData.append('file', file);
 
       if (file.size < MAX_FILE_SIZE) {
-        jQuery('#photo-upload-spinner').removeClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').removeClass('hidden');
         jQuery('.upload-icon').addClass('invisible');
         jQuery('.publish-relationship-btn').addClass('disabled');
 
@@ -698,14 +692,14 @@
       }
 
       function failure(err) {
-        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
       }
 
       function success(data, status, xhr) {
-        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         console.log("UPLOAD SUCCEEDED!");

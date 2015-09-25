@@ -296,22 +296,6 @@ textarea {
     font-weight: 300;
 }
 
-/*.fa-file-image-o,
-.fa-file-video-o {
-    font-size: 9em;
-    margin-left: 21%;
-}
-*/
-#note-details .modal-content,
-#sentence-starter-modal .modal-content {
-    border-radius: 0;
-    border: 2px solid #006699;
-}
-
-#note-details .note-author {
-    padding-top: 10px;
-    color: #006699;
-}
 
 /********** NOTES WRITE SCREEN **********/
 
@@ -417,7 +401,20 @@ textarea {
     border-radius: 4px;
 }
 
-/********** R E V I E W **********/
+
+
+
+/********** RELATIONSHIPS ************/
+#relationship-photo-modal .photo-content {
+    max-width: 100%;
+}
+#relationship-photo-modal .download-photo-btn {
+    background: white;
+    border-radius: 4px;
+}
+
+
+/********** CHI-TEST **********/
 #chi-test-screen {
     height: 100%;
 

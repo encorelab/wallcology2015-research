@@ -255,13 +255,10 @@
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
                     <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
-                    <span class="relationship-type-selector-container pull-right editable">
-                        <select class="relationship-type-selector">
-                            <!-- filled by view -->
-                        </select>
-                    </span>
                 </div>
-                <ul class="row relationships-list"><!-- gets filled by the readView --></ul>
+                <ul class="row relationships-list">
+                    <!-- gets filled by the readView -->
+                </ul>
             </div>
         </div>
     </div>
@@ -285,16 +282,16 @@
 
                 <div id="relationship-btn-container" class="editable">
                     <div class="photo-wrapper">
-                       <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
-                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
-                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                       <label for="relationship-photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="relationship-photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <i id="relatioship-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
                     </div>
                     <button class="publish-relationship-btn btn-circular fa fa-check fa-3x pull-right"></button>
                 </div>
             </div>
         </div>
 
-        <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+        <div id="relationship-photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
             <div class="table">
                 <div class="table-cell">
                     <div class="modal-dialog">
