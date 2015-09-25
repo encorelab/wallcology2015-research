@@ -118,6 +118,7 @@
                 <ul class="nav navbar-nav top-navigation">
                     <!-- <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li> -->
                     <li id="notes-nav-btn" class="goto-notes-btn top-nav-btn"><a href="#">Notes</a></li>
+                    <li id="relationships-nav-btn" class="goto-relationships-btn top-nav-btn"><a href="#">Food Web</a></li>
                     <!-- <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li> -->
                     <li id="chi-test-nav-btn" class="goto-chi-test-btn top-nav-btn"><a href="#">Chi-test</a></li>
                 </ul>
@@ -140,56 +141,10 @@
                 <h2>What would you like to work on today?</h2>
                 <!-- <button class="goto-proposal-btn todo-btn btn btn-base">PROPOSAL</button> -->
                 <button class="goto-notes-btn todo-btn btn btn-base">NOTES</button>
+                <button class="goto-relationships-btn todo-btn btn btn-base">FOOD WEB</button>
                 <!-- <button class="goto-review-btn todo-btn btn btn-base">REVIEW</button> -->
             </div>
         </div>
-    </div>
-
-
-    <!-- Proposal Screen -->
-    <div id="proposal-screen" class="container-fluid user-screen proposal">
-        <div class="row">
-            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
-                <button class="nav-splash-btn fa fa-arrow-left fa-3x btn-circular"></button>
-            </div>
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <h2>Write your project proposal</h2>
-                <textarea name="name" placeholder="Project title"></textarea>
-                <h3>What is (are) your main research questions?</h3>
-                <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
-                <h3>What would you need to know in order to answer your research question(s)?</h3>
-                <textarea data-nested="proposal" name="need_to_knows" placeholder="1."></textarea>
-                <button id="publish-proposal-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- New Project Screen -->
-    <div id="new-project-screen" class="container-fluid user-screen">
-        <div id="new-project-student-picker" class="row">
-            <div class="inner-wrapper col-xs-10 col-xs-offset-1">
-                <h2>Select the names of all students who will work on this project</h2>
-                <div class="project-partner-holder">
-                    <!-- populated by the view -->
-                </div>
-                <button id="submit-partners-btn" class="btn btn-base btn-default">Choose these partners</button>
-            </div>
-        </div>
-        <div id="new-project-theme-picker" class="row hidden">
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                <h2>Select the one theme that best fits your topic</h2>
-                <div class="project-theme-holder">
-                    <!-- populated by the view -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Chi-Test Screen -->
-    <div id="chi-test-screen" class="container-fluid user-screen">
-        <iframe src="http://ltg.evl.uic.edu:57880/wallcology/default/runs/wallcology-population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=default"></iframe>
     </div>
 
     <!-- Notes Read Screen -->
@@ -283,6 +238,131 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Relationships Read Screen -->
+    <div id="relationships-read-screen" class="container-fluid user-screen relationships">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button id="nav-relationship-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div class="selector-container">
+                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="relationship-type-selector-container pull-right editable">
+                        <select class="relationship-type-selector">
+                            <!-- filled by view -->
+                        </select>
+                    </span>
+                </div>
+                <ul class="row relationships-list"><!-- gets filled by the readView --></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relationships Write Screen -->
+    <div id="relationships-write-screen" class="container-fluid user-screen relationships">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
+                <button class="nav-relationship-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div class="selector-container">
+                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                </div>
+                <textarea id="relationship-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
+                <div id="relationship-body-container">
+                    <textarea id="relationship-body-input" class="input-field editable" name="body"></textarea>
+                </div>
+
+                <div id="relationship-media-container"></div>
+
+                <div id="relationship-btn-container" class="editable">
+                    <div class="photo-wrapper">
+                       <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                    </div>
+                    <button class="publish-relationship-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <!-- NB: not supported by Safari or IE. And FF makes a mess of it. -->
+                                <button class="download-photo-btn"><a href="unknown-url" download="unknown-file-name">Download this!</a></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="photo-content" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chi-Test Screen -->
+    <div id="chi-test-screen" class="container-fluid user-screen">
+        <iframe src="http://ltg.evl.uic.edu:57880/wallcology/default/runs/wallcology-population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=default"></iframe>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- Proposal Screen -->
+    <div id="proposal-screen" class="container-fluid user-screen proposal">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-splash-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Write your project proposal</h2>
+                <textarea name="name" placeholder="Project title"></textarea>
+                <h3>What is (are) your main research questions?</h3>
+                <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
+                <h3>What would you need to know in order to answer your research question(s)?</h3>
+                <textarea data-nested="proposal" name="need_to_knows" placeholder="1."></textarea>
+                <button id="publish-proposal-btn" class="btn-circular fa fa-check fa-3x pull-right"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- New Project Screen -->
+    <div id="new-project-screen" class="container-fluid user-screen">
+        <div id="new-project-student-picker" class="row">
+            <div class="inner-wrapper col-xs-10 col-xs-offset-1">
+                <h2>Select the names of all students who will work on this project</h2>
+                <div class="project-partner-holder">
+                    <!-- populated by the view -->
+                </div>
+                <button id="submit-partners-btn" class="btn btn-base btn-default">Choose these partners</button>
+            </div>
+        </div>
+        <div id="new-project-theme-picker" class="row hidden">
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <h2>Select the one theme that best fits your topic</h2>
+                <div class="project-theme-holder">
+                    <!-- populated by the view -->
                 </div>
             </div>
         </div>

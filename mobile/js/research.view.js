@@ -155,13 +155,7 @@
 
     events: {
       'click #nav-write-btn'              : 'createNote',
-      'change .note-type-selector'        : 'filterNoteType'
-    },
-
-    filterNoteType: function(ev) {
-      var view = this;
-      var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
-      console.log(noteType);
+      'change .note-type-selector'        : 'render'
     },
 
     createNote: function(ev) {
@@ -218,7 +212,7 @@
         noteModel.wake(app.config.wakeful.url);
 
         // This is necessary to avoid Backbone putting all HTML into an empty div tag
-        var noteContainer = noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
+        var noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+noteModel.id+'"></li>');
 
         var noteView = new app.View.Note({el: noteContainer, model: noteModel});
         var listToAddTo = view.$el.find('.notes-list');
@@ -226,6 +220,17 @@
       } else {
         console.log("The note with id <"+noteModel.id+"> wasn't added since it already exists in the DOM");
       }
+    },
+
+    constructFilterCriteria: function() {
+      var criteria = {published: true};
+
+      var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
+      if (noteType !== "Note Type") {
+        criteria.note_type_tag = noteType;
+      }
+
+      return criteria;
     },
 
     render: function() {
@@ -237,7 +242,7 @@
         return model.get('created_at');
       };
 
-      var myPublishedNotes = view.collection.sort().where({published: true});
+      var myPublishedNotes = view.collection.sort().where(view.constructFilterCriteria());
 
       // clear the house
       view.$el.find('.notes-list').html("");
@@ -514,6 +519,323 @@
       }
     }
   });
+
+
+  /**
+   ** RELATIONSHIP VIEWS
+   **/
+
+  /**
+    RelationshipsReadView
+  **/
+  app.View.RelationshipsReadView = Backbone.View.extend({
+    initialize: function () {
+      var view = this;
+      console.log('Initializing RelationshipsReadView...', view.el);
+
+      // populate the dropdown
+      jQuery('#relationships-read-screen .relationship-type-selector').html('');
+      _.each(app.relationshipTypes, function(k, v) {
+        jQuery('#relationships-read-screen .relationship-type-selector').append('<option value="'+v+'">'+v+'</option>');
+      });
+
+      view.collection.on('change', function(n) {
+        if (n.get('published') === true) {
+          view.addOne(n);
+        }
+      });
+
+      view.collection.on('add', function(n) {
+        // If the add fires while project not chosen yet we get an error
+        if (n.get('published') === true) {
+          view.addOne(n);
+        }
+      });
+
+      return view;
+    },
+
+    events: {
+      'click #nav-relationship-write-btn'         : 'createRelationship',
+      'change .relationship-type-selector'        : 'render'
+    },
+
+    createRelationship: function(ev) {
+      var view = this;
+      var m;
+
+      // check if we need to resume
+      // BIG NB! We use author here! This is the only place where we care about app.username (we want you only to be able to resume your own relationships)
+      var relationshipToResume = view.collection.findWhere({author: app.username, published: false});
+
+      if (relationshipToResume) {
+        // RESUME NOTE
+        console.log("Resuming...");
+        m = relationshipToResume;
+      } else {
+        // NEW NOTE
+        console.log("Starting a new relationship...");
+        m = new Model.Relationship();
+        m.set('author', app.username);
+        m.wake(app.config.wakeful.url);
+        m.save();
+        view.collection.add(m);
+      }
+
+      app.relationshipsWriteView.model = m;
+      app.relationshipsWriteView.model.wake(app.config.wakeful.url);
+
+      app.hideAllContainers();
+      jQuery('#relationships-write-screen').removeClass('hidden');
+      app.relationshipsWriteView.render();
+    },
+
+    addOne: function(relationshipModel) {
+      var view = this;
+
+      if (view.$el.find("[data-id='" + relationshipModel.id + "']").length === 0 ) {
+        // wake up the project model
+        relationshipModel.wake(app.config.wakeful.url);
+
+        // This is necessary to avoid Backbone putting all HTML into an empty div tag
+        var relationshipContainer = jQuery('<li class="relationship-container col-xs-12 col-sm-4 col-lg-3" data-id="'+relationshipModel.id+'"></li>');
+
+        var relationshipView = new app.View.Relationship({el: relationshipContainer, model: relationshipModel});
+        var listToAddTo = view.$el.find('.relationships-list');
+        listToAddTo.prepend(relationshipView.render().el);
+      } else {
+        console.log("The relationship with id <"+relationshipModel.id+"> wasn't added since it already exists in the DOM");
+      }
+    },
+
+    constructFilterCriteria: function() {
+      var criteria = {published: true};
+
+      return criteria;
+    },
+
+    render: function() {
+      var view = this;
+      console.log("Rendering RelationshipsReadView...");
+
+      // sort newest to oldest (prepend!)
+      view.collection.comparator = function(model) {
+        return model.get('created_at');
+      };
+
+      var myPublishedRelationships = view.collection.sort().where(view.constructFilterCriteria());
+
+      // clear the house
+      view.$el.find('.relationships-list').html("");
+
+      myPublishedRelationships.forEach(function (relationship) {
+        view.addOne(relationship);
+      });
+    }
+  });
+
+
+  /**
+    RelationshipsWriteView
+  **/
+  app.View.RelationshipsWriteView = Backbone.View.extend({
+    initialize: function() {
+      var view = this;
+      console.log('Initializing RelationshipsWriteView...', view.el);
+
+      // populate the dropdown (maybe move this since, it'll be used a lot of places)
+      jQuery('#relationships-write-screen .relationship-type-selector').html('');
+      _.each(app.relationshipTypes, function(k, v) {
+        jQuery('#relationships-write-screen .relationship-type-selector').append('<option value="'+v+'">'+v+'</option>');
+      });
+    },
+
+    events: {
+      'click .nav-relationship-read-btn'  : 'switchToReadView',
+      'change #photo-file'                : 'uploadMedia',
+      'click .remove-btn'                 : 'removeOneMedia',
+      'click .publish-relationship-btn'   : 'publishRelationship',
+      'click .photo-container'            : 'openPhotoModal',
+      'keyup :input'                      : 'checkForAutoSave'
+    },
+
+    openPhotoModal: function(ev) {
+      var view = this;
+      var url = jQuery(ev.target).attr('src');
+      //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
+      //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
+      jQuery('#photo-modal .photo-content').attr('src', url);
+      jQuery('#photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#photo-modal .download-photo-btn a').attr('download',fileName);
+      jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
+    },
+
+    uploadMedia: function() {
+      var view = this;
+
+      var file = jQuery('#photo-file')[0].files.item(0);
+      var formData = new FormData();
+      formData.append('file', file);
+
+      if (file.size < MAX_FILE_SIZE) {
+        jQuery('#photo-upload-spinner').removeClass('hidden');
+        jQuery('.upload-icon').addClass('invisible');
+        jQuery('.publish-relationship-btn').addClass('disabled');
+
+        jQuery.ajax({
+          url: app.config.pikachu.url,
+          type: 'POST',
+          success: success,
+          error: failure,
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false
+        });
+      } else {
+        jQuery().toastmessage('showErrorToast', "Max file size of 20MB exceeded");
+        jQuery('.upload-icon').val('');
+      }
+
+      function failure(err) {
+        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-relationship-btn').removeClass('disabled');
+        jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
+      }
+
+      function success(data, status, xhr) {
+        jQuery('#photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-relationship-btn').removeClass('disabled');
+        console.log("UPLOAD SUCCEEDED!");
+        console.log(xhr.getAllResponseHeaders());
+
+        // clear out the label value if they for some reason want to upload the same thing...
+        jQuery('.upload-icon').val('');
+
+        // update the model
+        var mediaArray = view.model.get('media');
+        mediaArray.push(data.url);
+        view.model.set('media', mediaArray);
+        view.model.save();
+        // update the view (TODO: bind this to an add event, eg do it right)
+        view.appendOneMedia(data.url);
+      }
+
+    },
+
+    checkForAutoSave: function(ev) {
+      var view = this,
+          field = ev.target.name,
+          input = ev.target.value;
+      // clear timer on keyup so that a save doesn't happen while typing
+      app.clearAutoSaveTimer();
+
+      // save after 10 keystrokes
+      app.autoSave(view.model, field, input, false);
+
+      // setting up a timer so that if we stop typing we save stuff after 5 seconds
+      app.autoSaveTimer = setTimeout(function(){
+        app.autoSave(view.model, field, input, true);
+      }, 5000);
+    },
+
+    publishRelationship: function() {
+      var view = this;
+      var title = jQuery('#relationship-title-input').val();
+      var body = jQuery('#relationship-body-input').val();
+
+      // TODO: check if dropdowns are satisfied
+      if (title.length > 0 && body.length > 0) {
+        app.clearAutoSaveTimer();
+        view.model.set('title',title);
+        view.model.set('body',body);
+        view.model.set('published', true);
+        // TODO: make these reflect dropdowns, species, etc
+        view.model.set('habitat_tag', 1);
+        view.model.set('species_tags', "this will be an array");        // TODO
+        view.model.set('modified_at', new Date());
+        view.model.save();
+        jQuery().toastmessage('showSuccessToast', "Published to the relationship wall!");
+
+        view.switchToReadView();
+
+        // TODO: clear the other fields (dropdowns, media)?
+        view.model = null;
+        jQuery('.input-field').val('');
+      } else {
+        // TODO: append for dropdowns
+        jQuery().toastmessage('showErrorToast', "You must complete both fields and select a relationship type to submit your relationship...");
+      }
+    },
+
+    switchToReadView: function() {
+      var view = this;
+      app.hideAllContainers();
+      jQuery('#relationships-read-screen').removeClass('hidden');
+    },
+
+    // TODO: this can be done more cleanly/backbonely with views for the media containers
+    appendOneMedia: function(url) {
+      var el;
+
+      if (app.photoOrVideo(url) === "photo") {
+        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media photo-container img-responsive"></img><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+      } else if (app.photoOrVideo(url) === "video") {
+        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+      } else {
+        el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
+        throw "Error trying to append media - unknown media type!";
+      }
+      jQuery('#relationship-media-container').append(el);
+
+      // one lightweight way of doing captions for this wallcology
+      var relationshipBodyText = jQuery('#relationship-body-input').val();
+      jQuery('#relationship-body-input').val(relationshipBodyText + '\n\nMedia caption: ');
+    },
+
+    removeOneMedia: function(ev) {
+      var view = this;
+      var targetUrl = jQuery(ev.target).data('url');
+      var mediaArray = view.model.get('media');
+      _.each(mediaArray, function(url, i) {
+        if (mediaArray[i] === targetUrl) {
+          mediaArray.pop(mediaArray[i]);
+        }
+      });
+      view.model.set('media', mediaArray);
+      view.model.save();
+
+      jQuery('.media-container[data-url="'+targetUrl+'"]').remove();
+      // clearing this out so the change event for this can be used (eg if they upload the same thing)
+      jQuery('.upload-icon').val('');
+    },
+
+    render: function () {
+      var view = this;
+      console.log("Rendering RelationshipsWriteView...");
+
+      jQuery('#relationship-title-input').val(view.model.get('title'));
+      jQuery('#relationship-body-input').val(view.model.get('body'));
+      // TODO: add in dropdowns
+      jQuery('#relationship-media-container').html('');
+      view.model.get('media').forEach(function(url) {
+        view.appendOneMedia(url);
+      });
+
+      // check is this user is allowed to edit this relationship
+      if (view.model.get('author') === app.username) {
+        jQuery('#relationships-write-screen .editable.input-field').removeClass('uneditable');
+        jQuery('#relationships-write-screen .editable').removeClass('disabled');
+      } else {
+        jQuery('#relationships-write-screen .editable.input-field').addClass('uneditable');
+        jQuery('#relationships-write-screen .editable').addClass('disabled');
+      }
+    }
+  });
+
+
 
 
 /**

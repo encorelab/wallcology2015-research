@@ -43,6 +43,8 @@
   app.chiTestView = null;
   app.notesReadView = null;
   app.notesWriteView = null;
+  app.relationshipsReadView = null;
+  app.relationshipsWriteView = null;
   app.projectNewPosterView = null;
   app.reviewsView = null;
   app.reviewDetailsView = null;
@@ -216,7 +218,10 @@
         if (jQuery(this).hasClass('goto-notes-btn')) {
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
-        } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
+        } else if (jQuery(this).hasClass('goto-relationships-btn')) {
+          jQuery('#relationships-nav-btn').addClass('active');
+          jQuery('#relationships-read-screen').removeClass('hidden');
+        }else if (jQuery(this).hasClass('goto-chi-test-btn')) {
           jQuery('#chi-test-nav-btn').addClass('active');
           jQuery('#chi-test-screen').removeClass('hidden');
         }
@@ -270,6 +275,20 @@
        });
      }
 
+     if (app.relationshipsReadView === null) {
+       app.relationshipsReadView = new app.View.RelationshipsReadView({
+         el: '#relationships-read-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+     }
+
+     if (app.relationshipsWriteView === null) {
+       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+         el: '#relationships-write-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+     }
+
      if (app.projectNewPosterView === null) {
        app.projectNewPosterView = new app.View.ProjectNewPosterView({
          el: '#project-new-poster-screen'
@@ -312,7 +331,7 @@
   app.parseExtension = function(url) {
     //url.split('.').pop().toLowerCase();
     return url.substr(url.lastIndexOf('.') + 1).toLowerCase();
-  }
+  };
 
   var idToTimestamp = function(id) {
     var timestamp = id.substring(0,8);
