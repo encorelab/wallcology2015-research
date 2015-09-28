@@ -420,15 +420,11 @@
       // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0 && noteType !== "Note Type") {
         app.clearAutoSaveTimer();
-        // if (noteType === "Big Idea") {
-        //   view.model.set('author',"Class Note");
-        // }
         view.model.set('title',title);
         view.model.set('body',body);
+        view.model.set('habitat_tag', document.querySelector('test-app').currentToggle.name);
+        view.model.set('species_tags', document.querySelector('test-app').selectedItems);           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
         view.model.set('published', true);
-        // TODO: make these reflect dropdowns, species, etc
-        view.model.set('habitat_tag', 1);
-        view.model.set('species_tags', "this will be an array");
         view.model.set('modified_at', new Date());
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");

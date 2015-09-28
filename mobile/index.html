@@ -48,36 +48,32 @@
     <script type="text/javascript" src="js/research.view.js"></script>
 
     <!-- Templates -->
-    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
-         WARNING: DO not change this or the code will break -->
     <script id="text-note-template" type="text/template">
-            <div class="note" data-id=<%= id %>>
-                <i class="fa fa-circle fa-3x"></i>
-                <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-                <div class="note-body" data-id=<%= id %>><%= body %></div>
-            </div>
+        <div class="note" data-id=<%= id %>>
+            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+            <div class="note-body" data-id=<%= id %>><%= body %></div>
+            <div class="note-author" data-id=<%= id %>><%= author %></div>
+        </div>
     </script>
 
-    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
-         WARNING: DO not change this or the code will break -->
     <script id="photo-note-template" type="text/template">
-            <div class="note" data-id=<%= id %>>
-                <i class="fa fa-circle fa-3x"></i>
-                <div class="note-url" data-id=<%= id %>>
-                    <img src=<%= url %> data-id=<%= id %> />
-                </div>
+        <div class="note" data-id=<%= id %>>
+            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+            <div class="note-url" data-id=<%= id %>>
+                <img src=<%= url %> data-id=<%= id %> />
             </div>
+            <div class="note-author" data-id=<%= id %>><%= author %></div>
+        </div>
     </script>
 
-    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
-         WARNING: DO not change this or the code will break -->
     <script id="video-note-template" type="text/template">
-            <div class="note" data-id=<%= id %>>
-                <i class="fa fa-circle fa-3x"></i>
-                <div class="note-url" data-id=<%= id %>>
-                    <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
-                </div>
+        <div class="note" data-id=<%= id %>>
+            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+            <div class="note-url" data-id=<%= id %>>
+                <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
             </div>
+            <div class="note-author" data-id=<%= id %>><%= author %></div>
+        </div>
     </script>
     <!-- <video src=<%= url %> data-id=<%= id %>></video> -->
 
