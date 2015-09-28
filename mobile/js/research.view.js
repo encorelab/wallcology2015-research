@@ -296,6 +296,15 @@
       } else {
         console.error('No sentence starters for this note type!');
       }
+
+      // Big Idea colour
+      if (noteType === "Big Idea") {
+        jQuery('.notes textarea').css('border', '2px solid #DB67E6');
+        jQuery('#note-body-input').attr('placeholder', 'Anyone can edit this note...');
+      } else {
+        jQuery('.notes textarea').css('border', '2px solid #006699');
+        jQuery('#note-body-input').attr('placeholder', '');
+      }
     },
 
     showSentenceStarters: function() {
@@ -373,6 +382,12 @@
         view.model.save();
         // update the view (TODO: bind this to an add event, eg do it right)
         view.appendOneMedia(data.url);
+
+        // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
+        if (mediaArray.length === 1) {
+          var noteBodyText = jQuery('#note-body-input').val();
+          jQuery('#note-body-input').val(noteBodyText + '\n\nNotes on pictures and videos: ');
+        }
       }
 
     },
@@ -465,10 +480,6 @@
         throw "Error trying to append media - unknown media type!";
       }
       jQuery('#note-media-container').append(el);
-
-      // one lightweight way of doing captions for this wallcology
-      var noteBodyText = jQuery('#note-body-input').val();
-      jQuery('#note-body-input').val(noteBodyText + '\n\nMedia caption: ');
     },
 
     removeOneMedia: function(ev) {
