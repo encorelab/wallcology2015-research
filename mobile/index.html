@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
+    <link href="../bower_components/polymer/polymer.html" rel="import">
+
+
+    <link rel="import" href="../../bower_components/wallcology-selector/test-app.html">
+    <link rel="import" href="../../bower_components/wallcology-selector/wallcology-selector.html">
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -43,33 +48,36 @@
     <script type="text/javascript" src="js/research.view.js"></script>
 
     <!-- Templates -->
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="text-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-body" data-id=<%= id %>><%= body %></div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+                <div class="note-body" data-id=<%= id %>><%= body %></div>
+            </div>
     </script>
 
-<!-- ADD AUTHOR! -->
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="photo-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-url" data-id=<%= id %>>
-                <img src=<%= url %> data-id=<%= id %> />
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="note-url" data-id=<%= id %>>
+                    <img src=<%= url %> data-id=<%= id %> />
+                </div>
             </div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
     </script>
 
+    <!-- NOTE: I took out the li from the templates and it is now generated in addOne() in research.view.js
+         WARNING: DO not change this or the code will break -->
     <script id="video-note-template" type="text/template">
-        <div class="note" data-id=<%= id %>>
-            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
-            <div class="note-url" data-id=<%= id %>>
-                <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+            <div class="note" data-id=<%= id %>>
+                <i class="fa fa-circle fa-3x"></i>
+                <div class="note-url" data-id=<%= id %>>
+                    <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+                </div>
             </div>
-            <div class="note-author" data-id=<%= id %>><%= author %></div>
-        </div>
     </script>
     <!-- <video src=<%= url %> data-id=<%= id %>></video> -->
 
@@ -98,6 +106,10 @@
             </div>
         </div>
     </script>
+
+    <script id="chunk-list-template" type="text/template">
+        <div class='btn chunk-edit-btn type-<%= type %>' data-id='<%= _id %>'><%= body %></div>
+    </script>
 </head>
 
 <body>
@@ -118,7 +130,6 @@
                 <ul class="nav navbar-nav top-navigation">
                     <!-- <li id="proposal-nav-btn" class="goto-proposal-btn top-nav-btn"><a href="#">Proposal</a></li> -->
                     <li id="notes-nav-btn" class="goto-notes-btn top-nav-btn"><a href="#">Notes</a></li>
-                    <li id="relationships-nav-btn" class="goto-relationships-btn top-nav-btn"><a href="#">Food Web</a></li>
                     <!-- <li id="review-nav-btn" class="goto-review-btn top-nav-btn"><a href="#">Review</a></li> -->
                     <li id="chi-test-nav-btn" class="goto-chi-test-btn top-nav-btn"><a href="#">Chi-test</a></li>
                 </ul>
@@ -178,7 +189,7 @@
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="species-selector-container editable pull-left"><template is="dom-bind" id="app"><test-app></test-app></template></span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
                             <!-- filled by view -->
@@ -322,9 +333,6 @@
 
 
 
-
-
-
     <!-- Proposal Screen -->
     <div id="proposal-screen" class="container-fluid user-screen proposal">
         <div class="row">
@@ -364,6 +372,35 @@
             </div>
         </div>
     </div>
+
+    <!-- Project Media Screen -->
+    <div id="project-media-screen" class="container-fluid user-screen project">
+        <div class="row">
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+                <div id="note-media-upload-container">
+                    <div class="photo-wrapper">
+                       <label for="photo-file" class="camera-icon-label"><img src="img/camera-icon.png" class="camera-icon img-responsive" alt="camera icon" /></label>
+                       <input id="photo-file" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <!-- this is shown while the file is being uploaded, needs to be styled to sit on top -->
+                       <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                       <!-- <img id="photo-upload-spinner" class="hidden" src="img/loading.gif" alt="photo upload spinner" /> -->
+                       <!-- <button id="play-video-btn" class="fa fa-play-circle fa-3x btn-circular"></button> -->
+                    </div>
+                    <div class="self-photo-query">
+                        <h3>Is this a drawing, model, or other form of representation that you constructed yourself?</h3>
+                        <button id="self-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="self">Yes</button>
+                        <button id="others-originator-btn" class="originator-btn btn btn-base btn-default" data-originator="other">No</button>
+                    </div>
+                </div>
+                <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
+                <!-- <button class="cancel-note-btn btn-circular fa fa-times fa-3x pull-right"></button> -->
+            </div>
+        </div>
+    </div>
+
 
     <!-- Project New Poster Screen -->
     <div id="project-new-poster-screen" class="container-fluid user-screen project">

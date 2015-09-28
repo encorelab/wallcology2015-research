@@ -44,6 +44,12 @@ textarea {
     padding: 25px 2% 1%;
 }
 
+
+/* TODO: this will need to bleed out to other sections - probably better to do it in the app-theme.html, if possible */
+.paper-button {
+  background: #006699 !important;
+}
+
 /********** R E S E A R C H **********/
 
 .side-nav .btn-circular {
@@ -202,11 +208,12 @@ textarea {
 }
 
 .selector-container {
-    height: 90px;
+    height: 70px;
 }
 .note-type-selector-container {
-    width: 130px;
+    width: 122px;
     height: 35px;
+    margin-top: 7px;
     color: white;
 }
 .note-type-selector-container select {
