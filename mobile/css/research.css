@@ -45,8 +45,8 @@ textarea {
 }
 
 /* TODO: this will need to bleed out to other sections - probably better to do it in the app-theme.html, if possible */
-.paper-button {
-  background: #006699 !important;
+.colorful {
+  background-color: #006699 !important;
 }
 
 /********** R E S E A R C H **********/

@@ -339,6 +339,34 @@
     return seconds;
   };
 
+  // wrappers for the species selector polymer component - spending so much time on this!
+  app.getSelectorValue = function(kind) {
+    var selectorValue;
+
+    if (kind === "habitat") {
+      selectorValue = _.clone(document.querySelector('wallcology-selector').currentToggle);
+      // since items is extremely redundant and just clutters things up
+      delete selectorValue.items;
+    } else if (kind === "species") {
+      selectorValue = document.querySelector('wallcology-selector').selectedItems;
+    } else {
+      throw "Error returning selector type";
+    }
+
+    return selectorValue;
+  };
+
+  app.setSelectorValues = function(habitatObj, speciesObj) {
+    // these will be undefined if nothing is selected from habitat/species
+    if (habitatObj && speciesObj) {
+      document.querySelector('wallcology-selector').switchToggleAndButtonSelectors(habitatObj.index, _.pluck(speciesObj, 'index'));
+    }
+  };
+
+  app.resetSelectorValue = function() {
+    document.querySelector('wallcology-selector').switchToggleAndButtonSelectors(-1, []);
+  };
+
   //TODO - parameterize all of this!
   // var connect = function(host, port, clientId) {
   //   var intervalTime = 10000;
@@ -442,7 +470,7 @@
         app.username = user.get('username');
 
         jQuery.cookie('brainstorm_mobile_username', app.username, { expires: 1, path: '/' });
-        jQuery('.username-display a').text(app.runId+"'s class - "+user.get('display_name'));
+        jQuery('.username-display a').text(app.runId+"'s class - "+app.username);
 
         hideLogin();
         hideUserLoginPicker();

@@ -176,7 +176,9 @@
         console.log("Starting a new note...");
         m = new Model.Note();
         m.set('author', app.username);
-        m.set('note_type_tag', "Note Type");        // set to the default
+        // m.set('habitat_tag', {"name": "Habitat ?", "index" -1});
+        // m.set('species_tags', []);
+        m.set('note_type_tag', "Note Type");        // set these all to the default
         m.wake(app.config.wakeful.url);
         m.save();
         view.collection.add(m);
@@ -273,7 +275,9 @@
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
       // 'click .cancel-note-btn'            : 'cancelNote',
-      'change .note-type-selector'        : 'updateNoteType',         // TODO: confirm this binding doens't leak out of this view
+      'change .note-type-selector'        : 'updateNoteType',
+      'change #ws'                        : 'updateTags',
+      'click .paper-button-0'             : 'updateTags',
       'change #photo-file'                : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
       'click .publish-note-btn'           : 'publishNote',
@@ -281,6 +285,12 @@
       'click .sentence-starter'           : 'appendSentenceStarter',
       'click .photo-container'            : 'openPhotoModal',
       'keyup :input'                      : 'checkForAutoSave'
+    },
+
+    updateTags: function() {
+      var view = this;
+      view.model.set('habitat_tag', app.getSelectorValue("habitat"));
+      view.model.set('species_tags', app.getSelectorValue("species"));           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
     },
 
     updateNoteType: function(ev) {
@@ -432,13 +442,10 @@
       var body = jQuery('#note-body-input').val();
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
 
-      // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0 && noteType !== "Note Type") {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
-        view.model.set('habitat_tag', document.querySelector('test-app').currentToggle.name);
-        view.model.set('species_tags', document.querySelector('test-app').selectedItems);           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
         view.model.save();
@@ -446,9 +453,9 @@
 
         view.switchToReadView();
 
-        // TODO: clear the other fields (dropdowns, media)?
         view.model = null;
         jQuery('.input-field').val('');
+        app.resetSelectorValue();
       } else {
         // TODO: append for dropdowns
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
@@ -503,10 +510,10 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
+      app.setSelectorValues(view.model.get('habitat_tag'), view.model.get('species_tags'));
       jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
-      // TODO: add in dropdowns
       jQuery('#note-media-container').html('');
       view.model.get('media').forEach(function(url) {
         view.appendOneMedia(url);
