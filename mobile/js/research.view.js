@@ -518,7 +518,7 @@
         jQuery('#notes-write-screen .editable').removeClass('disabled');
         if (view.model.get('note_type_tag') === "Big Idea") {
           view.model.set('write_lock', app.username);
-          view.model.set('author', app.users.findWhere({username: app.username}).get('display_name')+' is editing...');
+          view.model.set('author', app.username+' is editing...');
           view.model.save();
         }
       } else {
