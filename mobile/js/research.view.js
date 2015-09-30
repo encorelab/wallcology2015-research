@@ -455,9 +455,9 @@
 
         view.model = null;
         jQuery('.input-field').val('');
+        jQuery('.notes textarea').css('border', '2px solid #006699');         // reset in the case of Big Idea
         app.resetSelectorValue();
       } else {
-        // TODO: append for dropdowns
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
     },
