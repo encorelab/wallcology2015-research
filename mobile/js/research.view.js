@@ -156,7 +156,9 @@
 
     events: {
       'click #nav-write-btn'              : 'createNote',
-      'change .note-type-selector'        : 'render'
+      'change .note-type-selector'        : 'render',
+      'click .bug'                        : 'render',
+      'click .paper-button-0'             : 'render'        // confirm these are for this view only
     },
 
     createNote: function(ev) {
@@ -225,17 +227,6 @@
       }
     },
 
-    constructFilterCriteria: function() {
-      var criteria = {published: true};
-
-      var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
-      if (noteType !== "Note Type") {
-        criteria.note_type_tag = noteType;
-      }
-
-      return criteria;
-    },
-
     render: function() {
       var view = this;
       console.log("Rendering NotesReadView...");
@@ -245,12 +236,48 @@
         return model.get('created_at');
       };
 
-      var myPublishedNotes = view.collection.sort().where(view.constructFilterCriteria());
+      view.collection.sort().where({
+         published: true,
+         habitat_tag: {index: 1},
+         species_tags: [{index: 1}, {index: 2}]
+      })
+
+      var criteria = {published: true};
+      // if note type has pull down has a value
+      var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
+      if (noteType !== "Note Type") {
+        criteria.note_type_tag = noteType;
+      }
+      var noteTypeFilteredCollection = view.collection.sort().where(criteria);
+
+      // if a habitat has been selected
+      var habitatFilteredCollection = null;
+      if (app.getSelectorValue("habitat").index !== -1) {
+        habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
+          return model.get('habitat_tag').index === app.getSelectorValue("habitat").index;
+        });
+      } else {
+        habitatFilteredCollection = noteTypeFilteredCollection;
+      }
+
+      // if one or more species have been selected (uses AND)
+      var speciesFilteredCollection = null;
+      if (app.getSelectorValue("species").length > 0) {
+        speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
+          console.log(model);
+          // all value in selector must be in species_tags
+          if (_.difference(_.pluck(app.getSelectorValue("species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+            return model;
+          }
+        });
+      } else {
+        speciesFilteredCollection = habitatFilteredCollection;
+      }
 
       // clear the house
       view.$el.find('.notes-list').html("");
 
-      myPublishedNotes.forEach(function (note) {
+      speciesFilteredCollection.forEach(function (note) {
         view.addOne(note);
       });
     }

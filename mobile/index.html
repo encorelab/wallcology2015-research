@@ -10,7 +10,8 @@
 
 
     <link rel="import" href="../bower_components/wallcology-selector/demo/test-app.html">
-    <link rel="import" href="../bower_components/wallcology-selector/wallcology-selector.html">
+    <!-- <link href="../bower_components/nutella-connector/nutella-connector.html" rel="import"> -->
+    <!-- <link href="../bower_components/wallcology-selector/wallcology-selector.html" rel="import"> -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -23,6 +24,7 @@
 
 <!--     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon"> -->
+    <!-- <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script> -->
 
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -164,7 +166,15 @@
         <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container editable pull-left"><template is="dom-bind" id="app"><test-app></test-app></template></span>
+                    <span class="species-selector-container editable pull-left">
+                        <template is="dom-bind" id="read">
+                            <!-- <wallcology-selector id="ws" toggle-selectors="{{toggleSelectors}}" button-selectors="{{buttonSelectors}}"
+                             max-selections="4" selected-items="{{selectedItems}}"
+                             current-toggle="{{currentToggle}}">
+                            </wallcology-selector> -->
+                             <test-app></test-app>
+                        </template>
+                    </span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
                             <!-- filled by view -->
@@ -185,7 +195,11 @@
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container editable pull-left"><template is="dom-bind" id="app"><test-app></test-app></template></span>
+                    <span class="species-selector-container editable pull-left">
+                        <template is="dom-bind" id="write">
+                            <!-- <test-app></test-app> -->
+                        </template>
+                    </span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
                             <!-- filled by view -->
