@@ -250,11 +250,12 @@
       }
       var noteTypeFilteredCollection = view.collection.sort().where(criteria);
 
+      var screenId = "#notes-read-screen"
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      if (app.getSelectorValue("habitat").index !== -1) {
+      if (app.getSelectorValue(screenId, "habitat").index !== -1) {
         habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
-          return model.get('habitat_tag').index === app.getSelectorValue("habitat").index;
+          return model.get('habitat_tag').index === app.getSelectorValue(screenId, "habitat").index;
         });
       } else {
         habitatFilteredCollection = noteTypeFilteredCollection;
@@ -262,11 +263,11 @@
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
-      if (app.getSelectorValue("species").length > 0) {
+      if (app.getSelectorValue(screenId, "species").length > 0) {
         speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
           console.log(model);
           // all value in selector must be in species_tags
-          if (_.difference(_.pluck(app.getSelectorValue("species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+          if (_.difference(_.pluck(app.getSelectorValue(screenId, "species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
             return model;
           }
         });
@@ -303,7 +304,7 @@
       'click .nav-read-btn'               : 'switchToReadView',
       // 'click .cancel-note-btn'            : 'cancelNote',
       'change .note-type-selector'        : 'updateNoteType',
-      'change #ws'                        : 'updateTags',
+      'click .bug'                        : 'updateTags',
       'click .paper-button-0'             : 'updateTags',
       'change #photo-file'                : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
@@ -316,8 +317,8 @@
 
     updateTags: function() {
       var view = this;
-      view.model.set('habitat_tag', app.getSelectorValue("habitat"));
-      view.model.set('species_tags', app.getSelectorValue("species"));           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
+      view.model.set('habitat_tag', app.getSelectorValue("#notes-write-screen","habitat"));
+      view.model.set('species_tags', app.getSelectorValue("#notes-write-screen","species"));           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
     },
 
     updateNoteType: function(ev) {
@@ -483,7 +484,7 @@
         view.model = null;
         jQuery('.input-field').val('');
         jQuery('.notes textarea').css('border', '2px solid #006699');         // reset in the case of Big Idea
-        app.resetSelectorValue();
+        app.resetSelectorValue("#notes-write-screen");
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
@@ -537,7 +538,7 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
-      app.setSelectorValues(view.model.get('habitat_tag'), view.model.get('species_tags'));
+      app.setSelectorValues("#notes-write-screen", view.model.get('habitat_tag'), view.model.get('species_tags'));
       jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));

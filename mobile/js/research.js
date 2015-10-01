@@ -340,15 +340,15 @@
   };
 
   // wrappers for the species selector polymer component - spending so much time on this!
-  app.getSelectorValue = function(kind) {
+  app.getSelectorValue = function(view, kind) {
     var selectorValue;
 
     if (kind === "habitat") {
-      selectorValue = _.clone(document.querySelector('wallcology-selector').currentToggle);
+      selectorValue = _.clone(document.querySelector(view+' .ws').currentToggle);
       // since items is extremely redundant and just clutters things up
       delete selectorValue.items;
     } else if (kind === "species") {
-      selectorValue = document.querySelector('wallcology-selector').selectedItems;
+      selectorValue = document.querySelector(view+' .ws').selectedItems;
     } else {
       throw "Error returning selector type";
     }
@@ -356,15 +356,15 @@
     return selectorValue;
   };
 
-  app.setSelectorValues = function(habitatObj, speciesObj) {
+  app.setSelectorValues = function(view, habitatObj, speciesObj) {
     // these will be undefined if nothing is selected from habitat/species
     if (habitatObj && speciesObj) {
-      document.querySelector('wallcology-selector').switchToggleAndButtonSelectors(habitatObj.index, _.pluck(speciesObj, 'index'));
+      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatObj.index, _.pluck(speciesObj, 'index'));
     }
   };
 
-  app.resetSelectorValue = function() {
-    document.querySelector('wallcology-selector').switchToggleAndButtonSelectors(-1, []);
+  app.resetSelectorValue = function(view) {
+    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
   };
 
   //TODO - parameterize all of this!
