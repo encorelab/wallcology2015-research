@@ -78,7 +78,37 @@
             <div class="note-author" data-id=<%= id %>><%= author %></div>
         </div>
     </script>
-    <!-- <video src=<%= url %> data-id=<%= id %>></video> -->
+
+    <script id="text-relationship-template" type="text/template">
+        <div class="relationship" data-id=<%= id %>>
+            <h3 class="relationship-title" data-id=<%= id %>><%= title %></h3>
+            <div class="relationship-body" data-id=<%= id %>><%= body %></div>
+            <div class="relationship-author" data-id=<%= id %>><%= author %></div>
+        </div>
+    </script>
+
+    <script id="photo-relationship-template" type="text/template">
+        <div class="relationship" data-id=<%= id %>>
+            <h3 class="relationship-title" data-id=<%= id %>><%= title %></h3>
+            <div class="relationship-url" data-id=<%= id %>>
+                <img src=<%= url %> data-id=<%= id %> />
+            </div>
+            <div class="relationship-author" data-id=<%= id %>><%= author %></div>
+        </div>
+    </script>
+
+    <script id="video-relationship-template" type="text/template">
+        <div class="relationship" data-id=<%= id %>>
+            <h3 class="relationship-title" data-id=<%= id %>><%= title %></h3>
+            <div class="relationship-url" data-id=<%= id %>>
+                <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+            </div>
+            <div class="relationship-author" data-id=<%= id %>><%= author %></div>
+        </div>
+    </script>
+
+
+
 
     <script id="review-details-template" type="text/template" class="review">
         <div class="row">
@@ -157,8 +187,16 @@
         </div>
     </div>
 
+
+
+    <!-- ********************************************************* -->
+    <!-- ************************* NOTES ************************* -->
+    <!-- ********************************************************* -->
+
+
+
     <!-- Notes Read Screen -->
-    <div id="notes-read-screen" class="container-fluid user-screen notes">
+    <div id="notes-read-screen" class="container-fluid user-screen tiles">
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
                 <button id="nav-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
@@ -183,7 +221,7 @@
     </div>
 
     <!-- Notes Write Screen -->
-    <div id="notes-write-screen" class="container-fluid user-screen notes">
+    <div id="notes-write-screen" class="container-fluid user-screen tiles">
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
                 <button class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
@@ -199,7 +237,7 @@
                         </select>
                     </span>
                 </div>
-                <textarea id="note-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
+                <textarea id="note-title-input" class="input-field editable" name="title" placeholder="Headline"></textarea>
                 <div id="note-body-container">
                     <i id="lightbulb-icon" class="fa fa-lightbulb-o fa-4x editable"></i>
                     <textarea id="note-body-input" class="input-field editable" name="body"></textarea>
@@ -258,8 +296,15 @@
     </div>
 
 
+
+    <!-- ********************************************************* -->
+    <!-- ********************* RELATIONSHIPS ********************* -->
+    <!-- ********************************************************* -->
+
+
+
     <!-- Relationships Read Screen -->
-    <div id="relationships-read-screen" class="container-fluid user-screen relationships">
+    <div id="relationships-read-screen" class="container-fluid user-screen tiles">
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
                 <button id="nav-relationship-write-btn" class="fa fa-pencil fa-3x btn-circular"></button>
@@ -268,7 +313,9 @@
         <div class="row">
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="species-selector-container editable">
+                        <read-selector></read-selector>
+                    </span>
                 </div>
                 <ul class="row relationships-list">
                     <!-- gets filled by the readView -->
@@ -278,18 +325,20 @@
     </div>
 
     <!-- Relationships Write Screen -->
-    <div id="relationships-write-screen" class="container-fluid user-screen relationships">
+    <div id="relationships-write-screen" class="container-fluid user-screen tiles">
         <div class="row">
             <div class="side-nav col-xs-1 col-xs-offset-0  col-sm-2 col-sm-offset-1">
                 <button class="nav-relationship-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
-                    <span class="species-selector-container editable">SPECIES SELECTOR GOES HERE</span>
+                    <span class="species-selector-container editable">
+                        <write-selector></write-selector>
+                    </span>
                 </div>
-                <textarea id="relationship-title-input" class="input-field editable" name="title" placeholder="Untitled Note"></textarea>
+                <textarea id="relationship-title-input" class="input-field editable" name="title" placeholder="Headline"></textarea>
                 <div id="relationship-body-container">
-                    <textarea id="relationship-body-input" class="input-field editable" name="body"></textarea>
+                    <textarea id="relationship-body-input" class="input-field editable" name="body" placeholder="I know this because..."></textarea>
                 </div>
 
                 <div id="relationship-media-container"></div>
@@ -324,6 +373,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Chi-Test Screen -->
     <div id="chi-test-screen" class="container-fluid user-screen">

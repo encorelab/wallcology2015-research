@@ -44,12 +44,8 @@ textarea {
     padding: 25px 2% 1%;
 }
 
-/* TODO: this will need to bleed out to other sections - probably better to do it in the app-theme.html, if possible */
-/*.colorful {
-  background-color: #006699 !important;
-}*/
 
-/********** R E S E A R C H **********/
+/********** WALLCOLOGY **********/
 
 .side-nav .btn-circular {
     margin-left: -25px;
@@ -84,7 +80,7 @@ textarea {
     text-shadow: none;
 }
 
-/*circular buttons*/
+/* circular buttons */
 .btn-circular {
     width: 75px;
     height: 75px;
@@ -93,12 +89,13 @@ textarea {
     color: #fff;
     padding: 0;
 }
-#proposal-screen .inner-wrapper .btn-circular,
-#review-details-screen .inner-wrapper .btn-circular {
-    margin-top: 25px;
+
+/* this should be changed, depending on the final colour of the button (used in the new-notes sections), NOT SURE WE STILL USE THIS */
+.selected {
+    background: #fecc81 !important;
 }
 
-#notes-picker .modal-header {
+/*#notes-picker .modal-header {
     border-bottom: none;
 }
 #notes-picker button {
@@ -111,8 +108,6 @@ textarea {
     font-size: 16px;
     margin-bottom: 15px;
 }
-
-
 .notes-partner-holder {
     max-width: 915px;
 }
@@ -122,17 +117,299 @@ textarea {
 }
 .notes-partner-holder button:nth-child(5n) {
     margin-right: 0;
-}
-#submit-partners-btn {
-    height: 55px;
+}*/
+
+
+
+/*****************************************************/
+/*****************************************************/
+/******************** TODO SCREEN ********************/
+/*****************************************************/
+/*****************************************************/
+
+
+.todo-btn {
+    color: #fff;
+    min-width: 350px;
     display: block;
     margin: 0 auto;
+    font-size: 24px;
+    height: 75px;
+    margin-bottom: 25px;
+    letter-spacing: 6px;
+}
+.todo-btn:hover {
+    color: #fff;
 }
 
-/* this should be changed, depending on the final colour of the button (used in the new-notes sections) */
-.selected {
-    background: #fecc81 !important;
+
+/*****************************************************/
+/*****************************************************/
+/******************* TILES SCREENS *******************/
+/*****************************************************/
+/*****************************************************/
+
+
+.tiles h2 {
+    color: #006699;
 }
+.tiles textarea,
+.tiles button,
+.tiles .btn {
+    border: 2px solid #006699;
+}
+.tiles .btn-circular,
+#todo-screen .todo-btn {
+    background: #006699;
+    border: 2px solid #006699;
+}
+.tiles .btn-circular:hover,
+#todo-screen .todo-btn:hover {
+    background: #79ADC2;
+}
+.selector-container {
+    height: 70px;
+}
+
+
+
+/*****************************************************/
+/*****************************************************/
+/******************** READ SCREENS *******************/
+/*****************************************************/
+/*****************************************************/
+
+
+#notes-read-screen .inner-wrapper, #relationships-read-screen .inner-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+}
+.fa-pencil {
+    padding-left: 5px;
+}
+
+/*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
+.note-container, .relationship-container {
+    outline-offset: -10px;
+/*    -moz-outline-radius: 10px; if we want rounded corners uncomment
+    -webkit-outline-radius: 10px;*/
+    float: left;
+    position: relative;
+    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
+    overflow: hidden;
+    min-height: 192px;
+}
+.notes-list > li, .relationships-list > li {
+    outline: 2px solid #006699;
+    background: #fff;
+}
+.notes-list .myNote, .relationships-list .myRelationship {
+    outline: 2px dashed #006699;            /* overwrites standard border */
+}
+.notes-list .classNote, .relationships-list .classNote {
+    outline: 2px solid #DB67E6;
+}
+.notes-list > li:last-child, .relationships-list > li:last-child {
+    margin-bottom: 45px;
+}
+.note, .relationship {
+    position: absolute;
+    height: 86%; /* = 100% - 2*5% padding */
+    width: 90%; /* = 100% - 2*5% padding */
+    padding: 5%;
+    margin-top: 5%;
+    overflow: hidden;
+}
+.note img, .note video, .relationship img, .relationship video {
+    width: 100%;
+}
+.note-title, .relationship-title {
+    height: 22%;
+    max-height: 52px;
+    margin: 0;
+    padding-bottom: 15px;
+    overflow: hidden;
+    font-weight: 600;
+}
+.note-body, .relationship-body {
+    height: 66%;
+    margin-top: 5px;
+    overflow: hidden;
+    line-height: 1.5;
+    font-weight: 300;
+}
+/* TODO: this need work - see img-responsive */
+.note-url, .relationship-url {
+    height: 66%;
+    margin-top: 5px;
+    overflow-y: hidden;
+}
+.note-url img, .relationship-url img {
+    width: 100%;
+    /*height: 100%;*/
+}
+.note-author, .relationship-author {
+    float: right;
+    margin-top: 12px;
+    margin-right: 3%;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+
+
+
+/*****************************************************/
+/*****************************************************/
+/******************* WRITE SCREENS *******************/
+/*****************************************************/
+/*****************************************************/
+
+
+.fa-arrow-left {
+    padding-right: 4px;
+}
+
+#notes-write-screen .inner-wrapper, #relationships-write-screen .inner-wrapper {
+    height: 85%;
+    overflow-y: scroll;
+    margin-top: 5px;
+}
+
+#note-title-input, #relationship-title-input {
+    height: 45px;
+    padding-top: 10px !important;
+    margin-bottom: 10px;
+}
+
+#note-body-container, #relationship-body-container {
+    position: relative;
+    height: 160px;
+}
+
+#note-body-input, #relationship-body-input {
+    padding-top: 15px !important;
+    height: 160px;
+    padding-right: 60px;
+}
+
+.fa-lightbulb-o {
+    color: #006699;
+    position: absolute;
+    top: -1%;
+    right: 0%;
+    padding: 10px 20px;
+}
+.fa-lightbulb-o:hover {
+    color: #79ADC2;
+}
+.sentence-starter {
+    background: #79ADC2;
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+}
+.sentence-starter:hover{
+    background: #fff;
+}
+#notes-write-screen button.close, #relationships-write-screen button.close {
+    border: none;
+}
+
+.photo-wrapper {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+#note-media-container, #relationship-media-container {
+    margin-top: 5px;
+}
+#notes-write-screen .media-container, #relationships-write-screen .media-container {
+    position: relative;
+    display: inline-block;
+    width: 255px;
+    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
+    margin: 5px 2.5px 0px 2.5px;
+}
+#notes-write-screen .media, #relationships-write-screen .media {
+    width: 255px;
+    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
+}
+#notes-write-screen .remove-btn, #relationships-write-screen .remove-btn {
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    color: red;
+    z-index: 999;
+}
+
+#note-btn-container, #relationship-btn-container {
+    position: relative;
+    margin-top: 20px;
+}
+.camera-icon-label {
+    width: 60px;
+}
+#note-btn-container .fa-spinner, #relationship-btn-container .fa-spinner {
+    font-size: 6em;
+    position: absolute;
+    z-index: 999;
+    top: -3%;
+    color: #006699;
+    background: #fff;
+}
+
+/* TODO: THIS NEEDS A LOT OF WORK ACROSS VARIOUS DEVICES */
+#photo-modal .photo-content, #relationship-photo-modal .photo-content {
+    max-width: 100%;
+}
+#photo-modal .download-photo-btn, #relationship-photo-modal .download-photo-btn {
+    background: white;
+    border-radius: 4px;
+}
+
+
+
+
+/********** NOTES SCREEN **********/
+
+.note-type-selector-container {
+    width: 122px;
+    height: 35px;
+    margin-top: 7px;
+    color: white;
+}
+.note-type-selector-container select {
+    background-color: #006699;
+}
+.note-type-selector-container select:hover {
+    background-color: #79ADC2;
+}
+
+
+
+/********** CHI-TEST SCREEN **********/
+
+#chi-test-screen {
+    height: 100%;
+
+}
+#chi-test-screen iframe {
+    width: 100%;
+    height: calc(100% - 70px);
+    margin-top: 60px;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /********** P R O P O S A L **********/
@@ -171,266 +448,11 @@ textarea {
 .notes-theme-button:nth-child(even) {
     float: right;
 }
-
-/********** TODO SCREEN **********/
-.todo-btn {
-    color: #fff;
-    min-width: 350px;
+#submit-partners-btn {
+    height: 55px;
     display: block;
     margin: 0 auto;
-    font-size: 24px;
-    height: 75px;
-    margin-bottom: 25px;
-    letter-spacing: 6px;
 }
-.todo-btn:hover {
-    color: #fff;
-}
-
-/********** NOTES **********/
-.notes h2 {
-    color: #006699;
-}
-.notes textarea,
-.notes button,
-.notes .btn {
-    border: 2px solid #006699;
-}
-.notes .btn-circular,
-#todo-screen .goto-notes-btn {
-    background: #006699;
-    border: 2px solid #006699;
-}
-.notes .btn-circular:hover,
-#todo-screen .goto-notes-btn:hover {
-    background: #79ADC2;
-}
-
-.selector-container {
-    height: 70px;
-}
-.note-type-selector-container {
-    width: 122px;
-    height: 35px;
-    margin-top: 7px;
-    color: white;
-}
-.note-type-selector-container select {
-    background-color: #006699;
-}
-.note-type-selector-container select:hover {
-    background-color: #79ADC2;
-}
-
-
-/********** NOTES READ SCREEN **********/
-
-#notes-read-screen .inner-wrapper {
-    height: 85%;
-    overflow-y: scroll;
-}
-.fa-pencil {
-    padding-left: 5px;
-}
-
-/*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
-.note-container {
-    outline-offset: -10px;
-/*    -moz-outline-radius: 10px; if we want rounded corners uncomment
-    -webkit-outline-radius: 10px;*/
-    float: left;
-    position: relative;
-    padding-bottom: 33.33%; /* = width for a 1:1 aspect ratio */
-    overflow: hidden;
-    min-height: 192px;
-}
-.notes-list > li {
-    outline: 2px solid #006699;
-    background: #fff;
-}
-.notes-list .myNote {
-    outline: 2px dashed #006699;            /* overwrites standard border */
-}
-.notes-list .classNote {
-    outline: 2px solid #DB67E6;
-}
-.notes-list > li:last-child {
-    margin-bottom: 45px;
-}
-.note {
-    position: absolute;
-    height: 86%; /* = 100% - 2*5% padding */
-    width: 90%; /* = 100% - 2*5% padding */
-    padding: 5%;
-    margin-top: 5%;
-    overflow: hidden;
-}
-.note img,
-.note video {
-    width: 100%;
-}
-.note-title {
-    height: 22%;
-    max-height: 52px;
-    margin: 0;
-    padding-bottom: 15px;
-    overflow: hidden;
-    font-weight: 600;
-}
-.note-body {
-    height: 66%;
-    margin-top: 5px;
-    overflow: hidden;
-    line-height: 1.5;
-    font-weight: 300;
-}
-/* TODO: this need work - see img-responsive */
-.note-url {
-    height: 66%;
-    margin-top: 5px;
-    overflow-y: hidden;
-}
-.note-url img {
-    width: 100%;
-    /*height: 100%;*/
-}
-.note-author {
-    float: right;
-    margin-top: 12px;
-    margin-right: 3%;
-    line-height: 1.5;
-    font-weight: 300;
-}
-
-
-/********** NOTES WRITE SCREEN **********/
-
-.fa-arrow-left {
-    padding-right: 4px;
-}
-
-#notes-write-screen .inner-wrapper {
-    height: 85%;
-    overflow-y: scroll;
-    margin-top: 5px;
-}
-
-#note-title-input {
-    height: 45px;
-    padding-top: 10px !important;
-    margin-bottom: 10px;
-}
-
-#note-body-container {
-    position: relative;
-    height: 160px;
-}
-
-#note-body-input {
-    padding-top: 15px !important;
-    height: 160px;
-    padding-right: 60px;
-}
-
-.fa-lightbulb-o {
-    color: #006699;
-    position: absolute;
-    top: -1%;
-    right: 0%;
-    padding: 10px 20px;
-}
-.fa-lightbulb-o:hover {
-    color: #79ADC2;
-}
-.sentence-starter {
-    background: #79ADC2;
-    width: 100%;
-    text-align: left;
-    border-radius: 0;
-}
-.sentence-starter:hover{
-    background: #fff;
-}
-#note-write-screen button.close {
-    border: none;
-}
-
-.photo-wrapper {
-    display: inline-block;
-    margin-left: 5px;
-}
-
-#note-media-container{
-    margin-top: 5px;
-}
-#notes-write-screen .media-container {
-    position: relative;
-    display: inline-block;
-    width: 255px;
-    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
-    margin: 5px 2.5px 0px 2.5px;
-}
-#notes-write-screen .media {
-    width: 255px;
-    height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
-}
-#notes-write-screen .remove-btn {
-    position: absolute;
-    top: 2%;
-    right: 5%;
-    color: red;
-    z-index: 999;
-}
-
-#note-btn-container {
-    position: relative;
-    margin-top: 20px;
-}
-.camera-icon-label {
-    width: 60px;
-}
-#note-btn-container .fa-spinner {
-    font-size: 6em;
-    position: absolute;
-    z-index: 999;
-    top: -3%;
-    color: #006699;
-    background: #fff;
-}
-
-/* TODO: THIS NEEDS A LOT OF WORK ACROSS VARIOUS DEVICES */
-#photo-modal .photo-content {
-    max-width: 100%;
-}
-#photo-modal .download-photo-btn {
-    background: white;
-    border-radius: 4px;
-}
-
-
-
-
-/********** RELATIONSHIPS ************/
-#relationship-photo-modal .photo-content {
-    max-width: 100%;
-}
-#relationship-photo-modal .download-photo-btn {
-    background: white;
-    border-radius: 4px;
-}
-
-
-/********** CHI-TEST **********/
-#chi-test-screen {
-    height: 100%;
-
-}
-#chi-test-screen iframe {
-    width: 100%;
-    height: calc(100% - 70px);
-    margin-top: 60px;
-}
-
 
 /********** R E V I E W **********/
 
@@ -714,7 +736,7 @@ input:disabled {
 /*Small devices PORTRAIT (tablets, more than 768px tall)*/
 @media all and (min-height: 768px) and (orientation: portrait) {
 
-    .notes-partner-holder button {
+/*    .notes-partner-holder button {
         margin-right: 15px;
         min-width: 140px;
     }
@@ -723,7 +745,7 @@ input:disabled {
     }
     .notes-partner-holder button:nth-child(4n) {
         margin-right: 0;
-    }
+    }*/
 
     .username-display a {
         max-width: 300px;
@@ -754,19 +776,19 @@ input:disabled {
         max-height: 150px;
     }
 
-    .note {
+    .note, .relationship {
         padding: 5% 7% 0 1%;
         height: 87%;
     }
-    .note-title {
+    .note-title, .relationship-title {
         height: 18%;
     }
-    .note-body {
+    .note-body, .relationship-body {
         height: 57%;                /* TODO: this is guesswork, check me on the ipad */;
     }
-    /*.note-url {
+    .note-url, .relationship-url {
         height: 57%;
-    }*/
+    }
     .fa-file-image-o,
     .fa-file-video-o {
         font-size: 5em;
@@ -792,15 +814,15 @@ input:disabled {
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
 @media all and (min-width: 1200px) {
 
-    .notes-partner-holder button {
+/*    .notes-partner-holder button {
         min-width: 170px;
-    }
+    }*/
 
     .side-nav {
         padding: 0 200px 0 0;
     }
 
-    .note-container {
+    .note-container, .relationship-container {
         padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
     }
     .fa-file-image-o,
@@ -809,10 +831,10 @@ input:disabled {
         margin-left: 21%;
     }
 
-    .note h3 {
+    .note h3, .relationship h3 {
         font-size: 20px;
     }
-    .note .title-body {
+    .note .title-body, .relationship .title-body {
         font-size: 16px;
         line-height: 1.2;
     }

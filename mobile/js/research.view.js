@@ -12,107 +12,109 @@
   var MAX_FILE_SIZE = 20971520;
 
 
-  /**
-   ** Note View
-   **/
-  app.View.Note = Backbone.View.extend({
-    textTemplate: "#text-note-template",
-    photoTemplate: "#photo-note-template",
-    videoTemplate: "#video-note-template",
+  /***********************************************************
+   ***********************************************************
+   *********************** NOTES VIEWS ***********************
+   ***********************************************************
+   ***********************************************************/
 
-    events: {
-      'click' : 'editNote'
-    },
+   /**
+    ** Note View
+    **/
+   app.View.Note = Backbone.View.extend({
+     textTemplate: "#text-note-template",
+     photoTemplate: "#photo-note-template",
+     videoTemplate: "#video-note-template",
 
-    initialize: function () {
-      var view = this;
+     events: {
+       'click' : 'editNote'
+     },
 
-      view.model.on('change', function () {
-        view.render();
-      });
+     initialize: function () {
+       var view = this;
 
-      return view;
-    },
+       view.model.on('change', function () {
+         view.render();
+       });
+
+       return view;
+     },
+
+     editNote: function(ev) {
+       var view = this;
+
+       app.hideAllContainers();
+
+       app.notesWriteView.model = view.model;
+       jQuery('#notes-write-screen').removeClass('hidden');
+       app.notesWriteView.render();
+     },
+
+     render: function () {
+       var view = this,
+           note = view.model,
+           noteType,
+           firstMediaUrl,
+           listItemTemplate,
+           listItem;
+
+       // determine what kind of note this is, ie what kind of template do we want to use
+       if (note.get('media').length === 0) {
+         noteType = "text";
+       } else if (note.get('media').length > 0) {
+         firstMediaUrl = note.get('media')[0];
+         if (app.photoOrVideo(firstMediaUrl) === "photo") {
+           noteType = "photo";
+         } else if (app.photoOrVideo(firstMediaUrl) === "video") {
+           noteType = "video";
+         } else {
+           jQuery().toastmessage('showErrorToast', "You have uploaded a file that is not a supported file type! How did you manage to sneak it in there? Talk to Colin to resolve the issue...");
+         }
+       } else {
+         throw "Unknown note type!";
+       }
+
+       if (noteType === "text") {
+         //if class is not set do it
+         if (!view.$el.hasClass('note-container')) {
+           view.$el.addClass('note-container');
+         }
+         listItemTemplate = _.template(jQuery(view.textTemplate).text());
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
+       } else if (noteType === "photo") {
+         // if class is not set do it
+         if (!view.$el.hasClass('photo-note-container')) {
+           view.$el.addClass('photo-note-container');
+         }
+         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
+       } else if (noteType === "video") {
+         // if class is not set do it
+         if (!view.$el.hasClass('video-note-container')) {
+           view.$el.addClass('video-note-container');
+         }
+         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
+       }
+       else {
+         throw "Unknown note type!";
+       }
+
+       // add the myNote class if needed
+       if (note.get('note_type_tag') === "Big Idea") {
+         view.$el.addClass('classNote');
+       } else if (note.get('author') === app.username) {
+         view.$el.addClass('myNote');
+       }
+
+       // Add the newly generated DOM elements to the view's part of the DOM
+       view.$el.html(listItem);
+
+       return view;
+     }
+   });
 
 
-    // TODO: this will need to deal with relationships now
-    editNote: function(ev) {
-      var view = this;
-
-      app.hideAllContainers();
-
-      app.notesWriteView.model = view.model;
-      jQuery('#notes-write-screen').removeClass('hidden');
-      app.notesWriteView.render();
-    },
-
-    render: function () {
-      var view = this,
-          note = view.model,
-          noteType,
-          firstMediaUrl,
-          listItemTemplate,
-          listItem;
-
-      // determine what kind of note this is, ie what kind of template do we want to use
-      if (note.get('media').length === 0) {
-        noteType = "text";
-      } else if (note.get('media').length > 0) {
-        firstMediaUrl = note.get('media')[0];
-        if (app.photoOrVideo(firstMediaUrl) === "photo") {
-          noteType = "photo";
-        } else if (app.photoOrVideo(firstMediaUrl) === "video") {
-          noteType = "video";
-        } else {
-          jQuery().toastmessage('showErrorToast', "You have uploaded a file that is not a supported file type! How did you manage to sneak it in there? Talk to Colin to resolve the issue...");
-        }
-      } else {
-        throw "Unknown note type!";
-      }
-
-      if (noteType === "text") {
-        //if class is not set do it
-        if (!view.$el.hasClass('note-container')) {
-          view.$el.addClass('note-container');
-        }
-        listItemTemplate = _.template(jQuery(view.textTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
-      } else if (noteType === "photo") {
-        // if class is not set do it
-        if (!view.$el.hasClass('photo-note-container')) {
-          view.$el.addClass('photo-note-container');
-        }
-        listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
-      } else if (noteType === "video") {
-        // if class is not set do it
-        if (!view.$el.hasClass('video-note-container')) {
-          view.$el.addClass('video-note-container');
-        }
-        listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
-      }
-      else {
-        throw "Unknown note type!";
-      }
-
-      // add the myNote class if needed
-      if (note.get('note_type_tag') === "Big Idea") {
-        view.$el.addClass('classNote');
-      } else if (note.get('author') === app.username) {
-        view.$el.addClass('myNote');
-      }
-
-      // Add the newly generated DOM elements to the view's part of the DOM
-      view.$el.html(listItem);
-
-      return view;
-    }
-  });
-
-  /**
-   ** NOTES VIEWS
-   **/
 
   /**
     NotesReadView
@@ -155,10 +157,10 @@
     },
 
     events: {
-      'click #nav-write-btn'              : 'createNote',
+      'click #nav-relationship-write-btn' : 'createNote',
       'change .note-type-selector'        : 'render',
       'click .bug'                        : 'render',
-      'click .paper-button-0'             : 'render'        // confirm these are for this view only
+      'click .paper-button-0'             : 'render'
     },
 
     createNote: function(ev) {
@@ -194,19 +196,6 @@
       app.notesWriteView.render();
     },
 
-    // switchToPosterView: function() {
-    //   // jQuery().toastmessage('showErrorToast', "It is not time for this yet, kids");
-    //   app.hideAllContainers();
-    //   // if there's a poster for this project already, go to chunk screen, else go to new poster screen
-    //   if (app.project.get('poster_title') && app.project.get('poster_title').length > 0) {
-    //     app.projectPosterChunkView.render();
-    //     jQuery('#project-poster-chunk-screen').removeClass('hidden');
-    //   } else {
-    //     app.projectNewPosterView.render();
-    //     jQuery('#project-new-poster-screen').removeClass('hidden');
-    //   }
-    // },
-
     addOne: function(noteModel) {
       var view = this;
 
@@ -236,12 +225,6 @@
         return model.get('created_at');
       };
 
-      view.collection.sort().where({
-         published: true,
-         habitat_tag: {index: 1},
-         species_tags: [{index: 1}, {index: 2}]
-      })
-
       var criteria = {published: true};
       // if note type has pull down has a value
       var noteType = jQuery('#notes-read-screen .note-type-selector :selected').val();
@@ -250,7 +233,7 @@
       }
       var noteTypeFilteredCollection = view.collection.sort().where(criteria);
 
-      var screenId = "#notes-read-screen"
+      var screenId = "#notes-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
       if (app.getSelectorValue(screenId, "habitat").index !== -1) {
@@ -302,7 +285,6 @@
 
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
-      // 'click .cancel-note-btn'            : 'cancelNote',
       'change .note-type-selector'        : 'updateNoteType',
       'click .bug'                        : 'updateTags',
       'click .paper-button-0'             : 'updateTags',
@@ -446,24 +428,6 @@
       }, 5000);
     },
 
-    // destroy a model, if there's something to destroy
-    // cancelNote: function() {
-    //   var view = this;
-
-    //   // if there is a note
-    //   if (view.model) {
-    //     // confirm delete
-    //     if (confirm("Are you sure you want to delete this note?")) {
-    //       app.clearAutoSaveTimer();
-    //       view.model.destroy();
-    //       // and we need to set it to null to 'remove' it from the local collection
-    //       view.model = null;
-    //       jQuery('.input-field').val('');
-    //       view.switchToReadView();
-    //     }
-    //   }
-    // },
-
     publishNote: function() {
       var view = this;
       var title = jQuery('#note-title-input').val();
@@ -564,9 +528,109 @@
   });
 
 
+
+  /***********************************************************
+   ***********************************************************
+   ******************** RELATIONSHIP VIEWS *******************
+   ***********************************************************
+   ***********************************************************/
+
+
   /**
-   ** RELATIONSHIP VIEWS
+   ** Relationship View
    **/
+  app.View.Relationship = Backbone.View.extend({
+    textTemplate: "#text-relationship-template",
+    photoTemplate: "#photo-relationship-template",
+    videoTemplate: "#video-relationship-template",
+
+    events: {
+      'click' : 'editRelationship'
+    },
+
+    initialize: function () {
+      var view = this;
+
+      view.model.on('change', function () {
+        view.render();
+      });
+
+      return view;
+    },
+
+    editRelationship: function(ev) {
+      var view = this;
+
+      app.hideAllContainers();
+
+      app.relationshipsWriteView.model = view.model;
+      jQuery('#relationships-write-screen').removeClass('hidden');
+      app.relationshipsWriteView.render();
+    },
+
+    render: function () {
+      var view = this,
+          relationship = view.model,
+          relationshipType,
+          firstMediaUrl,
+          listItemTemplate,
+          listItem;
+
+      // determine what kind of relationship this is, ie what kind of template do we want to use
+      if (relationship.get('media').length === 0) {
+        relationshipType = "text";
+      } else if (relationship.get('media').length > 0) {
+        firstMediaUrl = relationship.get('media')[0];
+        if (app.photoOrVideo(firstMediaUrl) === "photo") {
+          relationshipType = "photo";
+        } else if (app.photoOrVideo(firstMediaUrl) === "video") {
+          relationshipType = "video";
+        } else {
+          jQuery().toastmessage('showErrorToast', "You have uploaded a file that is not a supported file type! How did you manage to sneak it in there? Talk to Colin to resolve the issue...");
+        }
+      } else {
+        throw "Unknown relationship type!";
+      }
+
+      if (relationshipType === "text") {
+        //if class is not set do it
+        if (!view.$el.hasClass('relationship-container')) {
+          view.$el.addClass('relationship-container');
+        }
+        listItemTemplate = _.template(jQuery(view.textTemplate).text());
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'body': relationship.get('body'), 'author': '- '+relationship.get('author') });
+      } else if (relationshipType === "photo") {
+        // if class is not set do it
+        if (!view.$el.hasClass('photo-relationship-container')) {
+          view.$el.addClass('photo-relationship-container');
+        }
+        listItemTemplate = _.template(jQuery(view.photoTemplate).text());
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author') });
+      } else if (relationshipType === "video") {
+        // if class is not set do it
+        if (!view.$el.hasClass('video-relationship-container')) {
+          view.$el.addClass('video-relationship-container');
+        }
+        listItemTemplate = _.template(jQuery(view.videoTemplate).text());
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author') });
+      }
+      else {
+        throw "Unknown relationship type!";
+      }
+
+      // add the myRelationship class if needed
+      if (relationship.get('author') === app.username) {
+        view.$el.addClass('myRelationship');
+      }
+
+      // Add the newly generated DOM elements to the view's part of the DOM
+      view.$el.html(listItem);
+
+      return view;
+    }
+  });
+
+
 
   /**
     RelationshipsReadView
@@ -576,14 +640,23 @@
       var view = this;
       console.log('Initializing RelationshipsReadView...', view.el);
 
+      /* We should not have to listen to change on collection but on add. However, due to wakefulness
+      ** and published false first we would see the element with add and see it getting created. Also not sure
+      ** how delete would do and so on.
+      ** IMPORTANT: in addOne we check if the id of the model to be added exists in the DOM and only add it to the DOM if it is new
+      */
       view.collection.on('change', function(n) {
         if (n.get('published') === true) {
           view.addOne(n);
         }
       });
 
+      /*
+      ** See above, but mostly we would want add and change in the relationship view. But due to wakeness and published flag
+      ** we are better off with using change and filtering to react only if published true.
+      ** IMPORTANT: in addOne we check that id isn't already in the DOM
+      */
       view.collection.on('add', function(n) {
-        // If the add fires while project not chosen yet we get an error
         if (n.get('published') === true) {
           view.addOne(n);
         }
@@ -593,7 +666,10 @@
     },
 
     events: {
-      'click #nav-relationship-write-btn'         : 'createRelationship'
+      'click #nav-relationship-write-btn'  : 'createRelationship',
+      'change .relationship-type-selector' : 'render',
+      'click .bug'                         : 'render',
+      'click .paper-button-0'              : 'render'
     },
 
     createRelationship: function(ev) {
@@ -629,25 +705,21 @@
     addOne: function(relationshipModel) {
       var view = this;
 
+      // check if the relationship already exists
+      // http://stackoverflow.com/questions/4191386/jquery-how-to-find-an-element-based-on-a-data-attribute-value
       if (view.$el.find("[data-id='" + relationshipModel.id + "']").length === 0 ) {
         // wake up the project model
         relationshipModel.wake(app.config.wakeful.url);
 
         // This is necessary to avoid Backbone putting all HTML into an empty div tag
-        var noteContainer = jQuery('<li class="note-container col-xs-12 col-sm-4 col-lg-3" data-id="'+relationshipModel.id+'"></li>');
+        var relationshipContainer = jQuery('<li class="relationship-container col-xs-12 col-sm-4 col-lg-3" data-id="'+relationshipModel.id+'"></li>');
 
-        var relationshipView = new app.View.Note({el: noteContainer, model: relationshipModel});
+        var relationshipView = new app.View.Relationship({el: relationshipContainer, model: relationshipModel});
         var listToAddTo = view.$el.find('.relationships-list');
         listToAddTo.prepend(relationshipView.render().el);
       } else {
         console.log("The relationship with id <"+relationshipModel.id+"> wasn't added since it already exists in the DOM");
       }
-    },
-
-    constructFilterCriteria: function() {
-      var criteria = {published: true};
-
-      return criteria;
     },
 
     render: function() {
@@ -659,12 +731,37 @@
         return model.get('created_at');
       };
 
-      var myPublishedRelationships = view.collection.sort().where(view.constructFilterCriteria());
+      var relationshipTypeFilteredCollection = view.collection.sort().where({published: true});
+
+      var screenId = "#relationships-read-screen";
+      // if a habitat has been selected
+      var habitatFilteredCollection = null;
+      if (app.getSelectorValue(screenId, "habitat").index !== -1) {
+        habitatFilteredCollection = relationshipTypeFilteredCollection.filter(function(model) {
+          return model.get('habitat_tag').index === app.getSelectorValue(screenId, "habitat").index;
+        });
+      } else {
+        habitatFilteredCollection = relationshipTypeFilteredCollection;
+      }
+
+      // if one or more species have been selected (uses AND)
+      var speciesFilteredCollection = null;
+      if (app.getSelectorValue(screenId, "species").length > 0) {
+        speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
+          console.log(model);
+          // all value in selector must be in species_tags
+          if (_.difference(_.pluck(app.getSelectorValue(screenId, "species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+            return model;
+          }
+        });
+      } else {
+        speciesFilteredCollection = habitatFilteredCollection;
+      }
 
       // clear the house
       view.$el.find('.relationships-list').html("");
 
-      myPublishedRelationships.forEach(function (relationship) {
+      speciesFilteredCollection.forEach(function (relationship) {
         view.addOne(relationship);
       });
     }
@@ -678,21 +775,23 @@
     initialize: function() {
       var view = this;
       console.log('Initializing RelationshipsWriteView...', view.el);
-
-      // populate the dropdown (maybe move this since, it'll be used a lot of places)
-      jQuery('#relationships-write-screen .relationship-type-selector').html('');
-      _.each(app.relationshipTypes, function(k, v) {
-        jQuery('#relationships-write-screen .relationship-type-selector').append('<option value="'+v+'">'+v+'</option>');
-      });
     },
 
     events: {
-      'click .nav-relationship-read-btn'  : 'switchToReadView',
-      'change #photo-file'                : 'uploadMedia',
+      'click .nav-read-btn'               : 'switchToReadView',
+      'click .bug'                        : 'updateTags',
+      'click .paper-button-0'             : 'updateTags',
+      'change #relationship-photo-file'                : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
-      'click .publish-relationship-btn'   : 'publishRelationship',
       'click .photo-container'            : 'openPhotoModal',
+      'click .publish-relationship-btn'   : 'publishRelationship',
       'keyup :input'                      : 'checkForAutoSave'
+    },
+
+    updateTags: function() {
+      var view = this;
+      view.model.set('habitat_tag', app.getSelectorValue("#relationships-write-screen","habitat"));
+      view.model.set('species_tags', app.getSelectorValue("#relationships-write-screen","species"));
     },
 
     openPhotoModal: function(ev) {
@@ -700,21 +799,21 @@
       var url = jQuery(ev.target).attr('src');
       //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
       //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
-      jQuery('#relationship-photo-modal .photo-content').attr('src', url);
-      jQuery('#relationship-photo-modal .download-photo-btn a').attr('href',url);
-      //jQuery('#relationship-photo-modal .download-photo-btn a').attr('download',fileName);
-      jQuery('#relationship-photo-modal').modal({keyboard: true, backdrop: true});
+      jQuery('#photo-modal .photo-content').attr('src', url);
+      jQuery('#photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#photo-modal .download-photo-btn a').attr('download',fileName);
+      jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
     },
 
     uploadMedia: function() {
       var view = this;
 
-      var file = jQuery('#photo-file')[0].files.item(0);
+      var file = jQuery('#relationship-photo-file')[0].files.item(0);
       var formData = new FormData();
       formData.append('file', file);
 
       if (file.size < MAX_FILE_SIZE) {
-        jQuery('#relationship-photo-upload-spinner').removeClass('hidden');
+        jQuery('#relatioship-photo-upload-spinner').removeClass('hidden');
         jQuery('.upload-icon').addClass('invisible');
         jQuery('.publish-relationship-btn').addClass('disabled');
 
@@ -734,14 +833,14 @@
       }
 
       function failure(err) {
-        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
+        jQuery('#relatioship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
       }
 
       function success(data, status, xhr) {
-        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
+        jQuery('#relatioship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         console.log("UPLOAD SUCCEEDED!");
@@ -757,6 +856,12 @@
         view.model.save();
         // update the view (TODO: bind this to an add event, eg do it right)
         view.appendOneMedia(data.url);
+
+        // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
+        if (mediaArray.length === 1) {
+          var relationshipBodyText = jQuery('#relationship-body-input').val();
+          jQuery('#relationship-body-input').val(relationshipBodyText + '\n\nNotes on pictures and videos: ');
+        }
       }
 
     },
@@ -782,26 +887,21 @@
       var title = jQuery('#relationship-title-input').val();
       var body = jQuery('#relationship-body-input').val();
 
-      // TODO: check if dropdowns are satisfied
       if (title.length > 0 && body.length > 0) {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
         view.model.set('published', true);
-        // TODO: make these reflect dropdowns, species, etc
-        view.model.set('habitat_tag', 1);
-        view.model.set('species_tags', "this will be an array");        // TODO
         view.model.set('modified_at', new Date());
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the relationship wall!");
 
         view.switchToReadView();
 
-        // TODO: clear the other fields (dropdowns, media)?
         view.model = null;
         jQuery('.input-field').val('');
+        app.resetSelectorValue("#relationships-write-screen");
       } else {
-        // TODO: append for dropdowns
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a relationship type to submit your relationship...");
       }
     },
@@ -825,10 +925,6 @@
         throw "Error trying to append media - unknown media type!";
       }
       jQuery('#relationship-media-container').append(el);
-
-      // one lightweight way of doing captions for this wallcology
-      var relationshipBodyText = jQuery('#relationship-body-input').val();
-      jQuery('#relationship-body-input').val(relationshipBodyText + '\n\nMedia caption: ');
     },
 
     removeOneMedia: function(ev) {
@@ -852,15 +948,15 @@
       var view = this;
       console.log("Rendering RelationshipsWriteView...");
 
+      app.setSelectorValues("#relationships-write-screen", view.model.get('habitat_tag'), view.model.get('species_tags'));
       jQuery('#relationship-title-input').val(view.model.get('title'));
       jQuery('#relationship-body-input').val(view.model.get('body'));
-      // TODO: add in dropdowns
       jQuery('#relationship-media-container').html('');
       view.model.get('media').forEach(function(url) {
         view.appendOneMedia(url);
       });
 
-      // check is this user is allowed to edit this relationship
+      // check if this user is allowed to edit this relationship
       if (view.model.get('author') === app.username) {
         jQuery('#relationships-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#relationships-write-screen .editable').removeClass('disabled');
@@ -870,6 +966,8 @@
       }
     }
   });
+
+
 
 
 

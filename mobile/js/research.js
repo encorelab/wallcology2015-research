@@ -225,11 +225,6 @@
           jQuery('#chi-test-nav-btn').addClass('active');
           jQuery('#chi-test-screen').removeClass('hidden');
         }
-        // else if (jQuery(this).hasClass('goto-review-btn')) {
-        //   jQuery('#review-nav-btn').addClass('active');
-        //   jQuery('#review-overview-screen').removeClass('hidden');
-        //   app.reviewsView.render();
-        // }
         else {
           console.log('ERROR: unknown nav button');
         }
@@ -245,20 +240,6 @@
      * so these can only be called when everything is set up
      * ======================================================
      */
-
-     // if (app.newProjectView === null) {
-     //   app.newProjectView = new app.View.NewProjectView({
-     //     el: '#new-project-screen',
-     //     collection: Skeletor.Model.awake.projects
-     //   });
-     // }
-
-     // if (app.proposalsView === null) {
-     //   app.proposalsView = new app.View.ProposalsView({
-     //     el: '#proposal-screen',
-     //     collection: Skeletor.Model.awake.projects
-     //   });
-     // }
 
      if (app.notesReadView === null) {
        app.notesReadView = new app.View.NotesReadView({
@@ -280,6 +261,7 @@
          el: '#relationships-read-screen',
          collection: Skeletor.Model.awake.relationships
        });
+       app.relationshipsReadView.render();
      }
 
      if (app.relationshipsWriteView === null) {
@@ -288,6 +270,22 @@
          collection: Skeletor.Model.awake.relationships
        });
      }
+
+
+
+     // if (app.newProjectView === null) {
+     //   app.newProjectView = new app.View.NewProjectView({
+     //     el: '#new-project-screen',
+     //     collection: Skeletor.Model.awake.projects
+     //   });
+     // }
+
+     // if (app.proposalsView === null) {
+     //   app.proposalsView = new app.View.ProposalsView({
+     //     el: '#proposal-screen',
+     //     collection: Skeletor.Model.awake.projects
+     //   });
+     // }
 
      if (app.projectNewPosterView === null) {
        app.projectNewPosterView = new app.View.ProjectNewPosterView({
@@ -630,6 +628,7 @@
     app.keyCount++;
     if (instantSave || app.keyCount > 9) {
       console.log('Autosaved...');
+      // TODO: clean this out if nested isn't needed!
       if (nested === "proposal") {
         // think about using _.clone here (eg http://www.crittercism.com/blog/nested-attributes-in-backbone-js-models)
         var nestedObj = model.get(nested);
@@ -648,7 +647,6 @@
       window.clearTimeout(app.autoSaveTimer);
     }
   };
-
 
   /**
     Function that is called on each keypress on username input field (in a form).
