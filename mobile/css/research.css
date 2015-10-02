@@ -371,7 +371,7 @@ textarea {
 
 
 
-/********** NOTES SCREEN **********/
+/********** NOTES SCREENS **********/
 
 .note-type-selector-container {
     width: 122px;
@@ -386,6 +386,40 @@ textarea {
     background-color: #79ADC2;
 }
 
+
+/********** RELATIONSHIPS SCREENS **********/
+
+#exchange-container {
+    height: 160px;
+    width: 66%;
+    border: 2px solid #006699;
+    margin: 0px auto 10px auto;
+    position: relative;
+}
+
+/* TODO - adjust almost all of these numbers */
+.exhange-species-container {
+    height: 80px;
+    width: 80px;
+    border: 2px solid #006699;
+    border-radius: 15px;
+    position: absolute;
+    top: 23%;
+}
+
+#from-species-container {
+    left: 22%;
+}
+
+#to-species-container {
+    right: 22%;
+}
+
+#exchange-habitat-container {
+    position: absolute;
+    left: 48%;
+    top: 42%;
+}
 
 
 /********** CHI-TEST SCREEN **********/
