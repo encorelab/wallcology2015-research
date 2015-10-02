@@ -689,6 +689,8 @@
         console.log("Starting a new relationship...");
         m = new Model.Relationship();
         m.set('author', app.username);
+        m.set('from_species_index', '');
+        m.set('to_species_index', '');
         m.wake(app.config.wakeful.url);
         m.save();
         view.collection.add(m);
@@ -779,20 +781,95 @@
 
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
-      'click .bug'                        : 'updateTags',
-      'click .paper-button-0'             : 'updateTags',
-      'change #relationship-photo-file'                : 'uploadMedia',
+      'click .paper-button-0'             : 'selectHabitat',
+      'click .bug'                        : 'selectSpecies',
+      'change #relationship-photo-file'   : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
       'click .photo-container'            : 'openPhotoModal',
       'click .publish-relationship-btn'   : 'publishRelationship',
       'keyup :input'                      : 'checkForAutoSave'
     },
 
-    updateTags: function() {
+    selectHabitat: function() {
       var view = this;
-      view.model.set('habitat_tag', app.getSelectorValue("#relationships-write-screen","habitat"));
-      view.model.set('species_tags', app.getSelectorValue("#relationships-write-screen","species"));
+      var habitatObj = app.getSelectorValue("#relationships-write-screen","habitat");
+      jQuery('#exchange-habitat').text("In "+habitatObj.name);
+      view.model.set('habitat_tag', habitatObj);
+
+      // clear out the data values and imgs to avoid confusion
+      jQuery('.exchange-species-container').data('species-index','');
+      jQuery('.exchange-species-container').html('');
+      view.model.set('from_species_index', '');
+      view.model.set('to_species_index', '');
     },
+
+    selectSpecies: function(ev) {
+      // TODO: think about making a new wrapper for this selector as well... we need a max selection here
+      var view = this;
+      var index = jQuery(ev.target).parent().parent().attr('id');       // SKETTTCCCCCHHHHHHHH - NB: point of failure
+      var tappedOn = JSON.parse(jQuery(ev.target).parent().parent().attr('aria-pressed'));    // type conversion, since it's somehow decided it wants to be a string - converted to bool this way
+      if (index) {
+        if (tappedOn) {
+          if (jQuery('#from-species-container').data('species-index').length === 0) {
+            // add to from_box
+            jQuery('#from-species-container').data('species-index',index);
+            jQuery('#from-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
+            view.model.set('from_species_index', index);
+          } else if (jQuery('#to-species-container').data('species-index').length === 0) {
+            // add to to_box
+            jQuery('#to-species-container').data('species-index',index);
+            jQuery('#to-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
+            view.model.set('to_species_index', index);
+          } else {
+            throw "Neither box is empty somehow!";
+          }
+        } else if (!tappedOn) {
+          if (jQuery('#from-species-container').data('species-index') === index) {
+            // remove from from box
+            jQuery('#from-species-container').data('species-index','');
+            jQuery('#from-species-container').html('');
+            view.model.set('from_species_index', '');
+          } else if (jQuery('#to-species-container').data('species-index') === index) {
+            // remove from to box
+            jQuery('#to-species-container').data('species-index','');
+            jQuery('#to-species-container').html('');
+            view.model.set('to_species_index', '');
+          } else {
+            throw "Both boxes are empty somehow!";
+          }
+        } else {
+          throw "Species button does not produce tappedOn value - maybe the html value changed";
+        }
+        // if (view.model.get('from_species_index').length === 0 && tappedOn) {
+        //   // add to from box
+        //   jQuery('#from-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
+        //   view.model.set('from_species_index', index);
+        // } else if (view.model.get('from_species_index').length > 0 && !tappedOn) {
+        //   // remove from from box
+        //   jQuery('#from-species-container').html('');
+        //   view.model.set('from_species_index', '');
+        // } else if (view.model.get('to_species_index').length === 0 && tappedOn) {
+        //   // goes in to box
+        //   jQuery('#to-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img');
+        //   view.model.set('to_species_index', index);
+        // } else if (view.model.get('to_species_index').length > 0 && !tappedOn) {
+        //   // remove from from box
+        //   jQuery('#to-species-container').html('');
+        //   view.model.set('to_species_index', '');
+        // }
+      } else {
+        throw "Cannot get index of selected species - the html structure probably changed";
+      }
+    },
+
+    // if tappedOn
+      // if view.model.get('from_species_index').length === 0
+        // jQuery('#from-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
+        // give the html some val
+
+
+    // if !tappedOn
+
 
     openPhotoModal: function(ev) {
       var view = this;
