@@ -157,7 +157,7 @@
     },
 
     events: {
-      'click #nav-relationship-write-btn' : 'createNote',
+      'click .nav-write-btn'              : 'createNote',
       'change .note-type-selector'        : 'render',
       'click .bug'                        : 'render',
       'click .paper-button-0'             : 'render'
@@ -666,7 +666,7 @@
     },
 
     events: {
-      'click #nav-relationship-write-btn'  : 'createRelationship',
+      'click .nav-write-btn'               : 'createRelationship',
       'change .relationship-type-selector' : 'render',
       'click .bug'                         : 'render',
       'click .paper-button-0'              : 'render'
