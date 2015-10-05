@@ -300,13 +300,15 @@
     updateTags: function() {
       var view = this;
       view.model.set('habitat_tag', app.getSelectorValue("#notes-write-screen","habitat"));
-      view.model.set('species_tags', app.getSelectorValue("#notes-write-screen","species"));           // TODO: revisit me! This is going to be a nightmare down the road. Must convince Chicago to revise this data structure
+      view.model.set('species_tags', app.getSelectorValue("#notes-write-screen","species"));
+      view.model.save();
     },
 
     updateNoteType: function(ev) {
       var view = this;
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
       view.model.set('note_type_tag', noteType);
+      view.model.save();
 
       jQuery('#sentence-starter-modal .modal-body').html('');
       if (app.noteTypes[noteType]) {
@@ -801,6 +803,7 @@
       jQuery('.exchange-species-container').html('');
       view.model.set('from_species_index', '');
       view.model.set('to_species_index', '');
+      view.model.save();
     },
 
     selectSpecies: function(ev) {
@@ -808,6 +811,8 @@
       var view = this;
       var index = jQuery(ev.target).parent().parent().attr('id');       // SKETTTCCCCCHHHHHHHH - NB: point of failure
       var tappedOn = JSON.parse(jQuery(ev.target).parent().parent().attr('aria-pressed'));    // type conversion, since it's somehow decided it wants to be a string - converted to bool this way
+
+      // might want to check here for 'active' instead
       if (index) {
         if (tappedOn) {
           if (jQuery('#from-species-container').data('species-index').length === 0) {
@@ -840,35 +845,13 @@
         } else {
           throw "Species button does not produce tappedOn value - maybe the html value changed";
         }
-        // if (view.model.get('from_species_index').length === 0 && tappedOn) {
-        //   // add to from box
-        //   jQuery('#from-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
-        //   view.model.set('from_species_index', index);
-        // } else if (view.model.get('from_species_index').length > 0 && !tappedOn) {
-        //   // remove from from box
-        //   jQuery('#from-species-container').html('');
-        //   view.model.set('from_species_index', '');
-        // } else if (view.model.get('to_species_index').length === 0 && tappedOn) {
-        //   // goes in to box
-        //   jQuery('#to-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img');
-        //   view.model.set('to_species_index', index);
-        // } else if (view.model.get('to_species_index').length > 0 && !tappedOn) {
-        //   // remove from from box
-        //   jQuery('#to-species-container').html('');
-        //   view.model.set('to_species_index', '');
-        // }
       } else {
         throw "Cannot get index of selected species - the html structure probably changed";
       }
+
+      view.model.save();
     },
 
-    // if tappedOn
-      // if view.model.get('from_species_index').length === 0
-        // jQuery('#from-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
-        // give the html some val
-
-
-    // if !tappedOn
 
 
     openPhotoModal: function(ev) {
@@ -964,7 +947,7 @@
       var title = jQuery('#relationship-title-input').val();
       var body = jQuery('#relationship-body-input').val();
 
-      if (title.length > 0 && body.length > 0) {
+      if (title.length > 0 && body.length > 0 && jQuery('#from-species-container').data('species-index').length && jQuery('#to-species-container').data('species-index').length) {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
@@ -977,9 +960,11 @@
 
         view.model = null;
         jQuery('.input-field').val('');
+        jQuery('.exchange-species-container').html('');
+        jQuery('.exchange-species-container').data('species-index','');
         app.resetSelectorValue("#relationships-write-screen");
       } else {
-        jQuery().toastmessage('showErrorToast', "You must complete both fields and select a relationship type to submit your relationship...");
+        jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }
     },
 
