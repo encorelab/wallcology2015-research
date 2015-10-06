@@ -236,12 +236,18 @@
       var screenId = "#notes-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      if (app.getSelectorValue(screenId, "habitat").index !== -1) {
-        habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
-          return model.get('habitat_tag').index === app.getSelectorValue(screenId, "habitat").index;
-        });
-      } else {
+      var targetIndex = app.getSelectorValue(screenId, "habitat").index;
+      if (targetIndex === 4) {
+        // all notes
         habitatFilteredCollection = noteTypeFilteredCollection;
+      } else if (targetIndex === -1) {
+        // no notes
+        habitatFilteredCollection = null;
+      } else {
+        // filter for habitat number
+        habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
+          return model.get('habitat_tag').index === targetIndex;
+        });
       }
 
       // if one or more species have been selected (uses AND)
@@ -261,9 +267,12 @@
       // clear the house
       view.$el.find('.notes-list').html("");
 
-      speciesFilteredCollection.forEach(function (note) {
-        view.addOne(note);
-      });
+      // if the collection is not empty (eg habitat ?)
+      if (habitatFilteredCollection) {
+        speciesFilteredCollection.forEach(function (note) {
+          view.addOne(note);
+        });
+      }
     }
   });
 
@@ -735,30 +744,24 @@
         return model.get('created_at');
       };
 
-      var relationshipTypeFilteredCollection = view.collection.sort().where({published: true});
+      var publishedCollection = view.collection.sort().where({published: true});
 
       var screenId = "#relationships-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      var habitatIndex = app.getSelectorValue(screenId, "habitat").index;
-      // if not equal to habitat ?
-      //if (habitatIndex !== -1) {
-        if (habitatIndex !== -1) {      // switch to 4 to show all? Figure this out
-          habitatFilteredCollection = relationshipTypeFilteredCollection.filter(function(model) {
-            return model.get('habitat_tag').index === habitatIndex;
-          });
-        } else {
-          habitatFilteredCollection = relationshipTypeFilteredCollection;
-        }
-      //}
-      // else {
-      //   // this condition for if it's habitat ? (this is so awful, need to convince Tony to switch this)
-      //   habitatFilteredCollection = relationshipTypeFilteredCollection;
-      //   habitatFilteredCollection.reset(null);
-      //   //_.invoke(habitatFilteredCollection.toArray(), 'destroy');
-      // }
-      // OK, fuck this, need to talk to convince Tony instead of trying to mess around with all this
-
+      var targetIndex = app.getSelectorValue(screenId, "habitat").index;
+      if (targetIndex === 4) {
+        // all notes
+        habitatFilteredCollection = publishedCollection;
+      } else if (targetIndex === -1) {
+        // no notes
+        habitatFilteredCollection = null;
+      } else {
+        // filter for habitat number
+        habitatFilteredCollection = publishedCollection.filter(function(model) {
+          return model.get('habitat_tag').index === targetIndex;
+        });
+      }
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
@@ -777,9 +780,11 @@
       // clear the house
       view.$el.find('.relationships-list').html("");
 
-      speciesFilteredCollection.forEach(function (relationship) {
-        view.addOne(relationship);
-      });
+      if (speciesFilteredCollection) {
+        speciesFilteredCollection.forEach(function (relationship) {
+          view.addOne(relationship);
+        });
+      }
     }
   });
 
