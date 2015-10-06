@@ -55,11 +55,11 @@
   // put this in mongo at some point (and add to readme)
   app.noteTypes = {
     "Note Type": [],
-    "Species": ["We wonder...","We just found out that...","Something that doesn't make sense is...","We conclude that..."],
-    "Relationships": ["Rel1...","Rel2...","Rel3...","Rel4..."],
-    "Habitats": ["Hab1...","Hab2...","Hab3...","Hab4...","Hab5"],
-    "Issues": ["Iss1...","Iss2...","Iss3...","Iss4...","Iss5"],
-    "Big Idea": ["BI1...","BI2..."],
+    "Species": ["We observed that...","We wonder if...","It seems important that..."],
+    "Relationships": ["We observed that...","We wonder about the connection between...","Something that doesn't make sense is..."],
+    "Habitats": ["We observed that...","We wonder what would happen if...","Something that we still need to find out is..."],
+    "Real-world Connections": ["A real-world situation similar to this is...","This reminds me of...","This could help us understand..."],
+    "Big Idea": ["One idea we need to focus on as a class is..."],
   };
 
   app.init = function() {

@@ -9,7 +9,7 @@
   var Model = this.Skeletor.Model;
   Skeletor.Model = Model;
   app.View = {};
-  var MAX_FILE_SIZE = 20971520;
+  var MAX_FILE_SIZE = 20971520;     // 20 Mb
 
 
   /***********************************************************
@@ -740,13 +740,25 @@
       var screenId = "#relationships-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      if (app.getSelectorValue(screenId, "habitat").index !== -1) {
-        habitatFilteredCollection = relationshipTypeFilteredCollection.filter(function(model) {
-          return model.get('habitat_tag').index === app.getSelectorValue(screenId, "habitat").index;
-        });
-      } else {
-        habitatFilteredCollection = relationshipTypeFilteredCollection;
-      }
+      var habitatIndex = app.getSelectorValue(screenId, "habitat").index;
+      // if not equal to habitat ?
+      //if (habitatIndex !== -1) {
+        if (habitatIndex !== -1) {      // switch to 4 to show all? Figure this out
+          habitatFilteredCollection = relationshipTypeFilteredCollection.filter(function(model) {
+            return model.get('habitat_tag').index === habitatIndex;
+          });
+        } else {
+          habitatFilteredCollection = relationshipTypeFilteredCollection;
+        }
+      //}
+      // else {
+      //   // this condition for if it's habitat ? (this is so awful, need to convince Tony to switch this)
+      //   habitatFilteredCollection = relationshipTypeFilteredCollection;
+      //   habitatFilteredCollection.reset(null);
+      //   //_.invoke(habitatFilteredCollection.toArray(), 'destroy');
+      // }
+      // OK, fuck this, need to talk to convince Tony instead of trying to mess around with all this
+
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
