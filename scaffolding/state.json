@@ -1,5 +1,5 @@
 {
-  entity: "RUN",
-  phase: "brainstorm",
-  paused: false
+  "entity": "RUN",
+  "phase": "brainstorm",
+  "paused": false
 }
