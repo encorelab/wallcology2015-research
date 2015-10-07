@@ -796,6 +796,9 @@
     initialize: function() {
       var view = this;
       console.log('Initializing RelationshipsWriteView...', view.el);
+
+      // hackeroo - we want only max 2 selections for this screen (and creating a third component type does not seem right)
+      jQuery('#relationships-write-screen .ws').attr('max-selections','2');
     },
 
     events: {
@@ -824,13 +827,12 @@
     },
 
     selectSpecies: function(ev) {
-      // TODO: think about making a new wrapper for this selector as well... we need a max selection here
       var view = this;
       var index = jQuery(ev.target).parent().parent().attr('id');       // SKETTTCCCCCHHHHHHHH - NB: point of failure
       var tappedOn = JSON.parse(jQuery(ev.target).parent().parent().attr('aria-pressed'));    // type conversion, since it's somehow decided it wants to be a string - converted to bool this way
 
-      // might want to check here for 'active' instead
       if (index) {
+        // since the max-selections doesn't seem to prevent a change event firing and us hitting this (and we want to limit to 2)
         if (tappedOn) {
           if (jQuery('#from-species-container').data('species-index').length === 0) {
             // add to from_box
@@ -843,7 +845,7 @@
             jQuery('#to-species-container').html('<img src='+jQuery(ev.target).attr('src')+'></img>');
             view.model.set('to_species_index', index);
           } else {
-            throw "Neither box is empty somehow!";
+            console.log('Exceeded max selection');
           }
         } else if (!tappedOn) {
           if (jQuery('#from-species-container').data('species-index') === index) {
@@ -857,7 +859,7 @@
             jQuery('#to-species-container').html('');
             view.model.set('to_species_index', '');
           } else {
-            throw "Both boxes are empty somehow!";
+            console.log('Exceeded max selection');
           }
         } else {
           throw "Species button does not produce tappedOn value - maybe the html value changed";

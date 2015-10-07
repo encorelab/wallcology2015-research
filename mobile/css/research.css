@@ -95,6 +95,12 @@ textarea {
     background: #fecc81 !important;
 }
 
+/* remove this once Tony gets his act together */
+paper-icon-button[toggles][active] {
+    border: 1px solid red;
+    border-radius: 0px !important;
+}
+
 /*#notes-picker .modal-header {
     border-bottom: none;
 }
@@ -397,7 +403,7 @@ textarea {
     position: relative;
 }
 
-/* TODO - adjust almost all of these numbers */
+/* TODO - adjust almost all of these numbers, they're completely unresponsive */
 .exchange-species-container {
     height: 80px;
     width: 80px;
@@ -409,7 +415,8 @@ textarea {
 }
 
 .exchange-species-container img {
-    height: 72px;
+    height: 60px;
+    margin-top: 7px;
 }
 
 #from-species-container {
