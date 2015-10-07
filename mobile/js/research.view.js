@@ -513,7 +513,7 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
-      app.setSelectorValues("#notes-write-screen", view.model.get('habitat_tag'), view.model.get('species_tags'));
+      app.setSelectorValues("#notes-write-screen", view.model.get('habitat_tag').index, _.pluck(view.model.get('species_tags'), 'index'));
       jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
@@ -738,6 +738,16 @@
     render: function() {
       var view = this;
       console.log("Rendering RelationshipsReadView...");
+      var screenId = "#relationships-read-screen";
+
+      /************ AGGREGATE *************/
+
+      var habitatObj = app.getSelectorValue(screenId, "habitat");
+      var speciesObj = app.getSelectorValue(screenId, "species");
+      // START HERE
+
+
+      /************ NOTES LIST ************/
 
       // sort newest to oldest (prepend!)
       view.collection.comparator = function(model) {
@@ -746,10 +756,9 @@
 
       var publishedCollection = view.collection.sort().where({published: true});
 
-      var screenId = "#relationships-read-screen";
       // if a habitat has been selected
+      var targetIndex = habitatObj.index;
       var habitatFilteredCollection = null;
-      var targetIndex = app.getSelectorValue(screenId, "habitat").index;
       if (targetIndex === 4) {
         // all notes
         habitatFilteredCollection = publishedCollection;
@@ -769,7 +778,7 @@
         speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
           console.log(model);
           // all value in selector must be in species_tags
-          if (_.difference(_.pluck(app.getSelectorValue(screenId, "species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+          if (_.difference(_.pluck(speciesObj, "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
             return model;
           }
         });
@@ -870,8 +879,6 @@
 
       view.model.save();
     },
-
-
 
     openPhotoModal: function(ev) {
       var view = this;
@@ -1029,7 +1036,47 @@
       var view = this;
       console.log("Rendering RelationshipsWriteView...");
 
-      app.setSelectorValues("#relationships-write-screen", view.model.get('habitat_tag'), view.model.get('species_tags'));
+      // var habitatObj = app.getSelectorValue("#relationships-write-screen","habitat");
+      // if (habitatObj.name) {
+      //   jQuery('#exchange-habitat').text("In "+habitatObj.name);
+      // }
+      if (view.model.get('habitat_obj')) {
+        jQuery('#exchange-habitat').text("In "+view.model.get('habitat_obj').name);
+      } else {
+        jQuery('#exchange-habitat').text("In Habitat ?");
+      }
+
+      var speciesIndexArray = [];
+      // jump through insanely convoluted hoops to get the index and url for the species - hopefully nobody ever reads this code cause a: makes me a sad puppy and b: impossible to understand given the insane data structures that we are dealing with
+      if (view.model.get('from_species_index').length > 0) {
+        speciesIndexArray.push(view.model.get('from_species_index'));
+      }
+
+      if (view.model.get('to_species_index').length > 0) {
+        speciesIndexArray.push(view.model.get('to_species_index'));
+      }
+      app.setSelectorValues("#relationships-write-screen", view.model.get('habitat_tag').index, speciesIndexArray);
+
+      var speciesArr = app.getSelectorValue("#relationships-write-screen","species");
+      if (view.model.get('from_species_index').length > 0) {
+        var fromObj = {};
+        fromObj.index = parseInt(view.model.get('from_species_index'));
+        jQuery('#from-species-container').data('species-index',view.model.get('from_species_index'));
+        jQuery('#from-species-container').html('<img src='+_.findWhere(speciesArr, fromObj).imgUrl+'></img>');
+      } else {
+        jQuery('#from-species-container').data('species-index','');
+        jQuery('#from-species-container').html('');
+      }
+      if (view.model.get('to_species_index').length > 0) {
+        var toObj = {};
+        toObj.index = parseInt(view.model.get('to_species_index'));
+        jQuery('#to-species-container').data('species-index',view.model.get('to_species_index'));
+        jQuery('#to-species-container').html('<img src='+_.findWhere(speciesArr, toObj).imgUrl+'></img>');
+      } else {
+        jQuery('#to-species-container').data('species-index','');
+        jQuery('#to-species-container').html('');
+      }
+
       jQuery('#relationship-title-input').val(view.model.get('title'));
       jQuery('#relationship-body-input').val(view.model.get('body'));
       jQuery('#relationship-media-container').html('');

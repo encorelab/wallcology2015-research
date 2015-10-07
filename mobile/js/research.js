@@ -337,6 +337,13 @@
     return seconds;
   };
 
+  app.convertStringArrayToIntArray = function(arr) {
+    var result = arr.map(function (x) {
+        return parseInt(x, 10);
+    });
+    return result;
+  };
+
   // wrappers for the species selector polymer component - spending so much time on this!
   app.getSelectorValue = function(view, kind) {
     var selectorValue;
@@ -354,10 +361,10 @@
     return selectorValue;
   };
 
-  app.setSelectorValues = function(view, habitatObj, speciesObj) {
+  app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
     // these will be undefined if nothing is selected from habitat/species
-    if (habitatObj && speciesObj) {
-      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatObj.index, _.pluck(speciesObj, 'index'));
+    if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
+      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
     }
   };
 

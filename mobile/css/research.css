@@ -395,6 +395,10 @@ paper-icon-button[toggles][active] {
 
 /********** RELATIONSHIPS SCREENS **********/
 
+#relationships-aggregate {
+    width: 100%;
+}
+
 #exchange-container {
     height: 160px;
     width: 50%;
