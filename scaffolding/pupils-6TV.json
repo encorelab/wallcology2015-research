@@ -1,0 +1,162 @@
+[
+    {
+        "username": "allison",
+        "display_name": "Allison",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "celia",
+        "display_name": "Celia",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "charlie",
+        "display_name": "Charlie",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "hannah",
+        "display_name": "Hannah",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "isaac",
+        "display_name": "Isaac",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "mhark",
+        "display_name": "Mhark",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "naomi",
+        "display_name": "Naomi",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "will",
+        "display_name": "Will",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "adam",
+        "display_name": "Adam",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "andrew",
+        "display_name": "Andrew",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "eli",
+        "display_name": "Eli",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "eva",
+        "display_name": "Eva",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "maddy",
+        "display_name": "Maddy",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "nate",
+        "display_name": "Nate",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "talia",
+        "display_name": "Talia",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    },
+    {
+        "username": "zoe",
+        "display_name": "Zoe",
+        "tags": [
+            "6TV"
+        ],
+        "user_role": "student",
+        "created_at": "2015-03-25T19:08:00.000Z",
+        "modified_at": "2015-03-25T19:09:00.000Z"
+    }
+]
