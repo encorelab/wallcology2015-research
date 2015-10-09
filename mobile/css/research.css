@@ -95,12 +95,6 @@ textarea {
     background: #fecc81 !important;
 }
 
-/* remove this once Tony gets his act together */
-paper-icon-button[toggles][active] {
-    border: 1px solid red;
-    border-radius: 0px !important;
-}
-
 /*#notes-picker .modal-header {
     border-bottom: none;
 }
@@ -396,7 +390,20 @@ paper-icon-button[toggles][active] {
 /********** RELATIONSHIPS SCREENS **********/
 
 #relationships-aggregate {
-    width: 100%;
+    /*width: 100%;*/
+}
+
+#relationships-aggregate .table {
+    width: inherit;             /* overwrite the standard bootstrap width of 100% */
+}
+
+#relationships-aggregate td {
+    width: 100px;
+}
+
+#relationships-aggregate .species-box {
+    width: 80px;
+    height: 80px;
 }
 
 #exchange-container {

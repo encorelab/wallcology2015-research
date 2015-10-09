@@ -339,7 +339,7 @@
 
   app.convertStringArrayToIntArray = function(arr) {
     var result = arr.map(function (x) {
-        return parseInt(x, 10);
+      return parseInt(x, 10);
     });
     return result;
   };
@@ -369,7 +369,9 @@
   };
 
   app.resetSelectorValue = function(view) {
-    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
+    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
+    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
+    // TODO! What can we do for this - hope to convince them to not remove Habitat ?    or else this needs an all
   };
 
   //TODO - parameterize all of this!
