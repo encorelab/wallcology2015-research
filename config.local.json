@@ -6,7 +6,7 @@
         "password": "bar"
     },
     "wakeful": {
-        "url": "http://localhost:7777/faye"
+        "url": "http://localhost:7890/faye"
     },
     "mqtt": {
         "protocol": "tcp://",
