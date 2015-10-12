@@ -374,7 +374,7 @@ textarea {
 /********** NOTES SCREENS **********/
 
 .note-type-selector-container {
-    width: 122px;
+    width: 190px;
     height: 35px;
     margin-top: 7px;
     color: white;
@@ -389,38 +389,61 @@ textarea {
 
 /********** RELATIONSHIPS SCREENS **********/
 
+#relationships-aggregate {
+    /*width: 100%;*/
+}
+
+#relationships-aggregate .table {
+    width: inherit;             /* overwrite the standard bootstrap width of 100% */
+}
+
+#relationships-aggregate td {
+    width: 100px;
+}
+
+#relationships-aggregate .species-box {
+    width: 80px;
+    height: 80px;
+}
+
 #exchange-container {
     height: 160px;
-    width: 66%;
+    width: 50%;
     border: 2px solid #006699;
     margin: 0px auto 10px auto;
     position: relative;
 }
 
-/* TODO - adjust almost all of these numbers */
-.exhange-species-container {
+/* TODO - adjust almost all of these numbers, they're completely unresponsive */
+.exchange-species-container {
     height: 80px;
     width: 80px;
     border: 2px solid #006699;
     border-radius: 15px;
     position: absolute;
     top: 23%;
+    text-align: center;
+}
+
+.exchange-species-container img {
+    height: 60px;
+    margin-top: 7px;
 }
 
 #from-species-container {
-    left: 22%;
+    left: 12%;
 }
 
 #to-species-container {
-    right: 22%;
+    right: 12%;
 }
 
 #exchange-habitat-container {
     position: absolute;
-    left: 48%;
-    top: 42%;
+    left: 37%;
+    top: 30%;
+    text-align: center;
 }
-
 
 /********** CHI-TEST SCREEN **********/
 

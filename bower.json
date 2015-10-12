@@ -21,6 +21,8 @@
     "jquery.cookie": "https://github.com/carhartl/jquery-cookie.git#~1.4.1",
     "purl": "https://github.com/allmarkedup/purl.git#~2.3.1",
     "jquery-ui": "~1.10",
-    "wallcology-selector": "https://github.com/ltg-uic/wallcology-selector.git"
+    "wallcology-selector": "https://github.com/ltg-uic/wallcology-selector.git",
+    "nutella-connector": "https://github.com/ltg-uic/nutella-connector.git",
+    "polymer": "Polymer/polymer#^1.1.4"
   }
 }

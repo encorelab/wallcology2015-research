@@ -8,11 +8,10 @@
 
     <!-- <link href="../bower_components/polymer/polymer.html" rel="import"> -->
 
-
-    <link rel="import" href="../bower_components/wallcology-selector/toronto/read-selector.html">
-    <link rel="import" href="../bower_components/wallcology-selector/toronto/write-selector.html">
+    <!-- <link rel="import" href="../bower_components/wallcology-selector/demo/test-app.html"> -->
+    <link rel="import" href="selector-component/read-selector.html">
+    <link rel="import" href="selector-component/write-selector.html">
     <!-- <link href="../bower_components/nutella-connector/nutella-connector.html" rel="import"> -->
-    <!-- <link href="../bower_components/wallcology-selector/wallcology-selector.html" rel="import"> -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -317,6 +316,9 @@
                         <read-selector></read-selector>
                     </span>
                 </div>
+                <div id="relationships-aggregate">
+
+                </div>
                 <ul class="row relationships-list">
                     <!-- gets filled by the readView -->
                 </ul>
@@ -337,14 +339,13 @@
                     </span>
                 </div>
                 <div id="exchange-container" class="editable">
-                    <!-- <div id="exchange-inner-container"> -->
-                        <div id="from-species-container" class="exhange-species-container"></div>
-                        <div id="to-species-container" class="exhange-species-container"></div>
-                        <div id="exchange-habitat-container">
-                            ->
-                        </div>
-
-                    <!-- </div> -->
+                    <div id="from-species-container" class="exchange-species-container" data-species-index=""></div>
+                    <div id="exchange-habitat-container">
+                        <div id="exchange-habitat">In Habitat ?</div>
+                        <div>-></div>
+                        <div>provides energy for</div>
+                    </div>
+                    <div id="to-species-container" class="exchange-species-container" data-species-index=""></div>
                 </div>
                 <textarea id="relationship-title-input" class="input-field editable" name="title" placeholder="Headline"></textarea>
                 <div id="relationship-body-container">

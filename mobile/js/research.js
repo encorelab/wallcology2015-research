@@ -55,11 +55,11 @@
   // put this in mongo at some point (and add to readme)
   app.noteTypes = {
     "Note Type": [],
-    "Species": ["We wonder...","We just found out that...","Something that doesn't make sense is...","We conclude that..."],
-    "Relationships": ["Rel1...","Rel2...","Rel3...","Rel4..."],
-    "Habitats": ["Hab1...","Hab2...","Hab3...","Hab4...","Hab5"],
-    "Issues": ["Iss1...","Iss2...","Iss3...","Iss4...","Iss5"],
-    "Big Idea": ["BI1...","BI2..."],
+    "Species": ["We observed that...","We wonder if...","It seems important that..."],
+    "Relationships": ["We observed that...","We wonder about the connection between...","Something that doesn't make sense is..."],
+    "Habitats": ["We observed that...","We wonder what would happen if...","Something that we still need to find out is..."],
+    "Real-world Connections": ["A real-world situation similar to this is...","This reminds me of...","This could help us understand..."],
+    "Big Idea": ["One idea we need to focus on as a class is..."],
   };
 
   app.init = function() {
@@ -337,6 +337,13 @@
     return seconds;
   };
 
+  app.convertStringArrayToIntArray = function(arr) {
+    var result = arr.map(function (x) {
+      return parseInt(x, 10);
+    });
+    return result;
+  };
+
   // wrappers for the species selector polymer component - spending so much time on this!
   app.getSelectorValue = function(view, kind) {
     var selectorValue;
@@ -354,15 +361,17 @@
     return selectorValue;
   };
 
-  app.setSelectorValues = function(view, habitatObj, speciesObj) {
+  app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
     // these will be undefined if nothing is selected from habitat/species
-    if (habitatObj && speciesObj) {
-      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatObj.index, _.pluck(speciesObj, 'index'));
+    if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
+      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
     }
   };
 
   app.resetSelectorValue = function(view) {
-    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
+    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
+    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
+    // TODO! What can we do for this - hope to convince them to not remove Habitat ?    or else this needs an all
   };
 
   //TODO - parameterize all of this!
