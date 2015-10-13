@@ -209,19 +209,29 @@
     jQuery('.top-nav-btn, .todo-btn').click(function() {
       if (app.username) {
         jQuery('.top-nav-btn').removeClass('active');     // unmark all nav items
-        app.hideAllContainers();
+        // app.hideAllContainers();
         // if (jQuery(this).hasClass('goto-proposal-btn')) {
         //   jQuery('#proposal-nav-btn').addClass('active');
         //   jQuery('#proposal-screen').removeClass('hidden');
         //   app.proposalsView.render();
         // }
         if (jQuery(this).hasClass('goto-notes-btn')) {
+          app.hideAllContainers();
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
+          app.hideAllContainers();
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
-        }else if (jQuery(this).hasClass('goto-chi-test-btn')) {
+        } else if (jQuery(this).hasClass('goto-populations-btn')) {
+          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          // jQuery('#populations-nav-btn').addClass('active');
+          // jQuery('#populations-screen').removeClass('hidden');
+        } else if (jQuery(this).hasClass('goto-investigations-btn')) {
+          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          // jQuery('#investigations-nav-btn').addClass('active');
+          // jQuery('#investigations-screen').removeClass('hidden');
+        } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
           jQuery('#chi-test-nav-btn').addClass('active');
           jQuery('#chi-test-screen').removeClass('hidden');
         }
