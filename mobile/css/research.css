@@ -931,6 +931,7 @@ body {
 }
 .inner-wrapper {
     margin-top: 30px !important;
+    width: 100%;
 }
 .note-type-selector-container {
     display: block !important;
