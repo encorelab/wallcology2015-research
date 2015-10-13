@@ -648,7 +648,7 @@ textarea {
 body, html {
     /*height: calc(100% - 50px);*/
     height: 100%;
-    background-color: #3092ae;
+    /*background-color: #3092ae;*/
 }
 
 a,
@@ -903,8 +903,8 @@ input:disabled {
 
 
 body {
-    background-color: #3092ae;
-    background-image: url(../img/bluebg.jpg)
+    /*background-color: #3092ae;*/
+    /*background-image: url(../img/bluebg.jpg)*/
 }
 
 .navbar {
@@ -947,7 +947,7 @@ body {
     width: auto;
     max-width: 1140px;
     margin: 10px auto 40px auto;
-    background-color: #1b282c;
+    /*background-color: #1b282c;*/
     height: 80px;
     -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,1);
     box-shadow: inset 0 3px 9px rgba(0,0,0,1);
