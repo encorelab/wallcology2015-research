@@ -2,7 +2,7 @@
 <head>
     <link href="../../bower_components/polymer/polymer.html" rel="import">
     <link href="../../bower_components/wallcology-selector/wallcology-selector.html" rel="import">
-    <link href="../../bower_components/nutella-connector/nutella-connector.html" rel="import">
+    <!-- <link href="../../bower_components/nutella-connector/nutella-connector.html" rel="import"> -->
 </head>
 
 <dom-module id="write-selector">
@@ -12,8 +12,8 @@
     <template>
 
         <!--uncomment this and the two lines in ready to use nutella-->
-        <nutella-connector connected={{connected}} id="nutellaConn" hostname="ltg.evl.uic.edu" appid="wallcology" runid="default"
-                           componentid="wallcology_admin"></nutella-connector>
+<!--         <nutella-connector connected={{connected}} id="nutellaConn" hostname="ltg.evl.uic.edu" appid="wallcology" runid="default"
+                           componentid="wallcology_admin"></nutella-connector> -->
 
         <wallcology-selector class="ws" toggle-selectors="{{toggleSelectors}}" button-selectors="{{buttonSelectors}}"
                              max-selections="4" selected-items="{{selectedItems}}"
