@@ -903,13 +903,13 @@ input:disabled {
 
 
 body {
-    background-color: #3092ae;
-    background-image: url(../img/bluebg.jpg)
+    /*background-color: #3092ae;*/
+    /*background-image: url(../img/bluebg.jpg)*/
 }
 
 .navbar {
     min-height: 70px;
-    background-color: #fff;
+    background: linear-gradient(to bottom, #1a7194 0%,#176686 100%) !important;
     background-image: none;
     border: none;
     padding-top: 10px
@@ -922,7 +922,7 @@ body {
 }
 .active>a {
     background-image: none !important;
-    background-color: #1a7194 !important;
+    background-color: #135b78 !important;
     height: 34px;
     border-radius: 30px;
     top: 7px;
@@ -936,10 +936,13 @@ body {
 .note-type-selector-container {
     display: block !important;
     float: right !important;
+    max-width: 140px;
 }
 .note-type-selector {
     border: 1px solid #2087b1;
     height: 40px;
+    max-width: 140px;
+
 }
 .selector-container {
     position: relative;
@@ -947,11 +950,11 @@ body {
     width: auto;
     max-width: 1140px;
     margin: 10px auto 40px auto;
-    background-color: #1b282c;
+    background-color: #e3e3e3;
     height: 80px;
-    -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,1);
-    box-shadow: inset 0 3px 9px rgba(0,0,0,1);
-    border: 1px solid #237599;
+    -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,0.3);
+    box-shadow: inset 0 3px 9px rgba(0,0,0,0.3);
+    /* border: 1px solid #237599;*/
 }
 .col-xs-offset-2 {
     margin-left: 0;
@@ -988,7 +991,7 @@ body {
     background: radial-gradient(ellipse at center, #e5f182 0%,#a1ca40 50%,#77b318 100%) !important;
     -webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,0.5);
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.5);
-    border: 1px solid #237599 !important;
+    border: 1px solid #e3e3e3 !important;
 }
 paper-button.colorful.wallcology-selector {
     background: linear-gradient(to bottom, #639b14 0%,#89b92b 100%) !important;
@@ -1013,7 +1016,8 @@ paper-button.colorful.wallcology-selector {
 }
 .side-nav{
     padding: 90px 0 0 0;
-    left: -15px
+    left: -15px;
+    z-index: 10;
 }
 .photo-wrapper {
     color: #fff;
@@ -1035,4 +1039,7 @@ paper-button.colorful.wallcology-selector {
     -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     background: linear-gradient(to bottom, #f8f5e9 0%, #f8f5e9 50%,#eee9d0 100%) !important;
+}
+.top-nav-btn>a{
+    color: #fff !important;
 }
