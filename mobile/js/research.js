@@ -220,9 +220,10 @@
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
-          app.hideAllContainers();
-          jQuery('#relationships-nav-btn').addClass('active');
-          jQuery('#relationships-read-screen').removeClass('hidden');
+          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          // app.hideAllContainers();
+          // jQuery('#relationships-nav-btn').addClass('active');
+          // jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#populations-nav-btn').addClass('active');
