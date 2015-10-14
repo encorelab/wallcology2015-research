@@ -7,7 +7,7 @@
 
     <!-- <link href="../../polymer/polymer.html" rel="import">
     <link href="../wallcology-selector.html" rel="import"> -->
-    <link href="../../bower_components/nutella-connector/nutella-connector.html" rel="import">
+    <!-- <link href="../../bower_components/nutella-connector/nutella-connector.html" rel="import"> -->
 </head>
 
 <dom-module id="read-selector">
@@ -17,8 +17,8 @@
     <template>
 
         <!--uncomment this and the two lines in ready to use nutella-->
-        <nutella-connector connected={{connected}} id="nutellaConn" hostname="ltg.evl.uic.edu" appid="wallcology" runid="default"
-                           componentid="wallcology_admin"></nutella-connector>
+       <!--  <nutella-connector connected={{connected}} id="nutellaConn" hostname="ltg.evl.uic.edu" appid="wallcology" runid="default"
+                           componentid="wallcology_admin"></nutella-connector> -->
 
         <wallcology-selector class="ws" toggle-selectors="{{toggleSelectors}}" button-selectors="{{buttonSelectors}}"
                              max-selections="4" selected-items="{{selectedItems}}"
@@ -216,15 +216,15 @@
             },
             ready: function () {
                 this.selectedItems = [];
-                this.buttonSelectors = [];
-                this.toggleSelectors = [];
+                // this.buttonSelectors = [];
+                // this.toggleSelectors = [];
 
-                // var start = [{
-                //     'items': [],
-                //     'name': 'Habitat ?',
-                //     'index': -1
-                // }];
-                // me.toggleSelectors = start.concat(me.toggleSelectors);
+                var start = [{
+                    'items': [],
+                    'name': 'Habitat ?',
+                    'index': -1
+                }];
+                this.toggleSelectors = start.concat(this.toggleSelectors);
 
                 // var all = {
                 //     'items': [
