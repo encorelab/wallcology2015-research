@@ -947,23 +947,23 @@ body {
 .note-type-selector-container {
     display: block !important;
     float: right !important;
-    max-width: 140px;
+    max-width: 130px;
 }
 .note-type-selector {
     border: 1px solid #0e4f69 !important;
-    left: -10px;
+    left: -20px;
     height: 40px;
     background-color: #135b78 !important;
     height: 40px;
-    max-width: 140px;
+    max-width: 130px;
 
 }
 .selector-container {
     position: relative;
     padding: 2px 10px;
     width: auto;
-    max-width: 1140px;
-    margin: 0px auto 40px auto;
+    max-width: 1100px;
+    margin: 0px auto 20px auto;
     background-color: #e3e3e3;
     height: 60px;
     -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,0.3);
@@ -978,7 +978,7 @@ body {
 }
 .notes-list {
     width: 75%;
-    margin: 20px auto auto auto;
+    margin: 20px auto auto 14%;
 }
 .note-container {
     margin: 10px;
@@ -996,7 +996,8 @@ body {
     background-color: #fff !important;
 }
 #note-title-input {
-    min-height: 50px;
+    min-height: 54px;
+    line-height: 26px;
 }
 #note-body-input {
     min-height: 320px;
@@ -1058,7 +1059,22 @@ paper-button.colorful.wallcology-selector {
 .top-nav-btn>a{
     color: #fff !important;
 }
-paper-icon-button[toggles].selector.wallcology-selector {
-    border: 1px solid #aed24d;
-    background-color: #efefef !important;
+paper-icon-button[toggles] {
+    border: 1px solid #e3e3e3 !important;
+    background-color: #c3c3c3 !important;    
+    border-radius: 40px !important  ;
+}
+paper-icon-button[toggles][active] {
+    border: 1px solid #aeaeae !important;
+    background-color: #aed24d !important;
+    border-radius: 40px !important  ;
+}
+/*#key{
+    margin-left: 30px;
+}*/
+.vcontainer {
+    width: 150px;
+}
+.notes-list{
+    margin: 20px auto auto 14%;
 }
