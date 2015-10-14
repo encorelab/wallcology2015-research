@@ -926,19 +926,22 @@ body {
     height: 34px;
     top: 7px;
     padding-top: 7px !important;
-    margin: auto 7px;
+    margin: 1px 7px !important;
     box-shadow: none !important;
     -webkit-box-shadow: none !important;
     color: #a7e0f7  !important;
 }
 .top-navigation>.active>a {
     background-image: none !important;
-    background-color: #135b78 !important;
+    background-color: #0a475f  !important;
     height: 34px;
     border-radius: 30px;
     top: 7px;
     padding-top: 7px !important;
-    margin: auto 7px;
+    margin: 1px 7px !important;
+}
+.top-navigation>.active>a:hover {
+    background-color: #07384c !important;
 }
 .inner-wrapper {
     margin-top: 15px !important;
@@ -957,6 +960,9 @@ body {
     height: 40px;
     max-width: 130px;
 
+}
+.note-type-selector:hover {
+    background-color: #0d4d66 !important;
 }
 .selector-container {
     position: relative;
@@ -1002,12 +1008,12 @@ body {
 #note-body-input {
     min-height: 320px;
 }
-.publish-note-btn, .nav-write-btn {
+/*.publish-note-btn, .nav-write-btn {
     background: radial-gradient(ellipse at center, #a3cb42 0%,#95bc35  100%) !important;
     -webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
-}
+}*/
 paper-button.colorful.wallcology-selector {
     /*background: linear-gradient(to bottom, #639b14 0%,#89b92b 100%) !important;
     -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
@@ -1017,6 +1023,9 @@ paper-button.colorful.wallcology-selector {
     left: -10px;
     height: 40px;
     background-color: #135b78;
+}
+paper-button.colorful.wallcology-selector:hover {
+    background-color: #0d4d66;
 }
 #note-body-container {
     height: auto;
@@ -1038,15 +1047,18 @@ paper-button.colorful.wallcology-selector {
 .photo-wrapper {
     color: #fff;
 }
-.fa-arrow-left {
+.publish-note-btn, .nav-write-btn, .fa-arrow-left {
     background: radial-gradient(ellipse at center, #1a7194 0%,#176686 100%) !important;
     -webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #237599 !important
 }
+.publish-note-btn:hover, .nav-write-btn:hover, .fa-arrow-left:hover {
+    background: radial-gradient(ellipse at center, #176686 0%,#105875 100%) !important;
+}
 .note-title {
     font-size: 20px;
-    color: #639b14;
+    color: #0a475f ;
 }
 .note-body {
     color: #666  !important;
@@ -1059,7 +1071,7 @@ paper-button.colorful.wallcology-selector {
 .top-nav-btn>a{
     color: #fff !important;
 }
-paper-icon-button[toggles] {
+/*paper-icon-button[toggles] {
     border: 1px solid #e3e3e3 !important;
     background-color: #c3c3c3 !important;    
     border-radius: 40px !important  ;
@@ -1069,7 +1081,7 @@ paper-icon-button[toggles][active] {
     background-color: #aed24d !important;
     border-radius: 40px !important  ;
 }
-/*#key{
+#key{
     margin-left: 30px;
 }*/
 .vcontainer {
