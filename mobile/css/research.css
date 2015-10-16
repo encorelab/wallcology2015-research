@@ -1043,6 +1043,7 @@ paper-button.colorful.wallcology-selector:hover {
     padding: 90px 0 0 0;
     left: -15px;
     z-index: 10;
+    top: 37%;
 }
 .photo-wrapper {
     color: #fff;
@@ -1085,8 +1086,12 @@ paper-icon-button[toggles][active] {
     margin-left: 30px;
 }*/
 .vcontainer {
-    width: 150px;
+    width: 120px;
 }
 .notes-list{
     margin: 20px auto auto 14%;
+}
+.container {
+    width: auto;
+    padding-left: 35px;
 }
