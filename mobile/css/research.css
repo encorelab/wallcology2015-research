@@ -1037,16 +1037,12 @@ paper-button.colorful.wallcology-selector:hover {
 .fa-lightbulb-o {
     top: 10px;
     right: 70px;
-    color: #fff;
 }
 .side-nav{
     padding: 90px 0 0 0;
     left: -15px;
     z-index: 10;
     top: 37%;
-}
-.photo-wrapper {
-    color: #fff;
 }
 .publish-note-btn, .nav-write-btn, .fa-arrow-left {
     background: radial-gradient(ellipse at center, #1a7194 0%,#176686 100%) !important;
@@ -1094,4 +1090,80 @@ paper-icon-button[toggles][active] {
 .container {
     width: auto;
     padding-left: 35px;
+}
+.species-box{
+    height: 30px !important;
+    width: 30px !important;
+}
+#relationships-aggregate {
+    left: 140px !important;
+    position: relative;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding-left: 35px;
+    }
+    .navbar-header {
+        width: 140px;
+    }
+    .navbar-brand {
+        text-indent: -9999px;
+        width: 120px;
+        background-size: 122px;
+        background-position: 0px 7px;
+    }
+    .navbar-nav{
+        font-size: 12px !important;
+    }
+    .logout-user {
+        margin: 0 0 0 -20px !important;
+    }
+    paper-icon-button {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    .wallcology-selector {
+        font-size: 12px !important;
+    }
+    .vcontainer{
+        width: 110px;
+        margin-right: -10px !important;
+    }
+    .note-type-selector {
+        font-size: 12px !important;
+        width: 90px;
+        height: 30px;
+        margin-left: 10px;
+    }
+    .note-type-selector-container {
+        width: 100px;
+    }
+    paper-button.colorful.wallcology-selector{
+        height: 30px;
+        padding-top: 6px;
+    }
+    .selector-container{
+        height: 50px;
+    }
+    .notes-list {
+        width: 85%;
+    }
+    .note-title {
+        font-size: 16px;
+    }
+    .fa-lightbulb-o {
+        right: 40px;
+    }
+    #note-btn-container {
+        width: 500px;
+    }
+    #relationships-aggregate {
+        left: 105px !important;
+    }
+    .inner-wrapper {
+        height: 90% !important
+    }
 }
