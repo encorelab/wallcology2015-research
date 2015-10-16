@@ -236,7 +236,8 @@
       var screenId = "#notes-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      var targetIndex = app.getSelectorValue(screenId, "habitat").index;
+      //var targetIndex = app.getSelectorValue(screenId, "habitat").index;
+      var targetIndex = 4;
       if (targetIndex === 4) {
         // all notes
         habitatFilteredCollection = noteTypeFilteredCollection;
@@ -252,7 +253,8 @@
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
-      if (app.getSelectorValue(screenId, "species").length > 0) {
+      //if (app.getSelectorValue(screenId, "species").length > 0) {
+        if (true) {
         speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
           console.log(model);
           // all value in selector must be in species_tags
@@ -744,16 +746,18 @@
       var speciesObj = app.getSelectorValue(screenId, "species");
 
       var publishedCollection = view.collection.where({published: true});
-      var habitatFilteredCollection = publishedCollection.filter(function(model) {
-        return model.get('habitat_tag').index === habitatObj.index;
-      });
+      // var habitatFilteredCollection = publishedCollection.filter(function(model) {
+      //   return model.get('habitat_tag').index === habitatObj.index;
+      // });
+      var habitatFilteredCollection = publishedCollection;
 
       jQuery('#relationships-aggregate').html('');
       // var tableContainer = '<div class="table-responsive"></div>';
       var table = '<table class="table table-bordered table-hover"></table>';
 
       // this gives us the indexes of the toggles for this habitat
-      var speciesIndexArr = document.querySelector('#relationships-read-screen .ws').currentToggle.items;
+      //var speciesIndexArr = document.querySelector('#relationships-read-screen .ws').currentToggle.items;
+      var speciesIndexArr = [];
 
       // this gives us all of the button selectors
       //document.querySelector('#relationships-read-screen .ws').buttonSelectors;
@@ -796,9 +800,11 @@
 
       /************ AGGREGATE *************/
 
-      var habitatObj = app.getSelectorValue(screenId, "habitat");
+      //var habitatObj = app.getSelectorValue(screenId, "habitat");
+      var habitatObj = {"index":"1"};
 
-      if (habitatObj.index !== -1) {
+      //if (habitatObj.index !== -1) {
+        if (true) {
         view.createAggregateTable();
       }
 

@@ -260,27 +260,27 @@
        app.notesReadView.render();
      }
 
-     if (app.notesWriteView === null) {
-       app.notesWriteView = new app.View.NotesWriteView({
-         el: '#notes-write-screen',
-         collection: Skeletor.Model.awake.notes
-       });
-     }
+     // if (app.notesWriteView === null) {
+     //   app.notesWriteView = new app.View.NotesWriteView({
+     //     el: '#notes-write-screen',
+     //     collection: Skeletor.Model.awake.notes
+     //   });
+     // }
 
-     if (app.relationshipsReadView === null) {
-       app.relationshipsReadView = new app.View.RelationshipsReadView({
-         el: '#relationships-read-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-       app.relationshipsReadView.render();
-     }
+     // if (app.relationshipsReadView === null) {
+     //   app.relationshipsReadView = new app.View.RelationshipsReadView({
+     //     el: '#relationships-read-screen',
+     //     collection: Skeletor.Model.awake.relationships
+     //   });
+     //   app.relationshipsReadView.render();
+     // }
 
-     if (app.relationshipsWriteView === null) {
-       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
-         el: '#relationships-write-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-     }
+     // if (app.relationshipsWriteView === null) {
+     //   app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+     //     el: '#relationships-write-screen',
+     //     collection: Skeletor.Model.awake.relationships
+     //   });
+     // }
 
 
 
@@ -359,15 +359,15 @@
   app.getSelectorValue = function(view, kind) {
     var selectorValue;
 
-    if (kind === "habitat") {
-      selectorValue = _.clone(document.querySelector(view+' .ws').currentToggle);
-      // since items is extremely redundant and just clutters things up
-      delete selectorValue.items;
-    } else if (kind === "species") {
-      selectorValue = document.querySelector(view+' .ws').selectedItems;
-    } else {
-      throw "Error returning selector type";
-    }
+    // if (kind === "habitat") {
+    //   selectorValue = _.clone(document.querySelector(view+' .ws').currentToggle);
+    //   // since items is extremely redundant and just clutters things up
+    //   delete selectorValue.items;
+    // } else if (kind === "species") {
+    //   selectorValue = document.querySelector(view+' .ws').selectedItems;
+    // } else {
+    //   throw "Error returning selector type";
+    // }
 
     return selectorValue;
   };
