@@ -207,6 +207,13 @@
                         }
                     ]
                 },
+                connected: {
+                    type: Boolean,
+                    notify: true,
+                    value: false,
+                    observer: 'connectedChanged'
+                },
+            },
             observers: [
                 'selectedItemsChanged(selectedItems.*)',
                 'toggleSelectorsChanged(toggleSelectors.*)',
