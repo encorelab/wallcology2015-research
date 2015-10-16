@@ -6,13 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <!-- <link href="../bower_components/polymer/polymer.html" rel="import"> -->
-    <!--<script type="text/javascript" src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
-    <!-- <link rel="import" href="../bower_components/wallcology-selector/demo/test-app.html"> -->
     <link rel="import" href="selector-component/read-selector.html">
     <link rel="import" href="selector-component/write-selector.html">
-    <!-- <link href="../bower_components/nutella-connector/nutella-connector.html" rel="import"> -->
+
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -27,6 +23,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon"> -->
     <!-- <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script> -->
 
+    <!-- <script type="text/javascript" src="app.js"></script>-->
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -251,7 +248,7 @@
                 <div id="note-btn-container" class="editable">
                     <div class="photo-wrapper">
                        <label for="photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
-                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                       <input id="photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" capture="camera"/>
                        <i id="photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
                     </div>
                     <button class="publish-note-btn btn-circular fa fa-check fa-3x pull-right"></button>
