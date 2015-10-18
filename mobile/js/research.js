@@ -424,15 +424,33 @@
     return speciesArr;
   }
 
-  app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
+  app.setHabitat = function(view, habitatIndex) {
     // these will be undefined if nothing is selected from habitat/species
-    if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
-      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
+    if (typeof habitatIndex !== "undefined") {
+      jQuery('#'+view+' .habitat-selector').val(habitatIndex);
     }
   };
 
+  app.setSpecies = function(speciesArray) {
+    _.each(speciesArray, function(i) {
+      app.state[i] = 'selected';
+      select(i);
+      app.numSelected++;
+      updateImage(i);
+    })
+
+  };
+
+  // NB: this is a little sketchy, relying on contains string...
   app.resetSelectorValue = function(view) {
-    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
+    if (jQuery('#'+view+' .habitat-selector :contains("Habitat ?")').length) {
+      jQuery('#'+view+' .habitat-selector').val("?");
+    } else if (jQuery('#'+view+' .habitat-selector :contains("All Habitats")').length) {
+      jQuery('#'+view+' .habitat-selector').val("A");
+    } else {
+      console.error("An issue with resetSelectorValue");
+    }
+    app.setSpecies([]);
   };
 
 
@@ -466,14 +484,14 @@
 
   app.habitatSelectorChange = function(view) {
     if (app.clearSelectionsOnHabitatChange) {
-      for (var i=0; i<app.state.length; i++) {
+      for (var i=0; i<app.state.length; i++) {(1)
         if (app.state[i] === 'selected') {
           app.clickHandler(i);
         }
       }
     }
-    var x = jQuery('#notes-write-screen .habitat-selector :selected');
-    var s = jQuery('#notes-write-screen .habitat-selector :selected').data('index');
+    var x = jQuery('#'+view+' .habitat-selector :selected');
+    var s = jQuery('#'+view+' .habitat-selector :selected').data('index');
     if (app.habitatSelectorType === '?1234' && x.val() === '?') {
       x.remove();
     }

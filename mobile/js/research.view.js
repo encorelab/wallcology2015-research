@@ -478,8 +478,10 @@
 
         view.model = null;
         jQuery('.input-field').val('');
-        jQuery('.notes textarea').css('border', '2px solid #006699');         // reset in the case of Big Idea
-        app.resetSelectorValue("#notes-write-screen");
+        app.resetSelectorValue("notes-write-screen");
+        // resets in the case of Big Idea
+        jQuery('.notes textarea').css('border', '2px solid #006699');
+        jQuery('#note-body-input').attr('placeholder', '');
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
@@ -534,7 +536,8 @@
       console.log("Rendering NotesWriteView...");
 
       if (view.model.get('habitat_tag')) {
-        app.setSelectorValues("#notes-write-screen", view.model.get('habitat_tag').index, _.pluck(view.model.get('species_tags'), 'index'));
+        app.setHabitat("notes-write-screen", view.model.get('habitat_tag').index);
+        app.setSpecies(_.pluck(view.model.get('species_tags'), 'index'));
       }
       jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
@@ -1082,7 +1085,7 @@
         jQuery('.input-field').val('');
         jQuery('.exchange-species-container').html('');
         jQuery('.exchange-species-container').data('species-index','');
-        app.resetSelectorValue("#relationships-write-screen");
+        app.resetSelectorValue("relationships-write-screen");
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }
