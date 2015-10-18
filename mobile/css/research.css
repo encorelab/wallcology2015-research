@@ -952,17 +952,17 @@ body {
     float: right !important;
     max-width: 130px;
 }
-.note-type-selector {
+.note-type-selector, .habitat-selector {
     border: 1px solid #0e4f69 !important;
     left: -20px;
     margin-top: 2px;
     height: 40px;
     background-color: #135b78 !important;
     height: 40px;
-    max-width: 130px;
-
+    width: 130px;
+    color: #fff;
 }
-.note-type-selector:hover {
+.note-type-selector:hover, .habitat-selector:hover {
     background-color: #0d4d66 !important;
 }
 .selector-container {
@@ -1122,6 +1122,14 @@ paper-icon-button[toggles][active] {
     height: auto !important;
     margin: 10px auto !important;
 }
+.species-button {
+    width: 48px;
+    margin: auto 5px
+}
+.species-0{
+    margin-left: 40px;
+}
+
 @media screen and (max-width: 900px) {
     .container {
         padding-left: 35px;
@@ -1152,11 +1160,17 @@ paper-icon-button[toggles][active] {
         width: 110px;
         margin-right: -10px !important;
     }
-    .note-type-selector {
+    .note-type-selector, .habitat-selector {
         font-size: 12px !important;
         width: 90px;
         height: 30px;
+    }
+    .habitat-selector {
         margin-left: 10px;
+    }
+    .note-type-selector {
+        margin-left: 0px;
+        margin-top: 8px;
     }
     .note-type-selector-container {
         width: 100px;
@@ -1166,7 +1180,7 @@ paper-icon-button[toggles][active] {
         padding-top: 6px;
     }
     .selector-container{
-        height: 50px;
+        height: 55px;
     }
     .notes-list {
         width: 85%;
@@ -1189,5 +1203,16 @@ paper-icon-button[toggles][active] {
     }
     .side-nav {
         top: 32% !important;
+    }
+    .species-button {
+        width: 40px;
+        margin: auto 3px;
+    }
+    .selector-container{
+        margin: -4px -8px !important;
+        padding: 0px !important;
+    }
+    .species-0{
+        margin-left: 20px;
     }
 }
