@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <link rel="import" href="selector-component/read-selector.html">
-    <link rel="import" href="selector-component/write-selector.html">
-
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../bower_components/jquery-toastmessage-plugin/src/main/resources/css/jquery.toastmessage.css" rel="stylesheet">
@@ -19,11 +16,6 @@
 
     <link href="css/research.css" rel="stylesheet">
 
-<!--     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon"> -->
-    <!-- <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script> -->
-
-    <!-- <script type="text/javascript" src="app.js"></script>-->
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
@@ -206,7 +198,7 @@
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
                     <span class="species-selector-container editable pull-left">
-                        <read-selector></read-selector>
+                        <!-- selector added in the view -->
                     </span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
@@ -229,7 +221,7 @@
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
                     <span class="species-selector-container editable pull-left">
-                        <write-selector></write-selector>
+                        <!-- selector added when the view gets initialized -->
                     </span>
                     <span class="note-type-selector-container pull-right editable">
                         <select class="note-type-selector">
@@ -314,7 +306,7 @@
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
                     <span class="species-selector-container editable">
-                        <read-selector></read-selector>
+                        <!-- selector added when the view gets initialized -->
                     </span>
                 </div>
                 <div id="relationships-aggregate">
@@ -336,7 +328,7 @@
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
                 <div class="selector-container">
                     <span class="species-selector-container editable">
-                        <write-selector></write-selector>
+                        <!-- selector added when the view gets initialized -->
                     </span>
                 </div>
                 <div id="exchange-container" class="editable">

@@ -158,9 +158,21 @@
 
     events: {
       'click .nav-write-btn'              : 'createNote',
-      'change .note-type-selector'        : 'render',
-      'click .bug'                        : 'render',
-      'click .paper-button-0'             : 'render'
+      'change .habitat-selector'          : 'habitatChanged',
+      'click .species-button'             : 'speciesSelected',
+      'change .note-type-selector'        : 'render'
+    },
+
+    habitatChanged: function() {
+      var view = this;
+      app.habitatSelectorChange("notes-read-screen");
+      view.render();
+    },
+
+    speciesSelected: function(ev) {
+      var view = this;
+      app.clickHandler(jQuery(ev.target).data('species-index'), "notes-read-screen");
+      view.render();
     },
 
     createNote: function(ev) {
@@ -236,27 +248,28 @@
       var screenId = "#notes-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      var targetIndex = app.getSelectorValue(screenId, "habitat").index;
-      if (targetIndex === 4) {
+      var targetIndex = jQuery('#notes-read-screen .habitat-selector :selected').val();
+      if (targetIndex === "A") {
         // all notes
         habitatFilteredCollection = noteTypeFilteredCollection;
-      } else if (targetIndex === -1) {
+      } else if (targetIndex === "?") {
         // no notes
         habitatFilteredCollection = null;
       } else {
         // filter for habitat number
         habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
-          return model.get('habitat_tag').index === targetIndex;
+          return model.get('habitat_tag') && model.get('habitat_tag').index === parseInt(targetIndex);                  // CHECK ME or are they all getting saved as ints now?
         });
       }
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
-      if (app.getSelectorValue(screenId, "species").length > 0) {
+      var speciesIndexArray = app.getSpeciesValues(screenId);
+      if (speciesIndexArray.length > 0) {
         speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
           console.log(model);
           // all value in selector must be in species_tags
-          if (_.difference(_.pluck(app.getSelectorValue(screenId, "species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+          if (_.difference(speciesIndexArray, _.pluck(model.get("species_tags"), "index")).length === 0) {
             return model;
           }
         });
@@ -295,8 +308,8 @@
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
       'change .note-type-selector'        : 'updateNoteType',
-      'click .bug'                        : 'updateTags',
-      'click .paper-button-0'             : 'updateTags',
+      'change .habitat-selector'          : 'habitatChanged',
+      'click .species-button'             : 'speciesSelected',
       'change #photo-file'                : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
       'click .publish-note-btn'           : 'publishNote',
@@ -306,10 +319,17 @@
       'keyup :input'                      : 'checkForAutoSave'
     },
 
-    updateTags: function() {
+    habitatChanged: function() {
       var view = this;
-      view.model.set('habitat_tag', app.getSelectorValue("#notes-write-screen","habitat"));
-      view.model.set('species_tags', app.getSelectorValue("#notes-write-screen","species"));
+      app.habitatSelectorChange("notes-write-screen");
+      view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+      view.model.save();
+    },
+
+    speciesSelected: function(ev) {
+      var view = this;
+      app.clickHandler(jQuery(ev.target).data('species-index'), "notes-write-screen");
+      view.model.set('species_tags', app.getSpeciesObjectsArray());
       view.model.save();
     },
 

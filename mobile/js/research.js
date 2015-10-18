@@ -62,6 +62,39 @@
     "Big Idea": ["One idea we need to focus on as a class is..."],
   };
 
+  // SELECTOR-RELATED STUFF FROM TOM
+  var images = [  {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_00_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_01.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_01_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_02.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_02_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_03.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_03_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_04.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_04_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_05.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_05_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_06.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_06_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_07.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_07_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_08.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_08_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_09.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_09_0.svg'},
+          {selected: 'https://ltg.cs.uic.edu/WC/icons/species_10.svg',
+             unselected: 'https://ltg.cs.uic.edu/WC/icons/species_10_0.svg'}
+         ];
+
+  app.state = [];
+  app.numSelected = null;
+  app.maxSelectable = null;
+  app.habitatSelectorType = null;
+  app.fixedIndex = null;
+  app.clearSelectionsOnHabitatChange = null;
+
+
   app.init = function() {
     /* CONFIG */
     app.loadConfig('../config.json');
@@ -257,6 +290,8 @@
          el: '#notes-read-screen',
          collection: Skeletor.Model.awake.notes
        });
+       app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
+       app.drawSelectorBar(11, 'notes-read-screen');
        app.notesReadView.render();
      }
 
@@ -265,22 +300,24 @@
          el: '#notes-write-screen',
          collection: Skeletor.Model.awake.notes
        });
+       app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
+       app.drawSelectorBar(11, 'notes-write-screen');
      }
 
-     if (app.relationshipsReadView === null) {
-       app.relationshipsReadView = new app.View.RelationshipsReadView({
-         el: '#relationships-read-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-       app.relationshipsReadView.render();
-     }
+     // if (app.relationshipsReadView === null) {
+     //   app.relationshipsReadView = new app.View.RelationshipsReadView({
+     //     el: '#relationships-read-screen',
+     //     collection: Skeletor.Model.awake.relationships
+     //   });
+     //   app.relationshipsReadView.render();
+     // }
 
-     if (app.relationshipsWriteView === null) {
-       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
-         el: '#relationships-write-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-     }
+     // if (app.relationshipsWriteView === null) {
+     //   app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+     //     el: '#relationships-write-screen',
+     //     collection: Skeletor.Model.awake.relationships
+     //   });
+     // }
 
 
 
@@ -338,7 +375,6 @@
   };
 
   app.parseExtension = function(url) {
-    //url.split('.').pop().toLowerCase();
     return url.substr(url.lastIndexOf('.') + 1).toLowerCase();
   };
 
@@ -355,22 +391,38 @@
     return result;
   };
 
-  // wrappers for the species selector polymer component - spending so much time on this!
-  app.getSelectorValue = function(view, kind) {
-    var selectorValue;
+  app.getSpeciesValues = function(view) {
+    var selectorValues = [];
 
-    if (kind === "habitat") {
-      selectorValue = _.clone(document.querySelector(view+' .ws').currentToggle);
-      // since items is extremely redundant and just clutters things up
-      delete selectorValue.items;
-    } else if (kind === "species") {
-      selectorValue = document.querySelector(view+' .ws').selectedItems;
-    } else {
-      throw "Error returning selector type";
-    }
+    _.each(app.state, function(value, i) {
+      if (value === "selected") {
+        selectorValues.push(i);
+      }
+    });
 
-    return selectorValue;
+    return selectorValues;
   };
+
+  app.getHabitatObject = function(view) {
+    var habitatObj = {
+      name: jQuery('#'+view+' .habitat-selector :selected').data('name'),
+      index: jQuery('#'+view+' .habitat-selector :selected').data('index')
+    };
+
+    return habitatObj;
+  }
+
+  app.getSpeciesObjectsArray = function() {
+    var speciesArr = [];
+
+    _.each(app.state, function(value, i) {
+      if (value === "selected") {
+        speciesArr.push({"index": i});
+      }
+    });
+
+    return speciesArr;
+  }
 
   app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
     // these will be undefined if nothing is selected from habitat/species
@@ -380,10 +432,90 @@
   };
 
   app.resetSelectorValue = function(view) {
-    document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
-    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(-1, []);
-    // TODO! What can we do for this - hope to convince them to not remove Habitat ?    or else this needs an all
+    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
   };
+
+
+  app.drawHabitatSelector = function(h, f, c, view) {
+    var habitatSelectorType = h;
+    var fixedIndex = f; // 0,1,2,3
+    app.clearSelectionsOnHabitatChange = c; // Boolean
+
+    var el = '';
+    el += '<select class="habitat-selector">';
+
+    if (habitatSelectorType === '?1234') {
+      el += '<option selected data-index="-1" data-name="Habitat ?" value="?">Habitat ?</option>';
+    }
+    if (habitatSelectorType === 'A1234') {
+      el += '<option selected data-index="4" data-name="All Habitats" value="A">All Habitats</option>';
+    }
+    if (habitatSelectorType === 'fixed') {
+      el += '<option selected data-index="'+fixedIndex+'" data-name="Habitat '+(fixedIndex+1)+'" value="' + fixedIndex + '">Habitat ' + (fixedIndex+1) + '</option>';
+    } else {
+      for (var i=0; i<4; i++) {
+        el += '<option data-index="'+i+'" data-name="Habitat '+(i+1)+'" value="' + i + '">Habitat ' + (i+1) + '</option>';
+      }
+    }
+    el += '</select>';
+    jQuery('#'+view+' .species-selector-container').append(el);
+    // if (habitatSelectorType === 'fixed') {
+    //   habitatSelect(fixedIndex);
+    // }
+  };
+
+  app.habitatSelectorChange = function(view) {
+    if (app.clearSelectionsOnHabitatChange) {
+      for (var i=0; i<app.state.length; i++) {
+        if (app.state[i] === 'selected') {
+          app.clickHandler(i);
+        }
+      }
+    }
+    var x = jQuery('#notes-write-screen .habitat-selector :selected');
+    var s = jQuery('#notes-write-screen .habitat-selector :selected').data('index');
+    if (app.habitatSelectorType === '?1234' && x.val() === '?') {
+      x.remove();
+    }
+    //habitatSelect(x[x.selectedIndex].value);
+  };
+
+  app.drawSelectorBar = function(n, view) {
+    for (var x=0; x<images.length; x++) {
+      app.state[x] = 'unselected';
+    }
+    app.maxSelectable = n;
+    app.numSelected = 0;
+    for (var i=0; i<app.state.length; i++) {
+      jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + images[i][app.state[i]] + '" width="60" height="60">');
+    }
+  };
+
+  app.clickHandler = function(species, view) {
+    var x = jQuery('#'+view+' .habitat-selector').val();
+    if (x !== '?') {
+      if (app.state[species] === 'selected') {
+        app.state[species] = 'unselected';
+        deSelect(species);
+        app.numSelected--;
+      } else {
+        if (app.numSelected < app.maxSelectable) {
+          app.state[species] = 'selected';
+          select(species);
+          app.numSelected++;
+        }
+      }
+      updateImage(species);
+    }
+  };
+
+  var updateImage = function(i) {
+    jQuery('.species-'+i).attr('src', images[i][app.state[i]]);
+  };
+
+  function select (species) { }       // code for when a species is selected
+  function deSelect (species) { }     // code for when a species is deselected
+  //function habitatSelect(habitat) { }   // code for when a habitat is selected
 
   //TODO - parameterize all of this!
   // var connect = function(host, port, clientId) {
