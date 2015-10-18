@@ -1026,6 +1026,9 @@ paper-button.colorful.wallcology-selector {
     width: 160px;
     background-color: #135b78;
 }
+#key{
+    margin-left:20px;
+}
 paper-button.colorful.wallcology-selector:hover {
     background-color: #0d4d66;
 }
@@ -1109,9 +1112,9 @@ paper-icon-button[toggles][active] {
 .media-container {
     position: relative;
     display: inline-block;
-    width: 160px;
-    height: 160px;
-    margin: 5px;
+    width: 120px !important;
+    height: 120px !important;
+    margin: 7px !important;
     background-color: #e3e3e3;
 }
 .media {
@@ -1119,7 +1122,7 @@ paper-icon-button[toggles][active] {
     height: auto !important;
     margin: 10px auto !important;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
     .container {
         padding-left: 35px;
     }
@@ -1172,7 +1175,7 @@ paper-icon-button[toggles][active] {
         font-size: 16px;
     }
     .fa-lightbulb-o {
-        right: 40px;
+        right: 110px;
     }
     #note-btn-container {
         width: 500px;
@@ -1181,6 +1184,10 @@ paper-icon-button[toggles][active] {
         left: 105px !important;
     }
     .inner-wrapper {
-        height: 90% !important
+        height: 90% !important;
+        margin-top: 20px !important;
+    }
+    .side-nav {
+        top: 32% !important;
     }
 }
