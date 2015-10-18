@@ -955,6 +955,7 @@ body {
 .note-type-selector {
     border: 1px solid #0e4f69 !important;
     left: -20px;
+    margin-top: 2px;
     height: 40px;
     background-color: #135b78 !important;
     height: 40px;
@@ -1020,8 +1021,9 @@ paper-button.colorful.wallcology-selector {
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     top: 2px;*/
     border: 1px solid #0e4f69 !important;
-    left: -10px;
+    left: -7px;
     height: 40px;
+    width: 160px;
     background-color: #135b78;
 }
 paper-button.colorful.wallcology-selector:hover {
@@ -1036,7 +1038,7 @@ paper-button.colorful.wallcology-selector:hover {
 }
 .fa-lightbulb-o {
     top: 10px;
-    right: 70px;
+    right: 145px;
 }
 .side-nav{
     padding: 90px 0 0 0;
@@ -1100,8 +1102,23 @@ paper-icon-button[toggles][active] {
     position: relative;
     text-align: center;
 }
-
-
+#note-media-container, #relationship-media-container {
+    margin: 5px auto !important;
+    text-align: center;
+} 
+.media-container {
+    position: relative;
+    display: inline-block;
+    width: 160px;
+    height: 160px;
+    margin: 5px;
+    background-color: #e3e3e3;
+}
+.media {
+    width: 50% !important;
+    height: auto !important;
+    margin: 10px auto !important;
+}
 @media screen and (max-width: 768px) {
     .container {
         padding-left: 35px;
