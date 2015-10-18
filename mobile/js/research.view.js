@@ -165,13 +165,13 @@
 
     habitatChanged: function() {
       var view = this;
-      app.habitatSelectorChange();
+      app.habitatSelectorChange("notes-read-screen");
       view.render();
     },
 
     speciesSelected: function(ev) {
       var view = this;
-      app.clickHandler(jQuery(ev.target).data('species-index'));
+      app.clickHandler(jQuery(ev.target).data('species-index'), "notes-read-screen");
       view.render();
     },
 
@@ -248,7 +248,7 @@
       var screenId = "#notes-read-screen";
       // if a habitat has been selected
       var habitatFilteredCollection = null;
-      var targetIndex = jQuery('#notes-read-screen .habitat-selector').val();
+      var targetIndex = jQuery('#notes-read-screen .habitat-selector :selected').val();
       if (targetIndex === "A") {
         // all notes
         habitatFilteredCollection = noteTypeFilteredCollection;
@@ -308,8 +308,8 @@
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
       'change .note-type-selector'        : 'updateNoteType',
-      'click .bug'                        : 'updateTags',
-      'click .paper-button-0'             : 'updateTags',
+      'change .habitat-selector'          : 'habitatChanged',
+      'click .species-button'             : 'speciesSelected',
       'change #photo-file'                : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
       'click .publish-note-btn'           : 'publishNote',
@@ -319,10 +319,17 @@
       'keyup :input'                      : 'checkForAutoSave'
     },
 
-    updateTags: function() {
+    habitatChanged: function() {
       var view = this;
-      view.model.set('habitat_tag', app.getSelectorValue("#notes-write-screen","habitat"));
-      view.model.set('species_tags', app.getSelectorValue("#notes-write-screen","species"));
+      app.habitatSelectorChange("notes-write-screen");
+      view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+      view.model.save();
+    },
+
+    speciesSelected: function(ev) {
+      var view = this;
+      app.clickHandler(jQuery(ev.target).data('species-index'), "notes-write-screen");
+      view.model.set('species_tags', app.getSpeciesObjectsArray());
       view.model.save();
     },
 

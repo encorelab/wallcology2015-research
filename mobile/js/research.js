@@ -291,16 +291,18 @@
          collection: Skeletor.Model.awake.notes
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
-       app.drawSelectorBar(12, 'notes-read-screen');
+       app.drawSelectorBar(11, 'notes-read-screen');
        app.notesReadView.render();
      }
 
-     // if (app.notesWriteView === null) {
-     //   app.notesWriteView = new app.View.NotesWriteView({
-     //     el: '#notes-write-screen',
-     //     collection: Skeletor.Model.awake.notes
-     //   });
-     // }
+     if (app.notesWriteView === null) {
+       app.notesWriteView = new app.View.NotesWriteView({
+         el: '#notes-write-screen',
+         collection: Skeletor.Model.awake.notes
+       });
+       app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
+       app.drawSelectorBar(11, 'notes-write-screen');
+     }
 
      // if (app.relationshipsReadView === null) {
      //   app.relationshipsReadView = new app.View.RelationshipsReadView({
@@ -401,11 +403,32 @@
     return selectorValues;
   };
 
+  app.getHabitatObject = function(view) {
+    var habitatObj = {
+      name: jQuery('#'+view+' .habitat-selector :selected').data('name'),
+      index: jQuery('#'+view+' .habitat-selector :selected').data('index')
+    };
+
+    return habitatObj;
+  }
+
+  app.getSpeciesObjectsArray = function() {
+    var speciesArr = [];
+
+    _.each(app.state, function(value, i) {
+      if (value === "selected") {
+        speciesArr.push({"index": i});
+      }
+    });
+
+    return speciesArr;
+  }
+
   app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
     // these will be undefined if nothing is selected from habitat/species
-    // if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
-    //   document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
-    // }
+    if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
+      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
+    }
   };
 
   app.resetSelectorValue = function(view) {
@@ -422,26 +445,26 @@
     el += '<select class="habitat-selector">';
 
     if (habitatSelectorType === '?1234') {
-      el += '<option selected value="?">Habitat ?</option>';
+      el += '<option selected data-index="-1" data-name="Habitat ?" value="?">Habitat ?</option>';
     }
     if (habitatSelectorType === 'A1234') {
-      el += '<option selected value="A">All Habitats</option>';
+      el += '<option selected data-index="4" data-name="All Habitats" value="A">All Habitats</option>';
     }
     if (habitatSelectorType === 'fixed') {
-      el += '<option selected value="' + fixedIndex + '">Habitat ' + (fixedIndex+1) + '</option>';
+      el += '<option selected data-index="'+fixedIndex+'" data-name="Habitat '+(fixedIndex+1)+'" value="' + fixedIndex + '">Habitat ' + (fixedIndex+1) + '</option>';
     } else {
       for (var i=0; i<4; i++) {
-        el += '<option value="' + i + '">Habitat ' + (i+1) + '</option>';
+        el += '<option data-index="'+i+'" data-name="Habitat '+(i+1)+'" value="' + i + '">Habitat ' + (i+1) + '</option>';
       }
     }
     el += '</select>';
     jQuery('#'+view+' .species-selector-container').append(el);
-    if (habitatSelectorType === 'fixed') {
-      habitatSelect(fixedIndex);
-    }
+    // if (habitatSelectorType === 'fixed') {
+    //   habitatSelect(fixedIndex);
+    // }
   };
 
-  app.habitatSelectorChange = function() {
+  app.habitatSelectorChange = function(view) {
     if (app.clearSelectionsOnHabitatChange) {
       for (var i=0; i<app.state.length; i++) {
         if (app.state[i] === 'selected') {
@@ -449,12 +472,12 @@
         }
       }
     }
-    var x = document.getElementsByClassName('habitat-selector')[0];
-    var s = x.selectedIndex;
-    if (app.habitatSelectorType === '?1234' && x[0].value === '?') {
-      x.options.remove(0);
+    var x = jQuery('#notes-write-screen .habitat-selector :selected');
+    var s = jQuery('#notes-write-screen .habitat-selector :selected').data('index');
+    if (app.habitatSelectorType === '?1234' && x.val() === '?') {
+      x.remove();
     }
-    habitatSelect(x[x.selectedIndex].value);
+    //habitatSelect(x[x.selectedIndex].value);
   };
 
   app.drawSelectorBar = function(n, view) {
@@ -468,9 +491,9 @@
     }
   };
 
-  app.clickHandler = function(species) {
-    var x = document.getElementsByClassName('habitat-selector')[0];
-    if (x[0].value !== '?') {
+  app.clickHandler = function(species, view) {
+    var x = jQuery('#'+view+' .habitat-selector').val();
+    if (x !== '?') {
       if (app.state[species] === 'selected') {
         app.state[species] = 'unselected';
         deSelect(species);
@@ -492,7 +515,7 @@
 
   function select (species) { }       // code for when a species is selected
   function deSelect (species) { }     // code for when a species is deselected
-  function habitatSelect(habitat) { }   // code for when a habitat is selected
+  //function habitatSelect(habitat) { }   // code for when a habitat is selected
 
   //TODO - parameterize all of this!
   // var connect = function(host, port, clientId) {
