@@ -296,8 +296,7 @@ textarea {
 .fa-lightbulb-o {
     color: #006699;
     position: absolute;
-    top: -1%;
-    right: 0%;
+    right: 15%;
     padding: 10px 20px;
 }
 .fa-lightbulb-o:hover {
@@ -1039,10 +1038,6 @@ paper-button.colorful.wallcology-selector:hover {
     width: 650px;
     margin: 30px auto;
 }
-.fa-lightbulb-o {
-    top: 10px;
-    right: 145px;
-}
 .side-nav{
     padding: 90px 0 0 0;
     left: -15px;
@@ -1075,7 +1070,7 @@ paper-button.colorful.wallcology-selector:hover {
 }
 /*paper-icon-button[toggles] {
     border: 1px solid #e3e3e3 !important;
-    background-color: #c3c3c3 !important;    
+    background-color: #c3c3c3 !important;
     border-radius: 40px !important  ;
 }
 paper-icon-button[toggles][active] {
@@ -1108,7 +1103,7 @@ paper-icon-button[toggles][active] {
 #note-media-container, #relationship-media-container {
     margin: 5px auto !important;
     text-align: center;
-} 
+}
 .media-container {
     position: relative;
     display: inline-block;
@@ -1187,9 +1182,6 @@ paper-icon-button[toggles][active] {
     }
     .note-title {
         font-size: 16px;
-    }
-    .fa-lightbulb-o {
-        right: 110px;
     }
     #note-btn-container {
         width: 500px;
