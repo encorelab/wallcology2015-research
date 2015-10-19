@@ -438,7 +438,6 @@
       app.numSelected++;
       updateImage(i);
     })
-
   };
 
   // NB: this is a little sketchy, relying on contains string...
@@ -450,7 +449,12 @@
     } else {
       console.error("An issue with resetSelectorValue");
     }
-    app.setSpecies([]);
+
+    _.each(app.state, function(selected, i) {
+      app.state[i] = 'unselected';
+      updateImage(i);
+    });
+    app.numSelected = 0;
   };
 
 
