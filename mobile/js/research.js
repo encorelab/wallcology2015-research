@@ -442,6 +442,8 @@
 
   // NB: this is a little sketchy, relying on contains string...
   app.resetSelectorValue = function(view) {
+    jQuery('.note-type-selector').val('Note Type');
+
     if (jQuery('#'+view+' .habitat-selector :contains("Habitat ?")').length) {
       jQuery('#'+view+' .habitat-selector').val("?");
     } else if (jQuery('#'+view+' .habitat-selector :contains("All Habitats")').length) {
