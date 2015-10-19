@@ -192,8 +192,6 @@
         console.log("Starting a new note...");
         m = new Model.Note();
         m.set('author', app.username);
-        // m.set('habitat_tag', {"name": "Habitat ?", "index" -1});
-        // m.set('species_tags', []);
         m.set('note_type_tag', "Note Type");        // set these all to the default
         m.wake(app.config.wakeful.url);
         m.save();
@@ -205,6 +203,7 @@
 
       app.hideAllContainers();
       jQuery('#notes-write-screen').removeClass('hidden');
+      app.resetSelectorValue("notes-write-screen");
       app.notesWriteView.render();
     },
 
@@ -482,6 +481,7 @@
         // resets in the case of Big Idea
         jQuery('.notes textarea').css('border', '2px solid #006699');
         jQuery('#note-body-input').attr('placeholder', '');
+
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
@@ -497,6 +497,9 @@
         view.model.set('author','Class Note');
         view.model.save();
       }
+
+      // rerender everything
+      app.notesReadView.render();
     },
 
     // TODO: this can be done more cleanly/backbonely with views for the media containers
@@ -537,8 +540,11 @@
 
       if (view.model.get('habitat_tag')) {
         app.setHabitat("notes-write-screen", view.model.get('habitat_tag').index);
+      }
+      if (view.model.get('species_tags')) {
         app.setSpecies(_.pluck(view.model.get('species_tags'), 'index'));
       }
+
       jQuery('#notes-write-screen .note-type-selector').val(view.model.get('note_type_tag'));
       jQuery('#note-title-input').val(view.model.get('title'));
       jQuery('#note-body-input').val(view.model.get('body'));
