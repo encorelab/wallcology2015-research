@@ -493,7 +493,7 @@
       // needs to unlock on back button as well
       if (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === app.username) {
         view.model.set('write_lock', "");
-        view.model.set('author','Class Note');
+        view.model.set('author','class note');
         view.model.save();
       }
 
