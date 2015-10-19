@@ -1122,11 +1122,11 @@ body {
     }
     .note-type-selector, .habitat-selector {
         font-size: 12px !important;
-        width: 100px;
+        width: 97px;
         height: 30px;
     }
     .habitat-selector {
-        margin-left: 10px;
+        margin-left: 3px;
     }
     .note-type-selector {
         margin-left: 0px;
