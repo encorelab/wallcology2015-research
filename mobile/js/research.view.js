@@ -203,7 +203,7 @@
 
       app.hideAllContainers();
       jQuery('#notes-write-screen').removeClass('hidden');
-      app.resetSelectorValue("notes-write-screen");
+      // app.resetSelectorValue("notes-write-screen");
       app.notesWriteView.render();
     },
 
@@ -497,8 +497,8 @@
         view.model.save();
       }
 
-      app.resetSelectorValue("notes-write-screen");
-      app.resetSelectorValue("notes-read-screen");
+      // app.resetSelectorValue("notes-write-screen");
+      // app.resetSelectorValue("notes-read-screen");
 
       // rerender everything
       app.notesReadView.render();
@@ -1093,8 +1093,8 @@
         jQuery('.input-field').val('');
         jQuery('.exchange-species-container').html('');
         jQuery('.exchange-species-container').data('species-index','');
-        app.resetSelectorValue("relationships-write-screen");
-        app.resetSelectorValue("relationships-read-screen");
+        // app.resetSelectorValue("relationships-write-screen");
+        // app.resetSelectorValue("relationships-read-screen");
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }

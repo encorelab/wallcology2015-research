@@ -801,21 +801,21 @@
   };
 
   app.autoSave = function(model, inputKey, inputValue, instantSave, nested) {
-    app.keyCount++;
-    if (instantSave || app.keyCount > 9) {
-      console.log('Autosaved...');
-      // TODO: clean this out if nested isn't needed!
-      if (nested === "proposal") {
-        // think about using _.clone here (eg http://www.crittercism.com/blog/nested-attributes-in-backbone-js-models)
-        var nestedObj = model.get(nested);
-        nestedObj[inputKey] = inputValue;
-        model.set(nested,nestedObj);
-      } else {
-        model.set(inputKey, inputValue);
-      }
-      model.save(null, {silent:true});
-      app.keyCount = 0;
-    }
+    // app.keyCount++;
+    // if (instantSave || app.keyCount > 9) {
+    //   console.log('Autosaved...');
+    //   // TODO: clean this out if nested isn't needed!
+    //   if (nested === "proposal") {
+    //     // think about using _.clone here (eg http://www.crittercism.com/blog/nested-attributes-in-backbone-js-models)
+    //     var nestedObj = model.get(nested);
+    //     nestedObj[inputKey] = inputValue;
+    //     model.set(nested,nestedObj);
+    //   } else {
+    //     model.set(inputKey, inputValue);
+    //   }
+    //   model.save(null, {silent:true});
+    //   app.keyCount = 0;
+    // }
   };
 
   app.clearAutoSaveTimer = function () {
