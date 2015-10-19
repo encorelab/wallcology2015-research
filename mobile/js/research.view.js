@@ -478,6 +478,7 @@
         view.model = null;
         jQuery('.input-field').val('');
         app.resetSelectorValue("notes-write-screen");
+        app.resetSelectorValue("notes-read-screen");
         // resets in the case of Big Idea
         jQuery('.notes textarea').css('border', '2px solid #006699');
         jQuery('#note-body-input').attr('placeholder', '');
@@ -1092,7 +1093,7 @@
         jQuery('.exchange-species-container').html('');
         jQuery('.exchange-species-container').data('species-index','');
         app.resetSelectorValue("relationships-write-screen");
-        app.resetSelectorValue("relationships-write-screen");
+        app.resetSelectorValue("relationships-read-screen");
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }
