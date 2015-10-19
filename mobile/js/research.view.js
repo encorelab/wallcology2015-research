@@ -477,8 +477,6 @@
 
         view.model = null;
         jQuery('.input-field').val('');
-        app.resetSelectorValue("notes-write-screen");
-        app.resetSelectorValue("notes-read-screen");
         // resets in the case of Big Idea
         jQuery('.notes textarea').css('border', '2px solid #006699');
         jQuery('#note-body-input').attr('placeholder', '');
@@ -498,6 +496,9 @@
         view.model.set('author','Class Note');
         view.model.save();
       }
+
+      app.resetSelectorValue("notes-write-screen");
+      app.resetSelectorValue("notes-read-screen");
 
       // rerender everything
       app.notesReadView.render();
