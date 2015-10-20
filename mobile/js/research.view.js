@@ -203,7 +203,7 @@
 
       app.hideAllContainers();
       jQuery('#notes-write-screen').removeClass('hidden');
-      // app.resetSelectorValue("notes-write-screen");
+      app.resetSelectorValue("notes-write-screen");
       app.notesWriteView.render();
     },
 
@@ -321,22 +321,22 @@
     habitatChanged: function() {
       var view = this;
       app.habitatSelectorChange("notes-write-screen");
-      view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
-      view.model.save();
+      // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+      // view.model.save();
     },
 
     speciesSelected: function(ev) {
       var view = this;
       app.clickHandler(jQuery(ev.target).data('species-index'), "notes-write-screen");
-      view.model.set('species_tags', app.getSpeciesObjectsArray());
-      view.model.save();
+      // view.model.set('species_tags', app.getSpeciesObjectsArray());
+      // view.model.save();
     },
 
     updateNoteType: function(ev) {
       var view = this;
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
-      view.model.set('note_type_tag', noteType);
-      view.model.save();
+      // view.model.set('note_type_tag', noteType);
+      // view.model.save();
 
       jQuery('#sentence-starter-modal .modal-body').html('');
       if (app.noteTypes[noteType]) {
@@ -347,7 +347,7 @@
         console.error('No sentence starters for this note type!');
       }
 
-      // Big Idea colour
+      // Big Idea colour - note that this is getting overwritten in the css (TODO)
       if (noteType === "Big Idea") {
         jQuery('.notes textarea').css('border', '2px solid #DB67E6');
         jQuery('#note-body-input').attr('placeholder', 'Anyone can edit this note...');
@@ -449,7 +449,7 @@
       // clear timer on keyup so that a save doesn't happen while typing
       app.clearAutoSaveTimer();
 
-      // save after 10 keystrokes
+      // save after 10 keystrokes - now 20
       app.autoSave(view.model, field, input, false);
 
       // setting up a timer so that if we stop typing we save stuff after 5 seconds
@@ -470,6 +470,12 @@
         view.model.set('body',body);
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
+
+        // doing this here now instead to try to cut down on faye connections
+        view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+        view.model.set('species_tags', app.getSpeciesObjectsArray());
+        view.model.set('note_type_tag', noteType);
+
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
@@ -497,8 +503,8 @@
         view.model.save();
       }
 
-      // app.resetSelectorValue("notes-write-screen");
-      // app.resetSelectorValue("notes-read-screen");
+      app.resetSelectorValue("notes-write-screen");
+      app.resetSelectorValue("notes-read-screen");
 
       // rerender everything
       app.notesReadView.render();
@@ -1093,8 +1099,8 @@
         jQuery('.input-field').val('');
         jQuery('.exchange-species-container').html('');
         jQuery('.exchange-species-container').data('species-index','');
-        // app.resetSelectorValue("relationships-write-screen");
-        // app.resetSelectorValue("relationships-read-screen");
+        app.resetSelectorValue("relationships-write-screen");
+        app.resetSelectorValue("relationships-read-screen");
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }
