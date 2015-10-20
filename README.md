@@ -9,3 +9,5 @@ To import scaffolding to local Mongo, eg:
     mongoimport -d wallcology2015-ben -c users --jsonArray scaffolding/pupils-ben.json
     
     mongoimport -d wallcology2015-ben -c states --jsonArray scaffolding/state.json
+
+You'll also need to npm install, bower install and create a config.json from teh config.example.json
