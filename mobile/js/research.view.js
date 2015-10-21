@@ -349,10 +349,10 @@
 
       // Big Idea colour - note that this is getting overwritten in the css (TODO)
       if (noteType === "Big Idea") {
-        jQuery('.notes textarea').css('border', '2px solid #DB67E6');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #DB67E6');
         jQuery('#note-body-input').attr('placeholder', 'Anyone can edit this note...');
       } else {
-        jQuery('.notes textarea').css('border', '2px solid #006699');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599;');
         jQuery('#note-body-input').attr('placeholder', '');
       }
     },
