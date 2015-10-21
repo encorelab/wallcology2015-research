@@ -472,6 +472,7 @@
         view.model.set('modified_at', new Date());
 
         if (noteType === "Big Idea") {
+          view.model.set('write_lock', "");
           view.model.set('author','class note');
         }
 
