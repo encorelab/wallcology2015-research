@@ -63,7 +63,7 @@
   };
 
   // SELECTOR-RELATED STUFF FROM TOM
-  var images = [  {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
+  app.images = [  {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_00_0.svg'},
           {selected: 'https://ltg.cs.uic.edu/WC/icons/species_01.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_01_0.svg'},
@@ -253,10 +253,10 @@
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // app.hideAllContainers();
-          // jQuery('#relationships-nav-btn').addClass('active');
-          // jQuery('#relationships-read-screen').removeClass('hidden');
+          //jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          app.hideAllContainers();
+          jQuery('#relationships-nav-btn').addClass('active');
+          jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#populations-nav-btn').addClass('active');
@@ -304,20 +304,24 @@
        app.drawSelectorBar(11, 'notes-write-screen');
      }
 
-     // if (app.relationshipsReadView === null) {
-     //   app.relationshipsReadView = new app.View.RelationshipsReadView({
-     //     el: '#relationships-read-screen',
-     //     collection: Skeletor.Model.awake.relationships
-     //   });
-     //   app.relationshipsReadView.render();
-     // }
+     if (app.relationshipsReadView === null) {
+       app.relationshipsReadView = new app.View.RelationshipsReadView({
+         el: '#relationships-read-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+       app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
+       app.drawSelectorBar(2, 'relationships-read-screen');
+       app.relationshipsReadView.render();
+     }
 
-     // if (app.relationshipsWriteView === null) {
-     //   app.relationshipsWriteView = new app.View.RelationshipsWriteView({
-     //     el: '#relationships-write-screen',
-     //     collection: Skeletor.Model.awake.relationships
-     //   });
-     // }
+     if (app.relationshipsWriteView === null) {
+       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+         el: '#relationships-write-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+       app.drawHabitatSelector('?1234', 0, true, 'relationships-write-screen');
+       app.drawSelectorBar(2, 'relationships-write-screen');
+     }
 
 
 
@@ -505,13 +509,13 @@
   };
 
   app.drawSelectorBar = function(n, view) {
-    for (var x=0; x<images.length; x++) {
+    for (var x=0; x<app.images.length; x++) {
       app.state[x] = 'unselected';
     }
     app.maxSelectable = n;
     app.numSelected = 0;
     for (var i=0; i<app.state.length; i++) {
-      jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + images[i][app.state[i]] + '" width="60" height="60">');
+      jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + app.images[i][app.state[i]] + '" width="60" height="60">');
     }
   };
 
@@ -534,7 +538,7 @@
   };
 
   var updateImage = function(i) {
-    jQuery('.species-'+i).attr('src', images[i][app.state[i]]);
+    jQuery('.species-'+i).attr('src', app.images[i][app.state[i]]);
   };
 
   function select (species) { }       // code for when a species is selected

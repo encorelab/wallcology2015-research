@@ -257,7 +257,7 @@
       } else {
         // filter for habitat number
         habitatFilteredCollection = noteTypeFilteredCollection.filter(function(model) {
-          return model.get('habitat_tag') && model.get('habitat_tag').index === parseInt(targetIndex);                  // CHECK ME or are they all getting saved as ints now?
+          return model.get('habitat_tag') && model.get('habitat_tag').index === parseInt(targetIndex);
         });
       }
 
@@ -347,7 +347,7 @@
         console.error('No sentence starters for this note type!');
       }
 
-      // Big Idea colour - note that this is getting overwritten in the css (TODO)
+      // Big Idea colour
       if (noteType === "Big Idea") {
         jQuery('#notes-write-screen .input-field').css('border', '1px solid #DB67E6');
         jQuery('#note-body-input').attr('placeholder', 'Anyone can edit this note...');
@@ -723,8 +723,20 @@
     events: {
       'click .nav-write-btn'               : 'createRelationship',
       'change .relationship-type-selector' : 'render',
-      'click .bug'                         : 'render',
-      'click .paper-button-0'              : 'render'
+      'change .habitat-selector'           : 'habitatChanged',
+      'click .species-button'              : 'speciesSelected'
+    },
+
+    habitatChanged: function() {
+      var view = this;
+      app.habitatSelectorChange("relationships-read-screen");
+      view.render();
+    },
+
+    speciesSelected: function(ev) {
+      var view = this;
+      app.clickHandler(jQuery(ev.target).data('species-index'), "relationships-read-screen");
+      view.render();
     },
 
     createRelationship: function(ev) {
@@ -756,6 +768,7 @@
 
       app.hideAllContainers();
       jQuery('#relationships-write-screen').removeClass('hidden');
+      app.resetSelectorValue("relationships-write-screen");
       app.relationshipsWriteView.render();
     },
 
@@ -782,42 +795,39 @@
     createAggregateTable: function() {
       var view = this;
       var screenId = "#relationships-read-screen";
-      var habitatObj = app.getSelectorValue(screenId, "habitat");
-      var speciesObj = app.getSelectorValue(screenId, "species");
+      var habitatObj = app.getHabitatObject("relationships-read-screen");
+      var pageSpeciesArr = [];
+      var ourSpeciesArr = app.getSpeciesObjectsArray();
+      // create an array of objects with index and url (a lot of this is legacy from the old selector)
+      _.each(_.pluck(app.images, "selected"), function(img, i) {
+        pageSpeciesArr.push({"index":i, "imgUrl":img});
+      });
 
       var publishedCollection = view.collection.where({published: true});
-      var habitatFilteredCollection = publishedCollection.filter(function(model) {
-        return model.get('habitat_tag').index === habitatObj.index;
-      });
+      var habitatFilteredCollection;
+      if (jQuery('#relationships-read-screen .habitat-selector :selected').val() === "A") {
+        habitatFilteredCollection = publishedCollection;
+      } else {
+        habitatFilteredCollection = publishedCollection.filter(function(model) {
+          return model.get('habitat_tag').index === habitatObj.index;
+        });
+      }
 
       jQuery('#relationships-aggregate').html('');
-      // var tableContainer = '<div class="table-responsive"></div>';
       var table = '<table class="table table-bordered table-hover"></table>';
-
-      // this gives us the indexes of the toggles for this habitat
-      var speciesIndexArr = document.querySelector('#relationships-read-screen .ws').currentToggle.items;
-
-      // this gives us all of the button selectors
-      //document.querySelector('#relationships-read-screen .ws').buttonSelectors;
-
-      // an array of species obj with {index, url}
-      var ourSpeciesArr = [];
-      _.each(speciesIndexArr, function(i) {
-        ourSpeciesArr.push(document.querySelector('#relationships-read-screen .ws').buttonSelectors[i]);
-      });
 
       // create the header row
       var headerRow = '<tr><td class="aggregate-cell"></td>';
-      _.each(ourSpeciesArr, function(i) {
+      _.each(pageSpeciesArr, function(i) {
         headerRow += '<td class="aggregate-cell"><img class="species-box" src="'+i.imgUrl+'"></img></td>';
       });
       headerRow += '</tr>';
 
       // create all of the other rows
       var remainingRows = '';
-      _.each(ourSpeciesArr, function(i) {
+      _.each(pageSpeciesArr, function(i) {
         remainingRows += '<tr><td class="aggregate-cell"><img class="species-box" src="'+i.imgUrl+'"></img></td>';
-        _.each(ourSpeciesArr, function(j) {
+        _.each(pageSpeciesArr, function(j) {
           remainingRows += '<td class="aggregate-cell">';
           var toSpeciesArr = habitatFilteredCollection.filter(function(model) {
             return parseInt(model.get('from_species_index')) === i.index && parseInt(model.get('to_species_index')) === j.index;
@@ -838,8 +848,7 @@
 
       /************ AGGREGATE *************/
 
-      var habitatObj = app.getSelectorValue(screenId, "habitat");
-
+      var habitatObj = app.getHabitatObject("relationships-read-screen");
       if (habitatObj.index !== -1) {
         view.createAggregateTable();
       }
@@ -853,8 +862,7 @@
 
       var publishedCollection = view.collection.sort().where({published: true});
 
-      // if a habitat has been selected
-      var targetIndex = habitatObj.index;
+      var targetIndex = app.getHabitatObject("relationships-read-screen").index;
       var habitatFilteredCollection = null;
       if (targetIndex === 4) {
         // all notes
@@ -871,11 +879,15 @@
 
       // if one or more species have been selected (uses AND)
       var speciesFilteredCollection = null;
-      if (app.getSelectorValue(screenId, "species").length > 0) {
+      var speciesArr = app.getSpeciesObjectsArray();
+      if (speciesArr.length > 0) {
         speciesFilteredCollection = habitatFilteredCollection.filter(function(model) {
           console.log(model);
           // all value in selector must be in species_tags
-          if (_.difference(_.pluck(app.getSelectorValue(screenId, "species"), "index"), _.pluck(model.get("species_tags"), "index")).length === 0) {
+          var modelSpeciesIndexArr = [];
+          modelSpeciesIndexArr.push(model.get('from_species_index'));
+          modelSpeciesIndexArr.push(model.get('to_species_index'));
+          if (_.difference(_.pluck(speciesArr, "index"), modelSpeciesIndexArr).length === 0) {
             return model;
           }
         });
@@ -902,15 +914,12 @@
     initialize: function() {
       var view = this;
       console.log('Initializing RelationshipsWriteView...', view.el);
-
-      // hackeroo - we want only max 2 selections for this screen (and creating a third component type does not seem right)
-      jQuery('#relationships-write-screen .ws').attr('max-selections','2');
     },
 
     events: {
       'click .nav-read-btn'               : 'switchToReadView',
-      'click .paper-button-0'             : 'selectHabitat',
-      'click .bug'                        : 'selectSpecies',
+      'change .habitat-selector'          : 'habitatChanged',
+      'click .species-button'             : 'speciesSelected',
       'change #relationship-photo-file'   : 'uploadMedia',
       'click .remove-btn'                 : 'removeOneMedia',
       'click .photo-container'            : 'openPhotoModal',
@@ -918,11 +927,11 @@
       'keyup :input'                      : 'checkForAutoSave'
     },
 
-    selectHabitat: function() {
+    habitatChanged: function() {
       var view = this;
-      var habitatObj = app.getSelectorValue("#relationships-write-screen","habitat");
-      jQuery('#exchange-habitat').text("In "+habitatObj.name);
-      view.model.set('habitat_tag', habitatObj);
+      app.habitatSelectorChange("relationships-write-screen");
+      jQuery('#exchange-habitat').text("In "+app.getHabitatObject("relationships-write-screen").name);
+      view.model.set('habitat_tag', app.getHabitatObject("relationships-write-screen"));
 
       // clear out the data values and imgs to avoid confusion
       jQuery('.exchange-species-container').data('species-index','');
@@ -932,68 +941,64 @@
       view.model.save();
     },
 
-    selectSpecies: function(ev) {
+    speciesSelected: function(ev) {
       var view = this;
-      var index, tappedOn, url;
 
-      /* ok, this horrifying mess: until I find a way to expose the polymer listeners, I have to have a way
-         to figure out what button has been pressed (id, url, and whether it's being turned on or off).
-         To add to the fun, different parts of the button are exposed, so the user will sometimes press
-         different parts (ie different DOM elements). So far I have only seen these two different elements
-         being pressed, but I may to expand. Also - JSON.parse functions as type conversion to Bool, since
-         it otherwise comes back as a string (and therefore always evals to true) */
+      // click effect should only go through if they've selected a habitat
+      if (jQuery('#relationships-write-screen .habitat-selector').val() !== "?") {
+        app.clickHandler(jQuery(ev.target).data('species-index'), "relationships-write-screen");
+        var index, tappedOn, url;
 
-      if (jQuery(ev.target).hasClass('bug')) {
-        index = jQuery(ev.target).find('[src]').parent().parent().attr('id');
-        tappedOn = JSON.parse(jQuery(ev.target).find('[src]').parent().parent().attr('aria-pressed'));
-        url = jQuery(ev.target).find('[src]').attr('src');
-      } else if (jQuery(ev.target).attr('id') === 'ink') {
-        index = jQuery(ev.target).parent().attr('id');
-        tappedOn = JSON.parse(jQuery(ev.target).parent().attr('aria-pressed'));
-        url = jQuery(ev.target).parent().find('[src]').attr('src');
-      } else {
-        console.error('There is apparently another thing to click on');
-      }
+        index = jQuery(ev.target).data('species-index');
+        url = jQuery(ev.target).attr('src');
 
+        if (app.state[jQuery(ev.target).data('species-index')] === "selected") {
+          tappedOn = true;
+        } else if (app.state[jQuery(ev.target).data('species-index')] === "unselected") {
+          tappedOn = false;
+        } else {
+          throw "app.state is out of whack or there isnt an index here";
+        }
 
-      if (index) {
-        // since the max-selections doesn't seem to prevent a change event firing and us hitting this (and we want to limit to 2)
-        if (tappedOn) {
-          if (jQuery('#from-species-container').data('species-index').length === 0) {
-            // add to from_box
-            jQuery('#from-species-container').data('species-index',index);
-            jQuery('#from-species-container').html('<img src='+url+'></img>');
-            view.model.set('from_species_index', index);
-          } else if (jQuery('#to-species-container').data('species-index').length === 0) {
-            // add to to_box
-            jQuery('#to-species-container').data('species-index',index);
-            jQuery('#to-species-container').html('<img src='+url+'></img>');
-            view.model.set('to_species_index', index);
+        if (index > -1) {
+          if (tappedOn) {
+            if (jQuery('#from-species-container').data('species-index').length === 0) {
+              // add to from_box
+              jQuery('#from-species-container').data('species-index',index);
+              jQuery('#from-species-container').html('<img src='+url+'></img>');
+              view.model.set('from_species_index', index);
+            } else if (jQuery('#to-species-container').data('species-index').length === 0) {
+              // add to to_box
+              jQuery('#to-species-container').data('species-index',index);
+              jQuery('#to-species-container').html('<img src='+url+'></img>');
+              view.model.set('to_species_index', index);
+            } else {
+              console.log('Exceeded max selection');
+            }
+          } else if (!tappedOn) {
+            if (jQuery('#from-species-container').data('species-index') === index) {
+              // remove from from box
+              jQuery('#from-species-container').data('species-index','');
+              jQuery('#from-species-container').html('');
+              view.model.set('from_species_index', '');
+            } else if (jQuery('#to-species-container').data('species-index') === index) {
+              // remove from to box
+              jQuery('#to-species-container').data('species-index','');
+              jQuery('#to-species-container').html('');
+              view.model.set('to_species_index', '');
+            } else {
+              console.log('Exceeded max selection');
+            }
           } else {
-            console.log('Exceeded max selection');
-          }
-        } else if (!tappedOn) {
-          if (jQuery('#from-species-container').data('species-index') === index) {
-            // remove from from box
-            jQuery('#from-species-container').data('species-index','');
-            jQuery('#from-species-container').html('');
-            view.model.set('from_species_index', '');
-          } else if (jQuery('#to-species-container').data('species-index') === index) {
-            // remove from to box
-            jQuery('#to-species-container').data('species-index','');
-            jQuery('#to-species-container').html('');
-            view.model.set('to_species_index', '');
-          } else {
-            console.log('Exceeded max selection');
+            throw "Species button does not produce tappedOn value - maybe the html value changed";
           }
         } else {
-          throw "Species button does not produce tappedOn value - maybe the html value changed";
+          throw "Cannot get index of selected species - the html structure probably changed";
         }
+        view.model.save();
       } else {
-        throw "Cannot get index of selected species - the html structure probably changed";
+        jQuery().toastmessage('showWarningToast', "Please select a habitat first");
       }
-
-      view.model.save();
     },
 
     openPhotoModal: function(ev) {
@@ -1089,7 +1094,7 @@
       var title = jQuery('#relationship-title-input').val();
       var body = jQuery('#relationship-body-input').val();
 
-      if (title.length > 0 && body.length > 0 && jQuery('#from-species-container').data('species-index').length && jQuery('#to-species-container').data('species-index').length) {
+      if (title.length > 0 && body.length > 0 && jQuery('#from-species-container').data('species-index') > -1 && jQuery('#to-species-container').data('species-index') > -1) {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
@@ -1104,8 +1109,7 @@
         jQuery('.input-field').val('');
         jQuery('.exchange-species-container').html('');
         jQuery('.exchange-species-container').data('species-index','');
-        app.resetSelectorValue("relationships-write-screen");
-        app.resetSelectorValue("relationships-read-screen");
+
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete all fields to submit your relationship...");
       }
@@ -1115,6 +1119,11 @@
       var view = this;
       app.hideAllContainers();
       jQuery('#relationships-read-screen').removeClass('hidden');
+
+      app.resetSelectorValue("relationships-write-screen");
+      app.resetSelectorValue("relationships-read-screen");
+
+      app.relationshipsReadView.render();
     },
 
     // TODO: this can be done more cleanly/backbonely with views for the media containers
@@ -1153,49 +1162,39 @@
       var view = this;
       console.log("Rendering RelationshipsWriteView...");
 
-      // var habitatObj = app.getSelectorValue("#relationships-write-screen","habitat");
+      // var habitatObj = app.getHabitatObject("relationships-write-screen");
       // if (habitatObj.name) {
       //   jQuery('#exchange-habitat').text("In "+habitatObj.name);
       // }
       if (view.model.get('habitat_tag')) {
         jQuery('#exchange-habitat').text("In "+view.model.get('habitat_tag').name);
+        app.setHabitat("relationships-write-screen", view.model.get('habitat_tag').index);
       } else {
         jQuery('#exchange-habitat').text("In Habitat ?");
       }
 
       var speciesIndexArray = [];
-      // jump through insanely convoluted hoops to get the index and url for the species - hopefully nobody ever reads this code cause a: makes me a sad puppy and b: virtually impossible to understand given the insane data structures that we are dealing with
-      if (view.model.get('from_species_index').length > 0) {
-        speciesIndexArray.push(view.model.get('from_species_index'));
-      }
-
-      if (view.model.get('to_species_index').length > 0) {
-        speciesIndexArray.push(view.model.get('to_species_index'));
-      }
-
-      if (view.model.get('habitat_tag')) {
-        app.setSelectorValues("#relationships-write-screen", view.model.get('habitat_tag').index, speciesIndexArray);
-      }
-
-      var speciesArr = app.getSelectorValue("#relationships-write-screen","species");
-      if (view.model.get('from_species_index').length > 0) {
-        var fromObj = {};
-        fromObj.index = parseInt(view.model.get('from_species_index'));
-        jQuery('#from-species-container').data('species-index',view.model.get('from_species_index'));
-        jQuery('#from-species-container').html('<img src='+_.findWhere(speciesArr, fromObj).imgUrl+'></img>');
+      var fromIndex = view.model.get('from_species_index');
+      if (fromIndex !== "") {
+        speciesIndexArray.push(fromIndex);
+        jQuery('#from-species-container').data('species-index',fromIndex);
+        jQuery('#from-species-container').html('<img src="'+app.images[fromIndex].selected+'"></img>');
       } else {
         jQuery('#from-species-container').data('species-index','');
         jQuery('#from-species-container').html('');
       }
-      if (view.model.get('to_species_index').length > 0) {
-        var toObj = {};
-        toObj.index = parseInt(view.model.get('to_species_index'));
-        jQuery('#to-species-container').data('species-index',view.model.get('to_species_index'));
-        jQuery('#to-species-container').html('<img src='+_.findWhere(speciesArr, toObj).imgUrl+'></img>');
+
+      var toIndex = view.model.get('to_species_index');
+      if (toIndex !== "") {
+        speciesIndexArray.push(view.model.get('to_species_index'));
+        jQuery('#to-species-container').data('species-index',toIndex);
+        jQuery('#to-species-container').html('<img src="'+app.images[toIndex].selected+'"></img>');
       } else {
         jQuery('#to-species-container').data('species-index','');
         jQuery('#to-species-container').html('');
       }
+
+      app.setSpecies(speciesIndexArray);
 
       jQuery('#relationship-title-input').val(view.model.get('title'));
       jQuery('#relationship-body-input').val(view.model.get('body'));
