@@ -321,22 +321,22 @@
     habitatChanged: function() {
       var view = this;
       app.habitatSelectorChange("notes-write-screen");
-      // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
-      // view.model.save();
+      view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+      view.model.save();
     },
 
     speciesSelected: function(ev) {
       var view = this;
       app.clickHandler(jQuery(ev.target).data('species-index'), "notes-write-screen");
-      // view.model.set('species_tags', app.getSpeciesObjectsArray());
-      // view.model.save();
+      view.model.set('species_tags', app.getSpeciesObjectsArray());
+      view.model.save();
     },
 
     updateNoteType: function(ev) {
       var view = this;
       var noteType = jQuery('#notes-write-screen .note-type-selector :selected').val();
-      // view.model.set('note_type_tag', noteType);
-      // view.model.save();
+      view.model.set('note_type_tag', noteType);
+      view.model.save();
 
       jQuery('#sentence-starter-modal .modal-body').html('');
       if (app.noteTypes[noteType]) {
@@ -472,9 +472,9 @@
         view.model.set('modified_at', new Date());
 
         // doing this here now instead to try to cut down on faye connections
-        view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
-        view.model.set('species_tags', app.getSpeciesObjectsArray());
-        view.model.set('note_type_tag', noteType);
+        // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
+        // view.model.set('species_tags', app.getSpeciesObjectsArray());
+        // view.model.set('note_type_tag', noteType);
 
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
