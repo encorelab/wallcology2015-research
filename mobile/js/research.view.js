@@ -798,6 +798,7 @@
       var habitatObj = app.getHabitatObject("relationships-read-screen");
       var pageSpeciesArr = [];
       var ourSpeciesArr = app.getSpeciesObjectsArray();
+
       // create an array of objects with index and url (a lot of this is legacy from the old selector)
       _.each(_.pluck(app.images, "selected"), function(img, i) {
         pageSpeciesArr.push({"index":i, "imgUrl":img});
