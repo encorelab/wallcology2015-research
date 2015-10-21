@@ -471,6 +471,10 @@
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
 
+        if (noteType === "Big Idea") {
+          view.model.set('author','class note');
+        }
+
         // doing this here now instead to try to cut down on faye connections
         // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
         // view.model.set('species_tags', app.getSpeciesObjectsArray());
