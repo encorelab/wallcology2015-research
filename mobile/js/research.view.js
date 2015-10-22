@@ -568,6 +568,7 @@
       // check is this user is allowed to edit this note
       if (view.model.get('author') === app.username || (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === "")) {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
+        jQuery('#notes-write-screen .editable.input-field').prop("disabled", false);
         jQuery('#notes-write-screen .editable').removeClass('disabled');
         if (view.model.get('note_type_tag') === "Big Idea") {
           view.model.set('write_lock', app.username);
@@ -576,6 +577,7 @@
         }
       } else {
         jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
+        jQuery('#notes-write-screen .editable.input-field').prop("disabled", true);
         jQuery('#notes-write-screen .editable').addClass('disabled');
       }
     }
