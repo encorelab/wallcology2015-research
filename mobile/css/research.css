@@ -1120,17 +1120,11 @@ body {
 }
 #exchange-habitat-container {
     position: relative !important;
-<<<<<<< HEAD
     text-align: center !important;
     margin: -5px 0 0 -20px !important;
     padding: 0px !important;
     width: 150px;
 } 
-=======
-    text-align: center;
-    margin: 0px auto !important;
-}
->>>>>>> origin/master
 .exchange-arrow {
     text-indent: -9999px;
     width: 30px;
