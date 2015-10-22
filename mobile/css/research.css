@@ -1119,6 +1119,14 @@ body {
     text-align: center;
     margin: 0px auto !important;
 } 
+.exchange-arrow {
+    text-indent: -9999px;
+    width: 30px;
+    height: 30px;
+    margin: 3px;
+    background-image: url(../img/exchange-arrow.png);
+    background-repeat: no-repeat;
+}
 
 @media screen and (max-width: 900px) {
     .container {
