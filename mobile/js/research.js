@@ -63,7 +63,7 @@
   };
 
   // SELECTOR-RELATED STUFF FROM TOM
-  var images = [  {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
+  app.images = [ {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_00_0.svg'},
           {selected: 'https://ltg.cs.uic.edu/WC/icons/species_01.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_01_0.svg'},
@@ -87,13 +87,38 @@
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_10_0.svg'}
          ];
 
+  // app.images = [ {selected: 'img/species_00.svg',
+  //            unselected: 'img/species_00_0.svg'},
+  //         {selected: 'img/species_01.svg',
+  //            unselected: 'img/species_01_0.svg'},
+  //         {selected: 'img/species_02.svg',
+  //            unselected: 'img/species_02_0.svg'},
+  //         {selected: 'img/species_03.svg',
+  //            unselected: 'img/species_03_0.svg'},
+  //         {selected: 'img/species_04.svg',
+  //            unselected: 'img/species_04_0.svg'},
+  //         {selected: 'img/species_05.svg',
+  //            unselected: 'img/species_05_0.svg'},
+  //         {selected: 'img/species_06.svg',
+  //            unselected: 'img/species_06_0.svg'},
+  //         {selected: 'img/species_07.svg',
+  //            unselected: 'img/species_07_0.svg'},
+  //         {selected: 'img/species_08.svg',
+  //            unselected: 'img/species_08_0.svg'},
+  //         {selected: 'img/species_09.svg',
+  //            unselected: 'img/species_09_0.svg'},
+  //         {selected: 'img/species_10.svg',
+  //            unselected: 'img/species_10_0.svg'}
+  //        ];
+
   app.state = [];
   app.numSelected = null;
-  app.maxSelectable = null;
   app.habitatSelectorType = null;
   app.fixedIndex = null;
   app.clearSelectionsOnHabitatChange = null;
 
+  var MAX_SELECTABLE_NOTES = 11;
+  var MAX_SELECTABLE_RELATIONSHIPS = 2;
 
   app.init = function() {
     /* CONFIG */
@@ -250,13 +275,15 @@
         // }
         if (jQuery(this).hasClass('goto-notes-btn')) {
           app.hideAllContainers();
+          app.resetAllSelectors();
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // app.hideAllContainers();
-          // jQuery('#relationships-nav-btn').addClass('active');
-          // jQuery('#relationships-read-screen').removeClass('hidden');
+          //jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          app.hideAllContainers();
+          app.resetAllSelectors();
+          jQuery('#relationships-nav-btn').addClass('active');
+          jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#populations-nav-btn').addClass('active');
@@ -291,7 +318,8 @@
          collection: Skeletor.Model.awake.notes
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
-       app.drawSelectorBar(11, 'notes-read-screen');
+       app.drawSelectorBar('notes-read-screen');
+
        app.notesReadView.render();
      }
 
@@ -301,23 +329,28 @@
          collection: Skeletor.Model.awake.notes
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
-       app.drawSelectorBar(11, 'notes-write-screen');
+       app.drawSelectorBar('notes-write-screen');
      }
 
-     // if (app.relationshipsReadView === null) {
-     //   app.relationshipsReadView = new app.View.RelationshipsReadView({
-     //     el: '#relationships-read-screen',
-     //     collection: Skeletor.Model.awake.relationships
-     //   });
-     //   app.relationshipsReadView.render();
-     // }
+     if (app.relationshipsReadView === null) {
+       app.relationshipsReadView = new app.View.RelationshipsReadView({
+         el: '#relationships-read-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+       app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
+       app.drawSelectorBar('relationships-read-screen');
 
-     // if (app.relationshipsWriteView === null) {
-     //   app.relationshipsWriteView = new app.View.RelationshipsWriteView({
-     //     el: '#relationships-write-screen',
-     //     collection: Skeletor.Model.awake.relationships
-     //   });
-     // }
+       app.relationshipsReadView.render();
+     }
+
+     if (app.relationshipsWriteView === null) {
+       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+         el: '#relationships-write-screen',
+         collection: Skeletor.Model.awake.relationships
+       });
+       app.drawHabitatSelector('?1234', 0, true, 'relationships-write-screen');
+       app.drawSelectorBar('relationships-write-screen');
+     }
 
 
 
@@ -410,7 +443,7 @@
     };
 
     return habitatObj;
-  }
+  };
 
   app.getSpeciesObjectsArray = function() {
     var speciesArr = [];
@@ -422,19 +455,49 @@
     });
 
     return speciesArr;
-  }
+  };
 
-  app.setSelectorValues = function(view, habitatIndex, speciesIndexArray) {
+  app.setHabitat = function(view, habitatIndex) {
     // these will be undefined if nothing is selected from habitat/species
-    if (typeof habitatIndex !== "undefined" && typeof speciesIndexArray !== "undefined") {
-      document.querySelector(view+' .ws').switchToggleAndButtonSelectors(habitatIndex, app.convertStringArrayToIntArray(speciesIndexArray));
+    if (typeof habitatIndex !== "undefined") {
+      jQuery('#'+view+' .habitat-selector').val(habitatIndex);
     }
   };
 
-  app.resetSelectorValue = function(view) {
-    //document.querySelector(view+' .ws').switchToggleAndButtonSelectors(4, []);
+  app.setSpecies = function(speciesArray) {
+    _.each(speciesArray, function(i) {
+      app.state[i] = 'selected';
+      select(i);
+      app.numSelected++;
+      updateImage(i);
+    });
   };
 
+  // NB: this is a little sketchy, relying on contains string...
+  app.resetSelectorValue = function(view) {
+    jQuery('.note-type-selector').val('Note Type');
+
+    if (jQuery('#'+view+' .habitat-selector :contains("Habitat ?")').length) {
+      jQuery('#'+view+' .habitat-selector').val("?");
+    } else if (jQuery('#'+view+' .habitat-selector :contains("All Habitats")').length) {
+      jQuery('#'+view+' .habitat-selector').val("A");
+    } else {
+      console.error("An issue with resetSelectorValue");
+    }
+
+    _.each(app.state, function(selected, i) {
+      app.state[i] = 'unselected';
+      updateImage(i);
+    });
+    app.numSelected = 0;
+  };
+
+  app.resetAllSelectors = function() {
+    app.resetSelectorValue("notes-read-screen");
+    app.resetSelectorValue("notes-write-screen");
+    app.resetSelectorValue("relationships-read-screen");
+    app.resetSelectorValue("relationships-write-screen");
+  };
 
   app.drawHabitatSelector = function(h, f, c, view) {
     var habitatSelectorType = h;
@@ -472,26 +535,34 @@
         }
       }
     }
-    var x = jQuery('#notes-write-screen .habitat-selector :selected');
-    var s = jQuery('#notes-write-screen .habitat-selector :selected').data('index');
+    var x = jQuery('#'+view+' .habitat-selector :selected');
+    var s = jQuery('#'+view+' .habitat-selector :selected').data('index');
     if (app.habitatSelectorType === '?1234' && x.val() === '?') {
       x.remove();
     }
     //habitatSelect(x[x.selectedIndex].value);
   };
 
-  app.drawSelectorBar = function(n, view) {
-    for (var x=0; x<images.length; x++) {
+  app.drawSelectorBar = function(view) {
+    for (var x=0; x<app.images.length; x++) {
       app.state[x] = 'unselected';
     }
-    app.maxSelectable = n;
     app.numSelected = 0;
     for (var i=0; i<app.state.length; i++) {
-      jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + images[i][app.state[i]] + '" width="60" height="60">');
+      jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + app.images[i][app.state[i]] + '" width="60" height="60">');
     }
   };
 
   app.clickHandler = function(species, view) {
+    var maxSelectable;
+    if (view === "notes-read-screen" || view === "notes-write-screen") {
+      maxSelectable = MAX_SELECTABLE_NOTES;
+    } else if (view === "relationships-read-screen" || view === "relationships-write-screen") {
+      maxSelectable = MAX_SELECTABLE_RELATIONSHIPS;
+    } else {
+      console.error("Unknown view passed into clickHandler");
+    }
+
     var x = jQuery('#'+view+' .habitat-selector').val();
     if (x !== '?') {
       if (app.state[species] === 'selected') {
@@ -499,7 +570,7 @@
         deSelect(species);
         app.numSelected--;
       } else {
-        if (app.numSelected < app.maxSelectable) {
+        if (app.numSelected < maxSelectable) {
           app.state[species] = 'selected';
           select(species);
           app.numSelected++;
@@ -510,7 +581,7 @@
   };
 
   var updateImage = function(i) {
-    jQuery('.species-'+i).attr('src', images[i][app.state[i]]);
+    jQuery('.species-'+i).attr('src', app.images[i][app.state[i]]);
   };
 
   function select (species) { }       // code for when a species is selected
@@ -778,7 +849,7 @@
 
   app.autoSave = function(model, inputKey, inputValue, instantSave, nested) {
     app.keyCount++;
-    if (instantSave || app.keyCount > 9) {
+    if (instantSave || app.keyCount > 20) {
       console.log('Autosaved...');
       // TODO: clean this out if nested isn't needed!
       if (nested === "proposal") {

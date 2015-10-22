@@ -156,7 +156,7 @@ textarea {
 .tiles textarea,
 .tiles button,
 .tiles .btn {
-    border: 2px solid #006699;
+    border: 1px solid #237599;
 }
 .tiles .btn-circular,
 #todo-screen .todo-btn {
@@ -246,7 +246,9 @@ textarea {
 }
 .note-url img, .relationship-url img {
     width: 100%;
-    /*height: 100%;*/
+    /*    width: 66%;              parent is 66% height, so this allows a square... good?   then 17% is half of the remaining 34%
+        height: 100%;
+        margin-left: 17%;*/
 }
 .note-author, .relationship-author {
     float: right;
@@ -289,15 +291,14 @@ textarea {
 
 #note-body-input, #relationship-body-input {
     padding-top: 15px !important;
-    height: 160px;
+    min-height: 320px;
     padding-right: 60px;
 }
 
 .fa-lightbulb-o {
     color: #006699;
     position: absolute;
-    top: -1%;
-    right: 0%;
+    right: 15%;
     padding: 10px 20px;
 }
 .fa-lightbulb-o:hover {
@@ -346,6 +347,7 @@ textarea {
 #note-btn-container, #relationship-btn-container {
     position: relative;
     margin-top: 20px;
+    width: 70%;
 }
 .camera-icon-label {
     width: 60px;
@@ -1012,10 +1014,17 @@ body {
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
 }*/
+<<<<<<< HEAD
 #note-body-container, #relationship-body-container {
     height: auto;
 }
 #note-btn-container, #relationship-btn-container {
+=======
+#note-body-container {
+    height: auto;
+}
+#note-btn-container {
+>>>>>>> origin/master
     /*width: 650px;*/
     width: 70%;
     margin: 30px auto;
@@ -1168,7 +1177,11 @@ body {
     .note-title, .relationship-title {
         font-size: 16px;
     }
+<<<<<<< HEAD
     #note-btn-container, #relationship-btn-container {
+=======
+    #note-btn-container {
+>>>>>>> origin/master
         width: 500px;
         width: 70%;
     }
