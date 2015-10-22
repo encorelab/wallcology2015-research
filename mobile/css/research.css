@@ -1105,8 +1105,9 @@ body {
     width: 70%;
     margin: auto;
     background-image: url(../img/curved-arrow.png);
-    background-position: top left;
+    background-position: 20px 10px;
     background-repeat: no-repeat;
+    background-size: 30px;
 }
 .aggregate-cell{
     width: px !important;
@@ -1115,18 +1116,22 @@ body {
 }
 #exchange-container{
     margin: 20px auto;
-    width: 430px
+    width: 430px;
 }
 #exchange-habitat-container {
     position: relative !important;
-    text-align: center;
-    margin: 0px auto !important;
+    text-align: center !important;
+    margin: -5px 0 0 -20px !important;
+    padding: 0px !important;
+    width: 150px;
 } 
 .exchange-arrow {
     text-indent: -9999px;
     width: 30px;
     height: 30px;
-    margin: 3px;
+    padding: 0 !important;
+    text-align: center !important;
+    margin: 3px auto;
     background-image: url(../img/exchange-arrow.png);
     background-repeat: no-repeat;
 }
@@ -1209,5 +1214,8 @@ body {
     }
     .species-0{
         margin-left: 20px;
+    }
+    #relationships-aggregate .table {
+        background-position: 15px 10px;
     }
 }
