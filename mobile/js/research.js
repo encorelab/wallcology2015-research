@@ -89,11 +89,12 @@
 
   app.state = [];
   app.numSelected = null;
-  app.maxSelectable = null;
   app.habitatSelectorType = null;
   app.fixedIndex = null;
   app.clearSelectionsOnHabitatChange = null;
 
+  var MAX_SELECTABLE_NOTES = 11;
+  var MAX_SELECTABLE_RELATIONSHIPS = 2;
 
   app.init = function() {
     /* CONFIG */
@@ -250,11 +251,13 @@
         // }
         if (jQuery(this).hasClass('goto-notes-btn')) {
           app.hideAllContainers();
+          app.resetAllSelectors();
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
           //jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           app.hideAllContainers();
+          app.resetAllSelectors();
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
@@ -291,7 +294,7 @@
          collection: Skeletor.Model.awake.notes
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
-       app.drawSelectorBar(11, 'notes-read-screen');
+       app.drawSelectorBar('notes-read-screen');
 
        app.notesReadView.render();
      }
@@ -302,7 +305,7 @@
          collection: Skeletor.Model.awake.notes
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
-       app.drawSelectorBar(11, 'notes-write-screen');
+       app.drawSelectorBar('notes-write-screen');
      }
 
      if (app.relationshipsReadView === null) {
@@ -311,7 +314,7 @@
          collection: Skeletor.Model.awake.relationships
        });
        app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
-       app.drawSelectorBar(2, 'relationships-read-screen');
+       app.drawSelectorBar('relationships-read-screen');
 
        app.relationshipsReadView.render();
      }
@@ -322,7 +325,7 @@
          collection: Skeletor.Model.awake.relationships
        });
        app.drawHabitatSelector('?1234', 0, true, 'relationships-write-screen');
-       app.drawSelectorBar(2, 'relationships-write-screen');
+       app.drawSelectorBar('relationships-write-screen');
      }
 
 
@@ -465,6 +468,12 @@
     app.numSelected = 0;
   };
 
+  app.resetAllSelectors = function() {
+    app.resetSelectorValue("notes-read-screen");
+    app.resetSelectorValue("notes-write-screen");
+    app.resetSelectorValue("relationships-read-screen");
+    app.resetSelectorValue("relationships-write-screen");
+  };
 
   app.drawHabitatSelector = function(h, f, c, view) {
     var habitatSelectorType = h;
@@ -510,11 +519,10 @@
     //habitatSelect(x[x.selectedIndex].value);
   };
 
-  app.drawSelectorBar = function(n, view) {
+  app.drawSelectorBar = function(view) {
     for (var x=0; x<app.images.length; x++) {
       app.state[x] = 'unselected';
     }
-    app.maxSelectable = n;
     app.numSelected = 0;
     for (var i=0; i<app.state.length; i++) {
       jQuery('#'+view+' .species-selector-container').append('<img class="species-button species-'+i+'" data-species-index="'+i+'" src="' + app.images[i][app.state[i]] + '" width="60" height="60">');
@@ -522,6 +530,15 @@
   };
 
   app.clickHandler = function(species, view) {
+    var maxSelectable;
+    if (view === "notes-read-screen" || view === "notes-write-screen") {
+      maxSelectable = MAX_SELECTABLE_NOTES;
+    } else if (view === "relationships-read-screen" || view === "relationships-write-screen") {
+      maxSelectable = MAX_SELECTABLE_RELATIONSHIPS;
+    } else {
+      console.error("Unknown view passed into clickHandler");
+    }
+
     var x = jQuery('#'+view+' .habitat-selector').val();
     if (x !== '?') {
       if (app.state[species] === 'selected') {
@@ -529,7 +546,7 @@
         deSelect(species);
         app.numSelected--;
       } else {
-        if (app.numSelected < app.maxSelectable) {
+        if (app.numSelected < maxSelectable) {
           app.state[species] = 'selected';
           select(species);
           app.numSelected++;
