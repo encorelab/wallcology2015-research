@@ -949,7 +949,7 @@ body {
     margin-top: 15px !important;
     width: 100%;
 }
-.note-type-selector-container {
+.note-type-selector-container,  {
     display: block !important;
     float: right !important;
     max-width: 130px;
@@ -985,11 +985,11 @@ body {
 .col-xs-9 {
     width: 100%;
 }
-.notes-list {
+.notes-list, .relationships-list {
     width: 75%;
     margin: 20px auto auto 14%;
 }
-.note-container {
+.note-container, .relationship-container {
     margin: 10px;
     width: 30%;
     height: 30%;
@@ -1004,7 +1004,7 @@ body {
     font-size: 20px !important;
     background-color: #fff !important;
 }
-#note-title-input {
+#note-title-input, #relationship-title-input {
     min-height: 54px;
     line-height: 26px;
 }
@@ -1014,10 +1014,10 @@ body {
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
 }*/
-#note-body-container {
+#note-body-container, #relationship-body-container {
     height: auto;
 }
-#note-btn-container {
+#note-btn-container, #relationship-btn-container {
     /*width: 650px;*/
     width: 70%;
     margin: 30px auto;
@@ -1037,14 +1037,14 @@ body {
 .publish-note-btn:hover, .nav-write-btn:hover, .fa-arrow-left:hover {
     background: radial-gradient(ellipse at center, #176686 0%,#105875 100%) !important;
 }
-.note-title {
+.note-title, .relationship-title {
     font-size: 20px;
     color: #0a475f ;
 }
-.note-body {
+.note-body, .relationship-body {
     color: #666  !important;
 }
-.note-container{
+.note-container, .relationship-container{
     -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     background: linear-gradient(to bottom, #f8f5e9 0%, #f8f5e9 50%,#eee9d0 100%) !important;
@@ -1055,7 +1055,7 @@ body {
 .vcontainer {
     width: 120px;
 }
-.notes-list{
+.notes-list, .relationships-list{
     margin: 20px auto auto 14%;
 }
 .container {
@@ -1094,6 +1094,46 @@ body {
 }
 .species-0{
     margin-left: 40px;
+}
+#relationships-aggregate {
+    left: 0 !important;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+#relationships-aggregate .table {
+    width: 70%;
+    margin: auto;
+    background-image: url(../img/curved-arrow.png);
+    background-position: 20px 10px;
+    background-repeat: no-repeat;
+    background-size: 30px;
+}
+.aggregate-cell{
+    width: px !important;
+    vertical-align: middle !important;
+    font-size: 18px !important;
+}
+#exchange-container{
+    margin: 20px auto;
+    width: 430px;
+}
+#exchange-habitat-container {
+    position: relative !important;
+    text-align: center !important;
+    margin: -5px 0 0 -20px !important;
+    padding: 0px !important;
+    width: 150px;
+} 
+.exchange-arrow {
+    text-indent: -9999px;
+    width: 30px;
+    height: 30px;
+    padding: 0 !important;
+    text-align: center !important;
+    margin: 3px auto;
+    background-image: url(../img/exchange-arrow.png);
+    background-repeat: no-repeat;
 }
 
 @media screen and (max-width: 900px) {
@@ -1140,18 +1180,22 @@ body {
     .selector-container{
         height: 55px;
     }
-    .notes-list {
+    .notes-list, .relationships-list {
         width: 85%;
     }
-    .note-title {
+    .note-title, .relationship-title {
         font-size: 16px;
     }
-    #note-btn-container {
+    #note-btn-container, #relationship-btn-container {
         width: 500px;
         width: 70%;
     }
     #relationships-aggregate {
-        left: 105px !important;
+        margin-top: 20px !important;
+        padding: 0 110px !important
+    }
+    #relationships-aggregate .table {
+        width: 610px !important;
     }
     .inner-wrapper {
         height: 90% !important;
@@ -1170,5 +1214,8 @@ body {
     }
     .species-0{
         margin-left: 20px;
+    }
+    #relationships-aggregate .table {
+        background-position: 15px 10px;
     }
 }
