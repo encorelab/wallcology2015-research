@@ -947,7 +947,7 @@ body {
     margin-top: 15px !important;
     width: 100%;
 }
-.note-type-selector-container {
+.note-type-selector-container,  {
     display: block !important;
     float: right !important;
     max-width: 130px;
@@ -971,7 +971,7 @@ body {
     width: auto;
     max-width: 1100px;
     margin: 0px auto 20px auto;
-    background-color: #e3e3e3;
+    /*background-color: #e3e3e3;*/
     height: 60px;
     -webkit-box-shadow: inset 0 3px 9px rgba(0,0,0,0.3);
     box-shadow: inset 0 3px 9px rgba(0,0,0,0.3);
@@ -983,11 +983,11 @@ body {
 .col-xs-9 {
     width: 100%;
 }
-.notes-list {
+.notes-list, .relationships-list {
     width: 75%;
     margin: 20px auto auto 14%;
 }
-.note-container {
+.note-container, .relationship-container {
     margin: 10px;
     width: 30%;
     height: 30%;
@@ -998,16 +998,13 @@ body {
     display: block;
     -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
     box-shadow: inset 0 3px 5px rgba(0,0,0,0.2);
-    border: 1px solid #237599 !important;
+    border: 1px solid #237599;
     font-size: 20px !important;
     background-color: #fff !important;
 }
-#note-title-input {
+#note-title-input, #relationship-title-input {
     min-height: 54px;
     line-height: 26px;
-}
-#note-body-input {
-    min-height: 320px;
 }
 /*.publish-note-btn, .nav-write-btn {
     background: radial-gradient(ellipse at center, #a3cb42 0%,#95bc35  100%) !important;
@@ -1015,33 +1012,13 @@ body {
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
 }*/
-paper-button.colorful.wallcology-selector {
-    /*background: linear-gradient(to bottom, #639b14 0%,#89b92b 100%) !important;
-    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
-    box-shadow: 0 3px 3px rgba(0,0,0,0.5);
-    top: 2px;*/
-    border: 1px solid #0e4f69 !important;
-    left: -7px;
-    height: 40px;
-    width: 160px;
-    background-color: #135b78;
-}
-#key{
-    margin-left:20px;
-}
-paper-button.colorful.wallcology-selector:hover {
-    background-color: #0d4d66;
-}
-#note-body-container {
+#note-body-container, #relationship-body-container {
     height: auto;
 }
-#note-btn-container {
-    width: 650px;
+#note-btn-container, #relationship-btn-container {
+    /*width: 650px;*/
+    width: 70%;
     margin: 30px auto;
-}
-.fa-lightbulb-o {
-    top: 10px;
-    right: 145px;
 }
 .side-nav{
     padding: 90px 0 0 0;
@@ -1058,14 +1035,14 @@ paper-button.colorful.wallcology-selector:hover {
 .publish-note-btn:hover, .nav-write-btn:hover, .fa-arrow-left:hover {
     background: radial-gradient(ellipse at center, #176686 0%,#105875 100%) !important;
 }
-.note-title {
+.note-title, .relationship-title {
     font-size: 20px;
     color: #0a475f ;
 }
-.note-body {
+.note-body, .relationship-body {
     color: #666  !important;
 }
-.note-container{
+.note-container, .relationship-container{
     -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     background: linear-gradient(to bottom, #f8f5e9 0%, #f8f5e9 50%,#eee9d0 100%) !important;
@@ -1073,23 +1050,10 @@ paper-button.colorful.wallcology-selector:hover {
 .top-nav-btn>a{
     color: #fff !important;
 }
-/*paper-icon-button[toggles] {
-    border: 1px solid #e3e3e3 !important;
-    background-color: #c3c3c3 !important;    
-    border-radius: 40px !important  ;
-}
-paper-icon-button[toggles][active] {
-    border: 1px solid #aeaeae !important;
-    background-color: #aed24d !important;
-    border-radius: 40px !important  ;
-}
-#key{
-    margin-left: 30px;
-}*/
 .vcontainer {
     width: 120px;
 }
-.notes-list{
+.notes-list, .relationships-list{
     margin: 20px auto auto 14%;
 }
 .container {
@@ -1108,7 +1072,7 @@ paper-icon-button[toggles][active] {
 #note-media-container, #relationship-media-container {
     margin: 5px auto !important;
     text-align: center;
-} 
+}
 .media-container {
     position: relative;
     display: inline-block;
@@ -1124,11 +1088,35 @@ paper-icon-button[toggles][active] {
 }
 .species-button {
     width: 48px;
-    margin: auto 5px
+    margin: auto 5px;
 }
 .species-0{
     margin-left: 40px;
 }
+#relationships-aggregate {
+    left: 0 !important;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+#relationships-aggregate .table {
+    width: 70%;
+    margin: auto;
+}
+.aggregate-cell{
+    width: px !important;
+    vertical-align: middle !important;
+    font-size: 18px !important;
+}
+#exchange-container{
+    margin: 20px auto;
+    width: 430px
+}
+#exchange-habitat-container {
+    position: relative !important;
+    text-align: center;
+    margin: 0px auto !important;
+} 
 
 @media screen and (max-width: 900px) {
     .container {
@@ -1149,10 +1137,6 @@ paper-icon-button[toggles][active] {
     .logout-user {
         margin: 0 0 0 -20px !important;
     }
-    paper-icon-button {
-        width: 35px !important;
-        height: 35px !important;
-    }
     .wallcology-selector {
         font-size: 12px !important;
     }
@@ -1162,11 +1146,11 @@ paper-icon-button[toggles][active] {
     }
     .note-type-selector, .habitat-selector {
         font-size: 12px !important;
-        width: 90px;
+        width: 97px;
         height: 30px;
     }
     .habitat-selector {
-        margin-left: 10px;
+        margin-left: 3px;
     }
     .note-type-selector {
         margin-left: 0px;
@@ -1175,27 +1159,25 @@ paper-icon-button[toggles][active] {
     .note-type-selector-container {
         width: 100px;
     }
-    paper-button.colorful.wallcology-selector{
-        height: 30px;
-        padding-top: 6px;
-    }
     .selector-container{
         height: 55px;
     }
-    .notes-list {
+    .notes-list, .relationships-list {
         width: 85%;
     }
-    .note-title {
+    .note-title, .relationship-title {
         font-size: 16px;
     }
-    .fa-lightbulb-o {
-        right: 110px;
-    }
-    #note-btn-container {
+    #note-btn-container, #relationship-btn-container {
         width: 500px;
+        width: 70%;
     }
     #relationships-aggregate {
-        left: 105px !important;
+        margin-top: 20px !important;
+        padding: 0 110px !important
+    }
+    #relationships-aggregate .table {
+        width: 610px !important;
     }
     .inner-wrapper {
         height: 90% !important;
