@@ -833,7 +833,9 @@
           var toSpeciesArr = habitatFilteredCollection.filter(function(model) {
             return parseInt(model.get('from_species_index')) === i.index && parseInt(model.get('to_species_index')) === j.index;
           });
-          remainingRows += toSpeciesArr.length;
+          if (toSpeciesArr.length > 0) {
+            remainingRows += toSpeciesArr.length;
+          }
           remainingRows += '</td>';
         });
         remainingRows += '</tr>';
