@@ -245,9 +245,8 @@ textarea {
     overflow-y: hidden;
 }
 .note-url img, .relationship-url img {
-    width: 66%;             /* parent is 66% height, so this allows a square... good?   then 17% is half of the remaining 34% */
-    height: 100%;
-    margin-left: 17%;
+    width: 100%;
+    /*height: 100%;*/
 }
 .note-author, .relationship-author {
     float: right;
