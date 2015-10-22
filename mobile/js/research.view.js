@@ -1211,9 +1211,11 @@
       // check if this user is allowed to edit this relationship
       if (view.model.get('author') === app.username) {
         jQuery('#relationships-write-screen .editable.input-field').removeClass('uneditable');
+        jQuery('#relationships-write-screen .editable.input-field').prop("disabled", false);
         jQuery('#relationships-write-screen .editable').removeClass('disabled');
       } else {
         jQuery('#relationships-write-screen .editable.input-field').addClass('uneditable');
+        jQuery('#relationships-write-screen .editable.input-field').prop("disabled", true);
         jQuery('#relationships-write-screen .editable').addClass('disabled');
       }
     }
