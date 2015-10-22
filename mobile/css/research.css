@@ -1014,17 +1014,10 @@ body {
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
 }*/
-<<<<<<< HEAD
 #note-body-container, #relationship-body-container {
     height: auto;
 }
 #note-btn-container, #relationship-btn-container {
-=======
-#note-body-container {
-    height: auto;
-}
-#note-btn-container {
->>>>>>> origin/master
     /*width: 650px;*/
     width: 70%;
     margin: 30px auto;
@@ -1177,11 +1170,7 @@ body {
     .note-title, .relationship-title {
         font-size: 16px;
     }
-<<<<<<< HEAD
     #note-btn-container, #relationship-btn-container {
-=======
-    #note-btn-container {
->>>>>>> origin/master
         width: 500px;
         width: 70%;
     }
