@@ -443,7 +443,7 @@
     };
 
     return habitatObj;
-  }
+  };
 
   app.getSpeciesObjectsArray = function() {
     var speciesArr = [];
@@ -455,7 +455,7 @@
     });
 
     return speciesArr;
-  }
+  };
 
   app.setHabitat = function(view, habitatIndex) {
     // these will be undefined if nothing is selected from habitat/species
@@ -470,7 +470,7 @@
       select(i);
       app.numSelected++;
       updateImage(i);
-    })
+    });
   };
 
   // NB: this is a little sketchy, relying on contains string...
@@ -529,7 +529,7 @@
 
   app.habitatSelectorChange = function(view) {
     if (app.clearSelectionsOnHabitatChange) {
-      for (var i=0; i<app.state.length; i++) {(1)
+      for (var i=0; i<app.state.length; i++) {
         if (app.state[i] === 'selected') {
           app.clickHandler(i);
         }
