@@ -63,7 +63,7 @@
   };
 
   // SELECTOR-RELATED STUFF FROM TOM
-  app.images = [  {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
+  app.images = [ {selected: 'https://ltg.cs.uic.edu/WC/icons/species_00.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_00_0.svg'},
           {selected: 'https://ltg.cs.uic.edu/WC/icons/species_01.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_01_0.svg'},
@@ -86,6 +86,30 @@
           {selected: 'https://ltg.cs.uic.edu/WC/icons/species_10.svg',
              unselected: 'https://ltg.cs.uic.edu/WC/icons/species_10_0.svg'}
          ];
+
+  // app.images = [ {selected: 'img/species_00.svg',
+  //            unselected: 'img/species_00_0.svg'},
+  //         {selected: 'img/species_01.svg',
+  //            unselected: 'img/species_01_0.svg'},
+  //         {selected: 'img/species_02.svg',
+  //            unselected: 'img/species_02_0.svg'},
+  //         {selected: 'img/species_03.svg',
+  //            unselected: 'img/species_03_0.svg'},
+  //         {selected: 'img/species_04.svg',
+  //            unselected: 'img/species_04_0.svg'},
+  //         {selected: 'img/species_05.svg',
+  //            unselected: 'img/species_05_0.svg'},
+  //         {selected: 'img/species_06.svg',
+  //            unselected: 'img/species_06_0.svg'},
+  //         {selected: 'img/species_07.svg',
+  //            unselected: 'img/species_07_0.svg'},
+  //         {selected: 'img/species_08.svg',
+  //            unselected: 'img/species_08_0.svg'},
+  //         {selected: 'img/species_09.svg',
+  //            unselected: 'img/species_09_0.svg'},
+  //         {selected: 'img/species_10.svg',
+  //            unselected: 'img/species_10_0.svg'}
+  //        ];
 
   app.state = [];
   app.numSelected = null;
