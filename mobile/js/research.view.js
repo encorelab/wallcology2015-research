@@ -352,7 +352,7 @@
         jQuery('#notes-write-screen .input-field').css('border', '1px solid #DB67E6');
         jQuery('#note-body-input').attr('placeholder', 'Anyone can edit this note...');
       } else {
-        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599;');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
         jQuery('#note-body-input').attr('placeholder', '');
       }
     },
@@ -489,9 +489,8 @@
         view.model = null;
         jQuery('.input-field').val('');
         // resets in the case of Big Idea
-        jQuery('.notes textarea').css('border', '2px solid #006699');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599;');
         jQuery('#note-body-input').attr('placeholder', '');
-
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
@@ -703,6 +702,7 @@
       view.collection.on('change', function(n) {
         if (n.get('published') === true) {
           view.addOne(n);
+          view.createAggregateTable();
         }
       });
 
@@ -1102,7 +1102,7 @@
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
         view.model.save();
-        jQuery().toastmessage('showSuccessToast', "Published to the relationship wall!");
+        jQuery().toastmessage('showSuccessToast', "Published to food web wall!");
 
         view.switchToReadView();
 

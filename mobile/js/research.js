@@ -292,6 +292,7 @@
        });
        app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
        app.drawSelectorBar(11, 'notes-read-screen');
+
        app.notesReadView.render();
      }
 
@@ -311,6 +312,7 @@
        });
        app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
        app.drawSelectorBar(2, 'relationships-read-screen');
+
        app.relationshipsReadView.render();
      }
 
