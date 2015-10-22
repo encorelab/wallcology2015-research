@@ -1104,6 +1104,9 @@ body {
 #relationships-aggregate .table {
     width: 70%;
     margin: auto;
+    background-image: url(../img/curved-arrow.png);
+    background-position: top left;
+    background-repeat: no-repeat;
 }
 .aggregate-cell{
     width: px !important;
