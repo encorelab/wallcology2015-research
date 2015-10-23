@@ -1078,15 +1078,17 @@ body {
 .media-container {
     position: relative;
     display: inline-block;
-    width: 120px !important;
-    height: 120px !important;
+    width: 230px !important;
+    height: 168px !important;
     margin: 7px !important;
     background-color: #e3e3e3;
+    overflow: hidden;
 }
 .media {
-    width: 50% !important;
+    width: 100% !important;
     height: auto !important;
-    margin: 10px auto !important;
+    margin: 0px auto !important;
+    max-height: 168px !important;
 }
 .species-button {
     width: 48px;
