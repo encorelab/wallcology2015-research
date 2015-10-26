@@ -1084,7 +1084,7 @@ body {
     background-color: #e3e3e3;
     overflow: hidden;
 }
-.media {
+.media, .img-responsive {
     width: 100% !important;
     height: auto !important;
     margin: 0px auto !important;
