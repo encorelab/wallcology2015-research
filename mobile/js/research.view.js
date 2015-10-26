@@ -147,7 +147,6 @@
       ** IMPORTANT: in addOne we check that id isn't already in the DOM
       */
       view.collection.on('add', function(n) {
-        // If the add fires while project not chosen yet we get an error
         if (n.get('published') === true) {
           view.addOne(n);
         }
