@@ -475,11 +475,6 @@
           view.model.set('author','class note');
         }
 
-        // doing this here now instead to try to cut down on faye connections
-        // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
-        // view.model.set('species_tags', app.getSpeciesObjectsArray());
-        // view.model.set('note_type_tag', noteType);
-
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 

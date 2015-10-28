@@ -545,7 +545,7 @@
     if (app.clearSelectionsOnHabitatChange) {
       for (var i=0; i<app.state.length; i++) {
         if (app.state[i] === 'selected') {
-          app.clickHandler(i);
+          app.clickHandler(i, view);
         }
       }
     }
