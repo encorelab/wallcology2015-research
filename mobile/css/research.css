@@ -455,15 +455,20 @@ textarea {
 
 /********** CHI-TEST SCREEN **********/
 
-#chi-test-screen {
+#populations-screen {
     height: 100%;
-
 }
-#chi-test-screen iframe {
-    width: 100%;
+
+#populations-screen .row {
+    height: 100%
+}
+
+#population-history-container {
     height: calc(100% - 70px);
     margin-top: 60px;
+    width: 100%;
 }
+
 
 
 
