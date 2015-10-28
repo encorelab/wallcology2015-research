@@ -478,13 +478,13 @@
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
-        view.switchToReadView();
-
         view.model = null;
         jQuery('.input-field').val('');
         // resets in the case of Big Idea
-        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599;');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
         jQuery('#note-body-input').attr('placeholder', '');
+
+        view.switchToReadView();
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
