@@ -474,7 +474,12 @@
   app.setHabitat = function(view, habitatIndex) {
     // these will be undefined if nothing is selected from habitat/species
     if (typeof habitatIndex !== "undefined") {
-      jQuery('#'+view+' .habitat-selector').val(habitatIndex);
+      // hack since All Habitat is getting set to index 4 and it's too late to change that
+      if (habitatIndex === 4) {
+        jQuery('#'+view+' .habitat-selector').val("A");
+      } else {
+        jQuery('#'+view+' .habitat-selector').val(habitatIndex);
+      }
     }
   };
 
