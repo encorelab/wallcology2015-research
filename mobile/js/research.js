@@ -58,6 +58,7 @@
     "Species": ["We observed that...","We wonder if...","It seems important that..."],
     "Relationships": ["We observed that...","We wonder about the connection between...","Something that doesn't make sense is..."],
     "Habitats": ["We observed that...","We wonder what would happen if...","Something that we still need to find out is..."],
+    "Populations": ["We have noticed that...","We wonder about the connection between...","This species population has changed..."],
     "Real-world Connections": ["A real-world situation similar to this is...","This reminds me of...","This could help us understand..."],
     "Big Idea": ["One idea we need to focus on as a class is..."]
   };
