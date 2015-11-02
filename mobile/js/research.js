@@ -58,8 +58,9 @@
     "Species": ["We observed that...","We wonder if...","It seems important that..."],
     "Relationships": ["We observed that...","We wonder about the connection between...","Something that doesn't make sense is..."],
     "Habitats": ["We observed that...","We wonder what would happen if...","Something that we still need to find out is..."],
+    "Populations": ["We have noticed that...","We wonder about the connection between...","This species population has changed..."],
     "Real-world Connections": ["A real-world situation similar to this is...","This reminds me of...","This could help us understand..."],
-    "Big Idea": ["One idea we need to focus on as a class is..."],
+    "Big Idea": ["One idea we need to focus on as a class is..."]
   };
 
   // SELECTOR-RELATED STUFF FROM TOM
@@ -279,15 +280,17 @@
           jQuery('#notes-nav-btn').addClass('active');
           jQuery('#notes-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-relationships-btn')) {
-          //jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           app.hideAllContainers();
           app.resetAllSelectors();
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // jQuery('#populations-nav-btn').addClass('active');
-          // jQuery('#populations-screen').removeClass('hidden');
+          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          app.hideAllContainers();
+          app.resetAllSelectors();
+          jQuery('#populations-nav-btn').addClass('active');
+          jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#investigations-nav-btn').addClass('active');
@@ -312,45 +315,57 @@
      * ======================================================
      */
 
-     if (app.notesReadView === null) {
-       app.notesReadView = new app.View.NotesReadView({
-         el: '#notes-read-screen',
-         collection: Skeletor.Model.awake.notes
-       });
-       app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
-       app.drawSelectorBar('notes-read-screen');
+    // not sure this belongs here, but for now...   also likely want to move this to the config. But will this code snippet even last more than a couple days?
+    var className = '';
+    if (Skeletor.Mobile.runId === "mike") {
+      className = "Mike";
+    } else if (Skeletor.Mobile.runId === "ben") {
+      className = "Ben";
+    } else {
+      className = Skeletor.Mobile.runId;
+    }
+    var url = 'https://ltg.evl.uic.edu:57881/wallcology/default/runs/population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=' + className;
+    jQuery('#population-history-container').attr('src',url);
 
-       app.notesReadView.render();
-     }
+    if (app.notesReadView === null) {
+      app.notesReadView = new app.View.NotesReadView({
+        el: '#notes-read-screen',
+        collection: Skeletor.Model.awake.notes
+      });
+      app.drawHabitatSelector('A1234', 0, true, 'notes-read-screen');
+      app.drawSelectorBar('notes-read-screen');
 
-     if (app.notesWriteView === null) {
-       app.notesWriteView = new app.View.NotesWriteView({
-         el: '#notes-write-screen',
-         collection: Skeletor.Model.awake.notes
-       });
-       app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
-       app.drawSelectorBar('notes-write-screen');
-     }
+      app.notesReadView.render();
+    }
 
-     if (app.relationshipsReadView === null) {
-       app.relationshipsReadView = new app.View.RelationshipsReadView({
-         el: '#relationships-read-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-       app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
-       app.drawSelectorBar('relationships-read-screen');
+    if (app.notesWriteView === null) {
+    app.notesWriteView = new app.View.NotesWriteView({
+      el: '#notes-write-screen',
+      collection: Skeletor.Model.awake.notes
+    });
+    app.drawHabitatSelector('A1234', 0, true, 'notes-write-screen');
+    app.drawSelectorBar('notes-write-screen');
+    }
 
-       app.relationshipsReadView.render();
-     }
+    if (app.relationshipsReadView === null) {
+      app.relationshipsReadView = new app.View.RelationshipsReadView({
+        el: '#relationships-read-screen',
+        collection: Skeletor.Model.awake.relationships
+      });
+      app.drawHabitatSelector('A1234', 0, true, 'relationships-read-screen');
+      app.drawSelectorBar('relationships-read-screen');
 
-     if (app.relationshipsWriteView === null) {
-       app.relationshipsWriteView = new app.View.RelationshipsWriteView({
-         el: '#relationships-write-screen',
-         collection: Skeletor.Model.awake.relationships
-       });
-       app.drawHabitatSelector('?1234', 0, true, 'relationships-write-screen');
-       app.drawSelectorBar('relationships-write-screen');
-     }
+      app.relationshipsReadView.render();
+    }
+
+    if (app.relationshipsWriteView === null) {
+      app.relationshipsWriteView = new app.View.RelationshipsWriteView({
+        el: '#relationships-write-screen',
+        collection: Skeletor.Model.awake.relationships
+      });
+      app.drawHabitatSelector('?1234', 0, true, 'relationships-write-screen');
+      app.drawSelectorBar('relationships-write-screen');
+    }
 
 
 
@@ -368,11 +383,11 @@
      //   });
      // }
 
-     if (app.projectNewPosterView === null) {
-       app.projectNewPosterView = new app.View.ProjectNewPosterView({
-         el: '#project-new-poster-screen'
-       });
-     }
+    if (app.projectNewPosterView === null) {
+      app.projectNewPosterView = new app.View.ProjectNewPosterView({
+        el: '#project-new-poster-screen'
+      });
+    }
 
     if (app.reviewsView === null) {
       app.reviewsView = new app.View.ReviewsView({
@@ -460,7 +475,12 @@
   app.setHabitat = function(view, habitatIndex) {
     // these will be undefined if nothing is selected from habitat/species
     if (typeof habitatIndex !== "undefined") {
-      jQuery('#'+view+' .habitat-selector').val(habitatIndex);
+      // hack since All Habitat is getting set to index 4 and it's too late to change that
+      if (habitatIndex === 4) {
+        jQuery('#'+view+' .habitat-selector').val("A");
+      } else {
+        jQuery('#'+view+' .habitat-selector').val(habitatIndex);
+      }
     }
   };
 
@@ -531,7 +551,7 @@
     if (app.clearSelectionsOnHabitatChange) {
       for (var i=0; i<app.state.length; i++) {
         if (app.state[i] === 'selected') {
-          app.clickHandler(i);
+          app.clickHandler(i, view);
         }
       }
     }

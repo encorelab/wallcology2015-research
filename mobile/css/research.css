@@ -289,9 +289,15 @@ textarea {
     height: 160px;
 }
 
-#note-body-input, #relationship-body-input {
+#note-body-input {
     padding-top: 15px !important;
     min-height: 320px;
+    padding-right: 60px;
+}
+
+#relationship-body-input {
+    padding-top: 15px !important;
+    min-height: 120px;
     padding-right: 60px;
 }
 
@@ -447,17 +453,22 @@ textarea {
     text-align: center;
 }
 
-/********** CHI-TEST SCREEN **********/
+/********** POPULATIONS SCREEN **********/
 
-#chi-test-screen {
+#populations-screen {
     height: 100%;
-
 }
-#chi-test-screen iframe {
-    width: 100%;
+
+#populations-screen .row {
+    height: 100%
+}
+
+#population-history-container {
     height: calc(100% - 70px);
     margin-top: 60px;
+    width: 100%;
 }
+
 
 
 

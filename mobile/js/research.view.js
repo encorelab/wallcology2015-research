@@ -475,21 +475,16 @@
           view.model.set('author','class note');
         }
 
-        // doing this here now instead to try to cut down on faye connections
-        // view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
-        // view.model.set('species_tags', app.getSpeciesObjectsArray());
-        // view.model.set('note_type_tag', noteType);
-
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
-
-        view.switchToReadView();
 
         view.model = null;
         jQuery('.input-field').val('');
         // resets in the case of Big Idea
-        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599;');
+        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
         jQuery('#note-body-input').attr('placeholder', '');
+
+        view.switchToReadView();
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
       }
@@ -1010,10 +1005,10 @@
       var url = jQuery(ev.target).attr('src');
       //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
       //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
-      jQuery('#photo-modal .photo-content').attr('src', url);
-      jQuery('#photo-modal .download-photo-btn a').attr('href',url);
-      //jQuery('#photo-modal .download-photo-btn a').attr('download',fileName);
-      jQuery('#photo-modal').modal({keyboard: true, backdrop: true});
+      jQuery('#relationship-photo-modal .photo-content').attr('src', url);
+      jQuery('#relationship-photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#relationship-photo-modal .download-photo-btn a').attr('download',fileName);
+      jQuery('#relationship-photo-modal').modal({keyboard: true, backdrop: true});
     },
 
     uploadMedia: function() {
