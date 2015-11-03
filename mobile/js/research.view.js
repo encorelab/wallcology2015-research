@@ -1093,7 +1093,7 @@
       var title = jQuery('#relationship-title-input').val();
       var body = jQuery('#relationship-body-input').val();
 
-      if (title.length > 0 && body.length > 0 && jQuery('#from-species-container').data('species-index') > -1 && jQuery('#to-species-container').data('species-index') > -1) {
+      if (title.length > 0 && body.length > 0 && jQuery('#from-species-container').data('species-index') !== "" && jQuery('#to-species-container').data('species-index') !== "") {
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);

@@ -286,11 +286,11 @@
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
-          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          app.hideAllContainers();
-          app.resetAllSelectors();
-          jQuery('#populations-nav-btn').addClass('active');
-          jQuery('#populations-screen').removeClass('hidden');
+          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          // app.hideAllContainers();
+          // app.resetAllSelectors();
+          // jQuery('#populations-nav-btn').addClass('active');
+          // jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#investigations-nav-btn').addClass('active');
