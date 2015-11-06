@@ -39,17 +39,12 @@
   app.username = null;
   app.habitats = null;
 
-  app.newProjectView = null;
-  app.proposalsView = null;
-  app.chiTestView = null;
   app.notesReadView = null;
   app.notesWriteView = null;
   app.relationshipsReadView = null;
   app.relationshipsWriteView = null;
   app.habitatsView = null;
-  app.projectNewPosterView = null;
-  app.reviewsView = null;
-  app.reviewDetailsView = null;
+  app.investigationsView = null;
 
   app.keyCount = 0;
   app.autoSaveTimer = window.setTimeout(function() { } ,10);
@@ -298,15 +293,21 @@
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // app.hideAllContainers();
-          // app.resetAllSelectors();
-          // jQuery('#populations-nav-btn').addClass('active');
-          // jQuery('#populations-screen').removeClass('hidden');
+          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          app.hideAllContainers();
+          app.resetAllSelectors();
+          jQuery('#populations-nav-btn').addClass('active');
+          jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // jQuery('#investigations-nav-btn').addClass('active');
-          // jQuery('#investigations-screen').removeClass('hidden');
+          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          var currentUser = app.users.findWhere({username: app.username});
+          if (currentUser.get('habitat_group')) {
+            app.hideAllContainers();
+            jQuery('#investigations-nav-btn').addClass('active');
+            jQuery('#investigations-screen').removeClass('hidden');
+          } else {
+            jQuery().toastmessage('showWarningToast', "You have not been assigned to a habitat group yet");
+          }
         } else if (jQuery(this).hasClass('goto-habitats-btn')) {
           var currentUser = app.users.findWhere({username: app.username});
           if (currentUser.get('user_role') === "teacher") {
@@ -333,7 +334,7 @@
      * ======================================================
      */
 
-    // not sure this belongs here, but for now...   also likely want to move this to the config. But will this code snippet even last more than a couple days?
+    // not sure this belongs here, but for now... also likely want to move this to the config. But will this code snippet even last more than a couple days?
     var className = '';
     if (Skeletor.Mobile.runId === "mike") {
       className = "Mike";
@@ -391,6 +392,14 @@
       });
 
       app.habitatsView.render();
+    }
+
+    if (app.investigationsView === null) {
+      app.investigationsView = new app.View.InvestigationsView({
+        el: '#investigations-screen'
+      });
+
+      //app.investigationsView.render();
     }
   };
 

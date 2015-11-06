@@ -1305,6 +1305,37 @@
   });
 
 
+
+  /***********************************************************
+   ***********************************************************
+   ******************* INVESTIGATIONS VIEW *******************
+   ***********************************************************
+   ***********************************************************/
+
+  /**
+    InvestigationsView
+  **/
+  app.View.InvestigationsView = Backbone.View.extend({
+    initialize: function() {
+      var view = this;
+      console.log('Initializing InvestigationsView...', view.el);
+
+      var user = app.users.findWhere({'username': app.username});
+      jQuery('#investigation-title-container').text('Habitat ' + user.get('habitat_group'));
+    },
+
+    events: {
+
+    },
+
+    render: function() {
+      var view = this;
+
+    }
+  });
+
+
+
   /**
    ** PosterNote View
    **/
