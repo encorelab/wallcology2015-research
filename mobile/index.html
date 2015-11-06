@@ -39,12 +39,27 @@
     <script type="text/javascript" src="js/research.js"></script>
     <script type="text/javascript" src="js/research.view.js"></script>
 
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="stylesheet" href="../bower_components/population-app/app/styles/main.css">
+    <link rel="import" href="../bower_components/population-app/elements.html">
+
     <!-- Templates -->
     <script id="text-note-template" type="text/template">
         <div class="note" data-id=<%= id %>>
             <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
             <div class="note-body" data-id=<%= id %>><%= body %></div>
             <div class="note-author" data-id=<%= id %>><%= author %></div>
+        </div>
+    </script>
+
+    <script id="graph-note-template" type="text/template">
+        <div class="note" data-id=<%= id %>>
+            <h3 class="note-title" data-id=<%= id %>><%= title %></h3>
+            <div class="note-body" data-id=<%= id %>><%= body %></div>
+            <div class="note-author" data-id=<%= id %>><%= author %></div>
+            <div class='note-url' data-id=<%= id %> style='width: 25px !important;'>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAABRUlEQVRIS+2UYU0EMRBG3zlAAhJwADgABYACQAF3DsABDgAHoAALSEACeZcOaY92aS+7/GKTTTfddt7MN1+74g+e1UKMM+AJOAeel4LcA9dLQo6AV8DxQ6XmruQAeAdulSlaMQoxiDI8AJ+Vfj6mucv83ygktFaOq5AjBbTZ/lemIoERiAEMZLaHwEX63iSIMp0CVnucVfLWA3GTdnStkMhS0DrBjKmEN2nuJDV/O05BDG62bnxJY+1YFWciQVxnAr5Nd5mBDTZAZNh7breBa5BwjVKYuRXaA+cda05qQZsQf9wlWQyqe3afWBPzNjwC5msnK9HbOqeV9Y/No5AevWsQKy7sCtjPrsbXoDWI6wq7Zht/dVdN/9j/vbkWcBRSlNwbsAWZNespyGxZ/0N2T/Ve7mr5f7Y+eRG23OVdlt9Tfu819wWCzW7a1xL5gQAAAABJRU5ErkJggg==" width="25" height="25">
+            </div>
         </div>
     </script>
 
@@ -379,7 +394,12 @@
     <!-- Populations Screen -->
     <div id="populations-screen" class="container-fluid user-screen">
         <div class="row">
-            <iframe id="population-history-container" src=""></iframe>
+            <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
+                <button onclick="Skeletor.Mobile.createGraphNote()" class="nav-read-btn fa fa-arrow-left fa-3x btn-circular"></button>
+            </div>
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+            <population-app></population-app>
+        </div>
         </div>
     </div>
 

@@ -27,7 +27,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'notes', 'relationships', 'projects'];
+    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'notes', 'relationships', 'projects', 'graphs'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -254,6 +254,16 @@
         model: Skeletor.Model.Project
       });
 
+      this.Graph = this.db.Document('graphs').extend({
+        defaults: {
+          'created_at': new Date(),
+          'modified_at': new Date(),
+        }
+      });
+
+      this.Graphs = this.db.Collection('graphs').extend({
+        model: Skeletor.Model.Graph
+      });
     };
 
     Model.wake = function(wakefulUrl) {

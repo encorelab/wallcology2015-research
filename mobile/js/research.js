@@ -286,11 +286,11 @@
           jQuery('#relationships-nav-btn').addClass('active');
           jQuery('#relationships-read-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-populations-btn')) {
-          jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          // app.hideAllContainers();
-          // app.resetAllSelectors();
-          // jQuery('#populations-nav-btn').addClass('active');
-          // jQuery('#populations-screen').removeClass('hidden');
+          // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
+          app.hideAllContainers();
+          app.resetAllSelectors();
+          jQuery('#populations-nav-btn').addClass('active');
+          jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#investigations-nav-btn').addClass('active');
@@ -911,6 +911,53 @@
   };
 
 
+  app.createGraphNote = function() {
+
+      // NEW NOTE
+      console.log("Starting a new graph note...");
+      // Getting data from graph
+      var pop = document.getElementsByClassName("population-app-0")[0]
+      var graphs = pop.graphs
+      var selected = _.pluck(pop.selectedItems, "index")
+      var habitatidx = pop.currentToggle.index
+
+      // Creating and storing graph element
+      var g = new Skeletor.Model.Graph()
+      g.set('graph', JSON.stringify(graphs))
+      g.set('startDate', pop.startDate)
+      g.set('endDate', pop.endDate)
+      g.set('selected', selected)
+      g.set('habitat', habitatidx)
+      g.wake(app.config.wakeful.url);
+      g.save();
+      var oid = g.attributes._id
+
+      // Starting note model
+      var m = new Skeletor.Model.Note();
+      m.set('author', app.username);
+      m.set('note_type_tag', "Note Type");        // set these all to the default
+      m.set('graph_id', oid);        // set these all to the default
+      m.wake(app.config.wakeful.url);
+      m.save();
+      Skeletor.Model.awake.notes.add(m)
+
+      app.notesWriteView.model = m;
+      app.notesWriteView.model.wake(app.config.wakeful.url);
+
+      app.hideAllContainers();
+      jQuery('#notes-write-screen').removeClass('hidden');
+      jQuery('#populations-nav-btn').removeClass('active');
+      jQuery('#notes-nav-btn').addClass('active');
+      app.resetSelectorValue("notes-write-screen");
+      app.notesWriteView.render();
+
+      
+      // Inserting data into note
+      jQuery("select.note-type-selector").val("Species")
+      jQuery("select.habitat-selector").val(habitatidx)
+      Skeletor.Mobile.setSpecies(selected)
+  };
+
 
 
 
@@ -986,8 +1033,6 @@
 
     //app.reflectRunState(projectId); ????
   };
-
-
 
   this.Skeletor = Skeletor;
 

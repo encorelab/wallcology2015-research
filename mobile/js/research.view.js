@@ -25,6 +25,7 @@
      textTemplate: "#text-note-template",
      photoTemplate: "#photo-note-template",
      videoTemplate: "#video-note-template",
+     graphTemplate: "#graph-note-template",
 
      events: {
        'click' : 'editNote'
@@ -56,10 +57,14 @@
            noteType,
            firstMediaUrl,
            listItemTemplate,
-           listItem;
+           listItem,
+           graph_id;
 
        // determine what kind of note this is, ie what kind of template do we want to use
-       if (note.get('media').length === 0) {
+       if (note.get('graph_id').length > 0) {
+         console.log("graph");
+         noteType = "graph";
+       } else if (note.get('media').length === 0) {
          noteType = "text";
        } else if (note.get('media').length > 0) {
          firstMediaUrl = note.get('media')[0];
@@ -81,6 +86,14 @@
          }
          listItemTemplate = _.template(jQuery(view.textTemplate).text());
          listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
+       } else if (noteType === "graph") {
+         //if class is not set do it
+         if (!view.$el.hasClass('note-container')) {
+           view.$el.addClass('note-container');
+           view.$el.addClass('graph-container');
+         }
+         listItemTemplate = _.template(jQuery(view.graphTemplate).text());
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title') + " GRAPH", 'body': note.get('body'), 'author': '- '+note.get('author')});
        } else if (noteType === "photo") {
          // if class is not set do it
          if (!view.$el.hasClass('photo-note-container')) {
@@ -295,12 +308,13 @@
     initialize: function() {
       var view = this;
       console.log('Initializing NotesWriteView...', view.el);
-
       // populate the dropdown (maybe move this since, it'll be used a lot of places)
       jQuery('#notes-write-screen .note-type-selector').html('');
       _.each(app.noteTypes, function(k, v) {
         jQuery('#notes-write-screen .note-type-selector').append('<option value="'+v+'">'+v+'</option>');
       });
+      
+      Backbone.on("NotesWriteView.render", this.render.bind(view))
     },
 
     events: {
