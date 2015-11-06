@@ -1,0 +1,19 @@
+{
+  "name": "population-app",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer",
+    "iron-elements": "PolymerElements/iron-elements",
+    "paper-elements": "PolymerElements/paper-elements",
+    "platinum-elements": "PolymerElements/platinum-elements",
+    "neon-elements": "PolymerElements/neon-elements",
+    "nutella-connector": "https://github.com/ltg-uic/nutella-connector.git",
+    "paper-date-picker": "polymer-paper-date-picker#~1.0.3",
+    "wallcology-selector": "git://github.com/ltg-uic/wallcology-selector.git",
+    "google-chart": "GoogleWebComponents/google-chart"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+  }
+}
