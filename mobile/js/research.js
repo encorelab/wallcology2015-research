@@ -392,26 +392,6 @@
 
       app.habitatsView.render();
     }
-
-     // if (app.newProjectView === null) {
-     //   app.newProjectView = new app.View.NewProjectView({
-     //     el: '#new-project-screen',
-     //     collection: Skeletor.Model.awake.projects
-     //   });
-     // }
-
-     // if (app.proposalsView === null) {
-     //   app.proposalsView = new app.View.ProposalsView({
-     //     el: '#proposal-screen',
-     //     collection: Skeletor.Model.awake.projects
-     //   });
-     // }
-
-    if (app.projectNewPosterView === null) {
-      app.projectNewPosterView = new app.View.ProjectNewPosterView({
-        el: '#project-new-poster-screen'
-      });
-    }
   };
 
 
