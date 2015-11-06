@@ -7,6 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 8000, host: 8080 # web server
   config.vm.network "forwarded_port", guest: 9292, host: 9292 # Drowsy
   config.vm.network "forwarded_port", guest: 7890, host: 7890 # Wakeful
+  config.vm.network "forwarded_port", guest: 27017, host: 27017 # Wakeful
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
