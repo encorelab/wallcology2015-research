@@ -1250,7 +1250,7 @@
     },
 
     events: {
-      'click .habitat-name'    : 'showHabitatNameEntry',
+      'click .habitat-title'    : 'showHabitatNameEntry',
       'click .student-button'  : 'selectStudent',
       'click .habitat-group'   : 'chooseGroup'
     },
@@ -1258,11 +1258,13 @@
     showHabitatNameEntry: function(ev) {
       // opens and closes the text entry box for entering habitat names. Also sets and saves those names
       var view = this;
-      var textEntryEl = jQuery(ev.target).siblings()[0];
+      var textEntryEl = jQuery(ev.target).siblings()[1];
 
       var model = app.habitats.findWhere({'number': jQuery(ev.target).data('number')});
-      model.set('name',jQuery(textEntryEl).val());
-      model.save();
+      if (jQuery(textEntryEl).val()) {
+        model.set('name',jQuery(textEntryEl).val());
+        model.save();
+      }
 
       jQuery(textEntryEl).toggleClass('hidden');
       view.render();
@@ -1295,9 +1297,7 @@
 
       // habitat names
       app.habitats.forEach(function(h) {
-        if (h.get('name').length === 0) {
-          jQuery(".habitat-name[data-number="+h.get('number')+"]").text('...');
-        } else {
+        if (h.get('name')) {
           jQuery(".habitat-name[data-number="+h.get('number')+"]").text(h.get('name'));
         }
       });
