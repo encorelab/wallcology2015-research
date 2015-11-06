@@ -25,6 +25,7 @@
      textTemplate: "#text-note-template",
      photoTemplate: "#photo-note-template",
      videoTemplate: "#video-note-template",
+     graphTemplate: "#graph-note-template",
 
      events: {
        'click' : 'editNote'
@@ -56,10 +57,14 @@
            noteType,
            firstMediaUrl,
            listItemTemplate,
-           listItem;
+           listItem,
+           graph_id;
 
        // determine what kind of note this is, ie what kind of template do we want to use
-       if (note.get('media').length === 0) {
+       if (note.get('graph_id').length > 0) {
+         console.log("graph");
+         noteType = "graph";
+       } else if (note.get('media').length === 0) {
          noteType = "text";
        } else if (note.get('media').length > 0) {
          firstMediaUrl = note.get('media')[0];
@@ -81,6 +86,14 @@
          }
          listItemTemplate = _.template(jQuery(view.textTemplate).text());
          listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
+       } else if (noteType === "graph") {
+         //if class is not set do it
+         if (!view.$el.hasClass('note-container')) {
+           view.$el.addClass('note-container');
+           view.$el.addClass('graph-container');
+         }
+         listItemTemplate = _.template(jQuery(view.graphTemplate).text());
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author')});
        } else if (noteType === "photo") {
          // if class is not set do it
          if (!view.$el.hasClass('photo-note-container')) {
@@ -295,12 +308,13 @@
     initialize: function() {
       var view = this;
       console.log('Initializing NotesWriteView...', view.el);
-
       // populate the dropdown (maybe move this since, it'll be used a lot of places)
       jQuery('#notes-write-screen .note-type-selector').html('');
       _.each(app.noteTypes, function(k, v) {
         jQuery('#notes-write-screen .note-type-selector').append('<option value="'+v+'">'+v+'</option>');
       });
+      
+      Backbone.on("NotesWriteView.render", this.render.bind(view))
     },
 
     events: {
@@ -540,6 +554,22 @@
       jQuery('.upload-icon').val('');
     },
 
+    appendGraph: function() {
+      var view = this;
+      var gid = view.model.get('graph_id');
+      if(gid.length > 0) { 
+        var graph = new Skeletor.Model.Graph({'_id': gid});
+        graph.fetch({
+          success: function(e) { 
+            var graphs = JSON.parse(e.get('graph'));
+            jQuery('#note-graph-container').html('');
+            jQuery('#note-graph-container').html('<population-app id="population-note" read-only="true"></population-app> ');
+            document.getElementById("population-note").graphs = graphs;
+          }
+        })
+      }
+    },
+
     render: function () {
       var view = this;
       console.log("Rendering NotesWriteView...");
@@ -559,6 +589,7 @@
         view.appendOneMedia(url);
       });
 
+      view.appendGraph();
       // check is this user is allowed to edit this note
       if (view.model.get('author') === app.username || (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === "")) {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
