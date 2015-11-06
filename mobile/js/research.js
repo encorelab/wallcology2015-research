@@ -37,6 +37,7 @@
   app.runState = null;
   app.users = null;
   app.username = null;
+  app.habitats = null;
 
   app.newProjectView = null;
   app.proposalsView = null;
@@ -45,6 +46,7 @@
   app.notesWriteView = null;
   app.relationshipsReadView = null;
   app.relationshipsWriteView = null;
+  app.habitatsView = null;
   app.projectNewPosterView = null;
   app.reviewsView = null;
   app.reviewDetailsView = null;
@@ -229,8 +231,18 @@
       app.runState.on('change', app.reflectRunState);
     })
     .then(function() {
-      // TODO - add me to config.json
-      //app.mqtt = connect(app.config.mqtt.url, app.config.mqtt.ws_port, generateRandomClientId());
+      app.habitats = Skeletor.Model.awake.habitats;
+      // for first time setup
+      if (!app.habitats || app.habitats.length < 4) {
+        for (var i = 1; i < 5; i++) {
+          var m = new Model.Habitat();
+          m.set('number',i);
+          m.set('name','Ecosystem '+i);
+          m.wake(app.config.wakeful.url);
+          m.save();
+          app.habitats.add(m);
+        }
+      }
     })
     .done(function () {
       ready();
@@ -295,9 +307,15 @@
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#investigations-nav-btn').addClass('active');
           // jQuery('#investigations-screen').removeClass('hidden');
-        } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
-          jQuery('#chi-test-nav-btn').addClass('active');
-          jQuery('#chi-test-screen').removeClass('hidden');
+        } else if (jQuery(this).hasClass('goto-habitats-btn')) {
+          var currentUser = app.users.findWhere({username: app.username});
+          if (currentUser.get('user_role') === "teacher") {
+            app.hideAllContainers();
+            jQuery('#habitats-nav-btn').addClass('active');
+            jQuery('#habitats-screen').removeClass('hidden');
+          } else {
+            jQuery().toastmessage('showWarningToast', "Teachers only!");
+          }
         }
         else {
           console.log('ERROR: unknown nav button');
@@ -367,7 +385,13 @@
       app.drawSelectorBar('relationships-write-screen');
     }
 
+    if (app.habitatsView === null) {
+      app.habitatsView = new app.View.HabitatsView({
+        el: '#habitats-screen'
+      });
 
+      app.habitatsView.render();
+    }
 
      // if (app.newProjectView === null) {
      //   app.newProjectView = new app.View.NewProjectView({
@@ -386,20 +410,6 @@
     if (app.projectNewPosterView === null) {
       app.projectNewPosterView = new app.View.ProjectNewPosterView({
         el: '#project-new-poster-screen'
-      });
-    }
-
-    if (app.reviewsView === null) {
-      app.reviewsView = new app.View.ReviewsView({
-        el: '#review-overview-screen',
-        collection: Skeletor.Model.awake.projects
-      });
-    }
-
-    // should this just be instantiated in the reviewsView?
-    if (app.reviewDetailsView === null) {
-      app.reviewDetailsView = new app.View.ReviewDetailsView({
-        el: '#review-details-screen'
       });
     }
   };
@@ -607,87 +617,6 @@
   function select (species) { }       // code for when a species is selected
   function deSelect (species) { }     // code for when a species is deselected
   //function habitatSelect(habitat) { }   // code for when a habitat is selected
-
-  //TODO - parameterize all of this!
-  // var connect = function(host, port, clientId) {
-  //   var intervalTime = 10000;
-  //   // Create client
-  //   var client = new Paho.MQTT.Client(host, Number(port), clientId);
-  //   // set connect interval to 10s
-  //   var connectTimer = setTimeout(tryConnect, intervalTime);
-  //   // var reconnectTimer = null;
-
-  //   // Register callback for connection lost
-  //   client.onConnectionLost = function(responseObject) {
-  //     console.log("Connection lost: " + responseObject.errorMessage);
-  //     console.log("Trying to reconnect ...");
-
-  //     // set reconnect interval
-  //     connectTimer = setTimeout(tryConnect, intervalTime);
-  //   };
-  //   // Register callback for received message
-  //   client.onMessageArrived = function(message) {
-  //     // check if this is a delete msg, otherwise ignore it (for now)
-  //     //var jsonMsg = JSON.parse(message.payloadString);
-  //     console.log("Heard a message...");
-  //   };
-  //   // Connect
-  //   function tryConnect() {
-  //     // Connect
-  //     client.connect({
-  //       timeout: 90,
-  //       keepAliveInterval: 30,
-  //       onSuccess: function() {
-  //         // abortInterval();
-  //         var receiveChannel = "IAMPOSTEROUT";
-  //         console.log("Connected to channel: " + receiveChannel);
-  //         client.subscribe(receiveChannel, {qos: 0});
-  //       },
-  //       onFailure: function (e) {
-  //         // abortInterval();
-  //         // We tried to connect and failed. We should try again but have a pause inbetween
-  //         console.error('Reconnect to MQTT client failed: '+e.errorCode+' - '+e.errorMessage);
-  //         jQuery().toastmessage('showErrorToast', "MQTT failure: Check WiFi and reload browser");
-  //         // grow interval value to lower frequency
-  //         intervalTime += 2000;
-  //         connectTimer = setTimeout(tryConnect, intervalTime);
-  //       }
-  //     });
-  //   }
-
-  //   function abortInterval() { // to be called when you want to stop the timer
-  //     clearTimeout(connectTimer);
-  //     // clearInterval(reconnectTimer);
-  //   }
-
-  //   // client.connect({
-  //   //   timeout: 90,
-  //   //   keepAliveInterval: 30,
-  //   //   onSuccess: function() {
-  //   //     var receiveChannel = "IAMPOSTEROUT";
-  //   //     console.log("Connected to channel: " + receiveChannel);
-  //   //     client.subscribe(receiveChannel, {qos: 0});
-  //   //   },
-  //   //   onFailure: function (e) {
-  //   //     // We tried to connect and failed. We should try again but have a pause inbetween
-  //   //     console.error('Reconnect to MQTT client failed: '+e.errorCode+' - '+e.errorMessage);
-  //   //     jQuery().toastmessage('showErrorToast', "MQTT failure: Check WiFi and reload browser");
-  //   //   }
-  //   // });
-  //   client.publish = function(channel, message) {
-  //     var m = new Paho.MQTT.Message(message);
-  //     m.destinationName = channel;
-  //     try {
-  //       // throws an error if mqtt client is disconnected
-  //       // https://www.eclipse.org/paho/files/jsdoc/symbols/Paho.MQTT.Client.html#send
-  //       client.send(m);
-  //     } catch (e) {
-  //       console.error('Problem sending MQTT message: ' + e.message + '+++++++' + e.name);
-  //       jQuery().toastmessage('showErrorToast', "MQTT failure: Logout of your poster app and reload browser!");
-  //     }
-  //   };
-  //   return client;
-  // };
 
   var generateRandomClientId = function() {
     var length = 22;
