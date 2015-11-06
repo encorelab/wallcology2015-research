@@ -492,12 +492,6 @@
         view.model.save();
         jQuery().toastmessage('showSuccessToast', "Published to the note wall!");
 
-        view.model = null;
-        jQuery('.input-field').val('');
-        // resets in the case of Big Idea
-        jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
-        jQuery('#note-body-input').attr('placeholder', '');
-
         view.switchToReadView();
       } else {
         jQuery().toastmessage('showErrorToast', "You must complete both fields and select a note type to submit your note...");
@@ -514,6 +508,12 @@
         view.model.set('author','class note');
         view.model.save();
       }
+
+      view.model = null;
+      jQuery('.input-field').val('');
+      // resets in the case of Big Idea
+      jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
+      jQuery('#note-body-input').attr('placeholder', '');
 
       app.resetSelectorValue("notes-write-screen");
       app.resetSelectorValue("notes-read-screen");
@@ -1247,228 +1247,93 @@
   });
 
 
+  /***********************************************************
+   ***********************************************************
+   ********************** HABITATS VIEW **********************
+   ***********************************************************
+   ***********************************************************/
 
+  /**
+    HabitatsView
+  **/
+  app.View.HabitatsView = Backbone.View.extend({
+    initialize: function() {
+      var view = this;
+      console.log('Initializing HabitatsView...', view.el);
 
+      // user buttons
+      app.users.forEach(function(user) {
+        if (user.get('user_role') !== "teacher") {
+          var button = jQuery('<button class="btn btn-default btn-base student-button">');
+          button.text(user.get('username'));
+          if (!user.get('habitat_group') || user.get('habitat_group') === "") {
+            // if the user has no group
+            jQuery('.students-names').append(button);
+          } else  if (user.get('habitat_group') > 0) {
+            // if the user has a group
+            var targetHab = jQuery(".habitat-group [data-number="+user.get('habitat_group')+"]").parent();      // eeeewwwwww. FIXME
+            jQuery(targetHab).append(button);
+          } else {
+            console.error('User habitat group error');
+          }
+        }
+      });
+    },
 
+    events: {
+      'click .habitat-title'    : 'showHabitatNameEntry',
+      'click .student-button'  : 'selectStudent',
+      'click .habitat-group'   : 'chooseGroup'
+    },
 
-/**
-  NewProjectView
-**/
-// app.View.NewProjectView = Backbone.View.extend({
+    showHabitatNameEntry: function(ev) {
+      // opens and closes the text entry box for entering habitat names. Also sets and saves those names
+      var view = this;
+      var textEntryEl = jQuery(ev.target).siblings()[1];
 
-//   initialize: function () {
-//     var view = this;
-//     console.log('Initializing NewProjectView...', view.el);
-//   },
+      var model = app.habitats.findWhere({'number': jQuery(ev.target).data('number')});
+      if (jQuery(textEntryEl).val()) {
+        model.set('name',jQuery(textEntryEl).val());
+        model.save();
+      }
 
-//   events: {
-//     'click #submit-partners-btn' : 'addPartnersToProject',
-//     'click .project-theme-button': 'addThemeToProject'
-//   },
+      jQuery(textEntryEl).toggleClass('hidden');
+      view.render();
+    },
 
-//   addPartnersToProject: function() {
-//     var view = this;
+    selectStudent: function(ev) {
+      jQuery('.student-button').removeClass('selected');
+      jQuery(ev.target).addClass('selected');
 
-//     // put all selecteds into the project
-//     var partners = [];
-//     _.each(jQuery('.selected'), function(b) {
-//       partners.push(jQuery(b).val());
-//     });
-//     app.project.set('associated_users',partners);
-//     app.project.save();
+      // to prevent propagation. Other jQuery gets confused and removes the element (!) because it can't figure out what to do with the default click event
+      return false;
+    },
 
-//     // move to the next screen
-//     jQuery('#new-project-student-picker').addClass('hidden');
-//     jQuery('#new-project-theme-picker').removeClass('hidden');
-//   },
+    chooseGroup: function(ev) {
+      // if there is a student selected
+      if (jQuery('.student-button.selected').length > 0) {
+        // update the user model
+        var user = app.users.findWhere({'username': jQuery('.student-button.selected').text()});
+        user.set('habitat_group',jQuery(ev.target).data('number'));
+        user.save();
 
-//   addThemeToProject: function(ev) {
-//     var view = this;
+        // update the UI
+        jQuery('.student-button.selected').detach().appendTo(jQuery(ev.target).parent());
+        jQuery('.student-button').removeClass('selected');
+      }
+    },
 
-//     app.project.set('theme',jQuery(ev.target).val());
-//     app.project.save();
+    render: function() {
+      var view = this;
 
-//     jQuery().toastmessage('showSuccessToast', "You have created a new project!");
-
-//     // complete the newProject section and move to proposal section
-//     jQuery('#new-project-theme-picker').addClass('hidden');
-//     jQuery('#proposal-screen').removeClass('hidden');
-//     jQuery('#proposal-nav-btn').addClass('active');
-//   },
-
-//   render: function () {
-//     var view = this;
-//     console.log("Rendering NewProjectView...");
-
-//     // ADD THE USERS
-//     jQuery('.project-partner-holder').html('');
-//     if (app.users.length > 0) {
-//       // sort the collection by username
-//       app.users.comparator = function(model) {
-//         return model.get('display_name');
-//       };
-//       app.users.sort();
-
-//       app.users.each(function(user) {
-//         var button = jQuery('<button class="btn project-partner-button btn-default btn-base">');
-//         button.val(user.get('username'));
-//         button.text(user.get('display_name'));
-//         jQuery('.project-partner-holder').append(button);
-
-//         // add the logged in user to the project
-//         if (user.get('username') === app.username) {
-//           button.addClass('selected');
-//           button.addClass('disabled');
-//         }
-//       });
-
-//       //register click listeners
-//       jQuery('.project-partner-button').click(function() {
-//         jQuery(this).toggleClass('selected');
-//       });
-//     } else {
-//       console.warn('Users collection is empty!');
-//     }
-
-//     // ADD THE THEMES AKA TAGS
-//     jQuery('.project-theme-holder').html('');
-//     if (Skeletor.Model.awake.tags.length > 0) {
-//       Skeletor.Model.awake.tags.each(function(tag) {
-//         var button = jQuery('<button class="btn project-theme-button btn-default btn-base">');
-//         button.val(tag.get('name'));
-//         button.text(tag.get('name'));
-//         jQuery('.project-theme-holder').append(button);
-//       });
-//     } else {
-//       console.warn('Tags collection is empty!');
-//     }
-//   }
-
-// });
-
-
-/**
-  ProposalsView
-**/
-// app.View.ProposalsView = Backbone.View.extend({
-
-//   initialize: function () {
-//     var view = this;
-//     console.log('Initializing ProposalsView...', view.el);
-
-//     view.collection.on('change', function(n) {
-//       if (n.id === app.project.id) {
-//         view.render();
-//       }
-//     });
-//   },
-
-//   events: {
-//     'click #publish-proposal-btn' : 'publishProposal',
-//     'click .nav-splash-btn'       : 'switchToSplashView',
-//     'keyup :input'                : 'checkForAutoSave'
-//   },
-
-//   switchToSplashView: function() {
-//     app.resetToSplashScreen();
-//   },
-
-//   publishProposal: function() {
-//     var view = this;
-//     var name = jQuery('#proposal-screen [name=name]').val();
-
-//     if (name.length > 0) {
-//       var researchQuestionVal = jQuery('#proposal-screen [name=research_question]').val();
-//       var needToKnowsVal = jQuery('#proposal-screen [name=need_to_knows]').val();
-
-//       app.clearAutoSaveTimer();
-//       app.project.set('name',name);
-//       var proposal = app.project.get('proposal');
-//       proposal.research_question = researchQuestionVal;
-//       proposal.need_to_knows = needToKnowsVal;
-//       proposal.published = true;
-//       app.project.set('proposal',proposal);
-//       app.project.save();
-
-//       // show who is 'logged in' as the group, since that's our 'user' in this case
-//       app.groupname = name;
-//       jQuery('.username-display a').text(app.groupname);
-
-//       // delete all previous proposal tiles for this project
-//       // Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true }).forEach(function(tile) {
-//       //   tile.destroy();
-//       // });
-
-//       // create the new proposal tiles
-//       view.createProposalNote("Foundational knowledge", needToKnowsVal);
-//       view.createProposalNote("Research question(s)", researchQuestionVal);
-
-//       jQuery().toastmessage('showSuccessToast', "Your proposal has been published. You can come back and edit any time...");
-
-//       app.resetToSplashScreen();
-//     } else {
-//       jQuery().toastmessage('showErrorToast', "Please enter a title!");
-//     }
-//   },
-
-//   createProposalNote: function(titleText, bodyText) {
-//     var view = this;
-
-//     var preexistingNote = Skeletor.Model.awake.tiles.where({ 'project_id': app.project.id, 'from_proposal': true, 'title': titleText })[0];
-
-//     if (preexistingNote) {
-//       preexistingNote.set('body',bodyText);
-//       preexistingNote.save();
-//     } else {
-//       var m = new Model.Note();
-//       m.set('project_id', app.project.id);
-//       m.set('author', app.username);
-//       m.set('type', "text");
-//       m.set('title', titleText);
-//       m.set('body', bodyText);
-//       m.set('from_proposal', true);
-//       m.set('published', true);
-//       m.wake(app.config.wakeful.url);
-//       m.save();
-//       Skeletor.Model.awake.tiles.add(m);
-//     }
-//   },
-
-//   // this version of autosave works with nested content. The nested structure must be spelled out *in the html*
-//   // eg <textarea data-nested="proposal" name="research_question" placeholder="1."></textarea>
-//   checkForAutoSave: function(ev) {
-//     var view = this,
-//         field = ev.target.name,
-//         input = ev.target.value;
-//     // clear timer on keyup so that a save doesn't happen while typing
-//     app.clearAutoSaveTimer();
-
-//     // save after 10 keystrokes
-//     app.autoSave(app.project, field, input, false, jQuery(ev.target).data("nested"));
-
-//     // setting up a timer so that if we stop typing we save stuff after 5 seconds
-//     app.autoSaveTimer = setTimeout(function(){
-//       app.autoSave(app.project, field, input, true, jQuery(ev.target).data("nested"));
-//     }, 5000);
-//   },
-
-//   render: function () {
-//     var view = this;
-//     console.log("Rendering ProposalsView...");
-
-//     jQuery('#proposal-screen [name=name]').text(app.project.get('name'));
-//     jQuery('#proposal-screen [name=research_question]').text(app.project.get('proposal').research_question);
-//     jQuery('#proposal-screen [name=need_to_knows]').text(app.project.get('proposal').need_to_knows);
-
-//     // they can't be allowed to change the name of their project once they've first created it, since it's now the unique identifier (le sigh)
-//     if (app.project && app.project.get('proposal').published === true) {
-//       jQuery('#proposal-screen [name=name]').addClass('disabled');
-//     } else {
-//       jQuery('#proposal-screen [name=name]').removeClass('disabled');
-//     }
-//   }
-
-// });
+      // habitat names
+      app.habitats.forEach(function(h) {
+        if (h.get('name')) {
+          jQuery(".habitat-name[data-number="+h.get('number')+"]").text(h.get('name'));
+        }
+      });
+    }
+  });
 
 
   /**
@@ -1715,262 +1580,6 @@
         }
       }
     }
-  });
-
-
-  /**
-    ReviewView
-    This is one part of ReviewsView which shows many parts
-  **/
-  app.View.ReviewView = Backbone.View.extend({
-    template: _.template("<button class='project-to-review-btn btn' data-id='<%= _id %>'><%= theme %> - <%= name %></button>"),
-
-    events: {
-      'click .project-to-review-btn' : 'switchToProjectDetailsView',
-    },
-
-    render: function() {
-      var view = this;
-      // remove all classes from root element
-      view.$el.removeClass();
-
-      // hiding unpublished proposals
-      if (view.model.get('proposal').published === false) {
-        view.$el.addClass('hidden');
-      }
-
-      // here we decide on where to show the review
-      if (view.model.get('proposal').review_published === true) { // Is review published
-        view.$el.addClass('box4');
-      } else if (view.model.get('proposal').review_published === false && !view.model.get('proposal').write_lock) { // unpublished and without write lock --> up for grabs!
-        view.$el.addClass('box2');
-      } else if (view.model.get('proposal').review_published === false && view.model.get('proposal').write_lock === app.project.get('name')) { // unpublished and with write lock from our project
-        view.$el.addClass('box1');
-      } else if (view.model.get('proposal').review_published === false && view.model.get('proposal').write_lock && view.model.get('proposal').write_lock !== app.project.get('name')) { // unpublished and with write lock from other projects
-        view.$el.addClass('box3');
-      } else {
-        view.$el.addClass('fail');
-      }
-
-      view.$el.html(this.template(view.model.toJSON()));
-
-      // Treat review of own project differently
-      if (app.project && view.model.get('name') === app.project.get('name')) {
-        // set a class to a) lock the project from being edited by us
-        view.$el.find('button').addClass('own-review');
-      }
-
-      return this;
-    },
-
-    initialize: function () {
-      var view = this;
-      //console.log('Initializing ReviewView...', view.el);
-
-      view.model.on('change', view.render, view);
-
-      return view;
-    },
-
-    switchToProjectDetailsView: function(ev) {
-      var view = this;
-      // would it be better to instantiate a new model/view here each time?
-      // app.reviewDetailsView.model = Skeletor.Model.awake.projects.get(jQuery(ev.target).data("id"));
-      app.reviewDetailsView.model = view.model;
-      jQuery('#review-overview-screen').addClass('hidden');
-      jQuery('#review-details-screen').removeClass('hidden');
-      app.reviewDetailsView.render();
-    }
-  });
-
-  /**
-    ReviewsView
-  **/
-  app.View.ReviewsView = Backbone.View.extend({
-    template: _.template('<h2 class="box1">Reviews locked by our project team but not finished</h2><h2 class="box2">Select a proposal to review</h2><h2 class="box3">Reviews locked by other project teams but not finished</h2><h2 class="box4">Completed reviews</h2>'),
-
-    initialize: function() {
-      var view = this;
-      // console.log('Initializing ReviewsView...', view.el);
-
-      // TODO: This has to be here since elements that are unpublished are not show but add fires on creation. So we have to catch the change :(
-      view.collection.on('change', function(n) {
-        view.render();
-      });
-
-      view.collection.on('add', function(n) {
-        // view.addOne(n);
-        view.render();
-      });
-
-      return view;
-    },
-
-    events: {
-      'click .project-to-review-btn' : 'switchToProjectDetailsView',
-    },
-
-
-    addOne: function(proj) {
-      var view = this;
-      // wake up the project model
-      proj.wake(app.config.wakeful.url);
-      var reviewItemView = new app.View.ReviewView({model: proj});
-      var listToAddTo = view.$el.find('.inner-wrapper');
-      listToAddTo.append(reviewItemView.render().el);
-    },
-
-    render: function () {
-      var view = this;
-      console.log("Rendering ReviewsView...");
-
-      // clear the area
-      view.$el.find('.inner-wrapper').html('');
-
-      // add the headers
-      var headers = view.template();
-      view.$el.find('.inner-wrapper').append(headers);
-
-      // sort by theme
-      view.collection.comparator = function(model) {
-        return model.get('theme');
-      };
-
-      var publishedProjectProposals = view.collection.sort().filter(function(proj) {
-        return (app.project && proj.get('proposal').published === true && proj.get('theme'));
-      });
-
-      publishedProjectProposals.forEach(function(proposal) {
-        view.addOne(proposal);
-      });
-    }
-
-  });
-
-
-  /**
-    ReviewDetailsView
-  **/
-  app.View.ReviewDetailsView = Backbone.View.extend({
-    template: '',
-    // template: '#review-details-template',
-
-    initialize: function () {
-      var view = this;
-      console.log('Initializing ReviewDetailsView...', view.el);
-
-      view.template = _.template(jQuery('#review-details-template').text());
-
-      return view;
-    },
-
-    events: {
-      'click #return-to-overview-btn' : 'switchToProjectOverviewView',
-      'click #publish-review-btn'     : 'publishReview',
-      'click #cancel-review-btn'      : 'cancelReview',
-      'keyup :input'                  : 'startModifying'
-    },
-
-    publishReview: function() {
-      var view = this;
-
-      var reviewResearchQuestion = jQuery('#review-details-screen [name=review_research_question]').val();
-      var reviewNeedToKnows = jQuery('#review-details-screen [name=review_need_to_knows]').val();
-
-      if (reviewResearchQuestion.length > 0 && reviewNeedToKnows.length > 0) {
-        app.clearAutoSaveTimer();
-        var proposal = view.model.get('proposal');
-        proposal.review_research_question = jQuery('#review-details-screen [name=review_research_question]').val();
-        proposal.review_need_to_knows = jQuery('#review-details-screen [name=review_need_to_knows]').val();
-        proposal.reviewer = app.groupname;
-        proposal.review_published = true;
-        view.model.set('proposal',proposal);
-        // view.switchToProjectOverviewView();
-        view.model.save();
-        jQuery().toastmessage('showSuccessToast', "Your review has been sent!");
-        view.switchToProjectOverviewView();
-      } else {
-        jQuery().toastmessage('showErrorToast', "Please complete your review before submitting...");
-      }
-    },
-
-    cancelReview: function() {
-      var view = this;
-
-      if (confirm("Are you sure you want to delete this review?")) {
-        app.clearAutoSaveTimer();
-        var proposal = view.model.get('proposal');
-        proposal.review_research_question = "";
-        proposal.review_need_to_knows = "";
-        // Also remove the lock
-        delete proposal.write_lock;
-        view.model.set('proposal',proposal);
-        view.model.save();
-        jQuery('.input-field').val('');
-        view.switchToProjectOverviewView();
-      }
-    },
-
-    switchToProjectOverviewView: function(ev) {
-      var view = this;
-      // view.model = null;
-      jQuery('#review-details-screen').addClass('hidden');
-      jQuery('#review-overview-screen').removeClass('hidden');
-      app.reviewsView.render(); // I hate this but somehow all other clients rerender but not ourselves
-    },
-
-    startModifying: function(ev) {
-      var view = this;
-
-      // set a write lock on the model
-      var proposal = view.model.get('proposal');
-      proposal.write_lock = app.project.get('name');
-      view.model.save();
-
-      view.checkForAutoSave(ev);
-    },
-
-    checkForAutoSave: function(ev) {
-      var view = this,
-          field = ev.target.name,
-          input = ev.target.value;
-      // clear timer on keyup so that a save doesn't happen while typing
-      app.clearAutoSaveTimer();
-
-      // save after 10 keystrokes
-      app.autoSave(view.model, field, input, false, jQuery(ev.target).data("nested"));
-
-      // setting up a timer so that if we stop typing we save stuff after 5 seconds
-      app.autoSaveTimer = setTimeout(function(){
-        app.autoSave(view.model, field, input, true, jQuery(ev.target).data("nested"));
-      }, 5000);
-    },
-
-    render: function () {
-      var view = this;
-      console.log("Rendering ReviewDetailsView...");
-      // clearing the root element of the view
-      view.$el.html("");
-      // create json object from model
-      var modJson = view.model.toJSON();
-      var pWriteLock = view.model.get('proposal').write_lock;
-      // if the proposal has a write lock
-      if (typeof pWriteLock === 'undefined' || pWriteLock === null || pWriteLock === app.project.get('name')) {
-        modJson.write_lock = false;
-      } else {
-        modJson.write_lock = true;
-      }
-
-      // We now show reviews for our own projects and when a user enters we treat it as if it locked but we don;t use the lock
-      if (!modJson.write_lock && app.project && view.model.get('name') === app.project.get('name')) {
-        modJson.write_lock = true;
-      }
-
-      // create everything by rendering a template
-      view.$el.html(view.template(modJson));
-      return view;
-    }
-
   });
 
   this.Skeletor = Skeletor;
