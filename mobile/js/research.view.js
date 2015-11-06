@@ -1229,13 +1229,34 @@
     initialize: function() {
       var view = this;
       console.log('Initializing HabitatsView...', view.el);
+
+      // user buttons
+      app.users.forEach(function(user) {
+        if (user.get('user_role') !== "teacher") {
+          var button = jQuery('<button class="btn btn-default btn-base student-button">');
+          button.text(user.get('username'));
+          if (!user.get('habitat_group') || user.get('habitat_group') === "") {
+            // if the user has no group
+            jQuery('.students-names').append(button);
+          } else  if (user.get('habitat_group') > 0) {
+            // if the user has a group
+            var targetHab = jQuery(".habitat-group [data-number="+user.get('habitat_group')+"]").parent();      // eeeewwwwww. FIXME
+            jQuery(targetHab).append(button);
+          } else {
+            console.error('User habitat group error');
+          }
+        }
+      });
     },
 
     events: {
-      'click .habitat-name'    : 'showHabitatNameEntry'
+      'click .habitat-name'    : 'showHabitatNameEntry',
+      'click .student-button'  : 'selectStudent',
+      'click .habitat-group'   : 'chooseGroup'
     },
 
     showHabitatNameEntry: function(ev) {
+      // opens and closes the text entry box for entering habitat names. Also sets and saves those names
       var view = this;
       var textEntryEl = jQuery(ev.target).siblings()[0];
 
@@ -1247,14 +1268,37 @@
       view.render();
     },
 
+    selectStudent: function(ev) {
+      jQuery('.student-button').removeClass('selected');
+      jQuery(ev.target).addClass('selected');
+
+      // to prevent propagation. Other jQuery gets confused and removes the element (!) because it can't figure out what to do with the default click event
+      return false;
+    },
+
+    chooseGroup: function(ev) {
+      // if there is a student selected
+      if (jQuery('.student-button.selected').length > 0) {
+        // update the user model
+        var user = app.users.findWhere({'username': jQuery('.student-button.selected').text()});
+        user.set('habitat_group',jQuery(ev.target).data('number'));
+        user.save();
+
+        // update the UI
+        jQuery('.student-button.selected').detach().appendTo(jQuery(ev.target).parent());
+        jQuery('.student-button').removeClass('selected');
+      }
+    },
+
     render: function() {
       var view = this;
 
+      // habitat names
       app.habitats.forEach(function(h) {
         if (h.get('name').length === 0) {
-          jQuery("[data-number="+h.get('number')+"]").text('...');
+          jQuery(".habitat-name[data-number="+h.get('number')+"]").text('...');
         } else {
-          jQuery("[data-number="+h.get('number')+"]").text(h.get('name'));
+          jQuery(".habitat-name[data-number="+h.get('number')+"]").text(h.get('name'));
         }
       });
     }

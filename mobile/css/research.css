@@ -470,10 +470,16 @@ textarea {
 }
 
 
+/********** HABITATS SCREEN **********/
 
+#habitats-screen .row {
+    margin-top: 60px;
+}
 
-
-
+#habitats-screen .habitat-thumbnail {
+    height: 200px;
+    width: 320px;
+}
 
 
 
