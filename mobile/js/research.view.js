@@ -1216,7 +1216,49 @@
   });
 
 
+  /***********************************************************
+   ***********************************************************
+   ********************** HABITATS VIEW **********************
+   ***********************************************************
+   ***********************************************************/
 
+  /**
+    HabitatsView
+  **/
+  app.View.HabitatsView = Backbone.View.extend({
+    initialize: function() {
+      var view = this;
+      console.log('Initializing HabitatsView...', view.el);
+    },
+
+    events: {
+      'click .habitat-name'    : 'showHabitatNameEntry'
+    },
+
+    showHabitatNameEntry: function(ev) {
+      var view = this;
+      var textEntryEl = jQuery(ev.target).siblings()[0];
+
+      var model = app.habitats.findWhere({'number': jQuery(ev.target).data('number')});
+      model.set('name',jQuery(textEntryEl).val());
+      model.save();
+
+      jQuery(textEntryEl).toggleClass('hidden');
+      view.render();
+    },
+
+    render: function() {
+      var view = this;
+
+      app.habitats.forEach(function(h) {
+        if (h.get('name').length === 0) {
+          jQuery("[data-number="+h.get('number')+"]").text('...');
+        } else {
+          jQuery("[data-number="+h.get('number')+"]").text(h.get('name'));
+        }
+      });
+    }
+  });
 
 
 

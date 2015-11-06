@@ -37,6 +37,7 @@
   app.runState = null;
   app.users = null;
   app.username = null;
+  app.habitats = null;
 
   app.newProjectView = null;
   app.proposalsView = null;
@@ -45,6 +46,7 @@
   app.notesWriteView = null;
   app.relationshipsReadView = null;
   app.relationshipsWriteView = null;
+  app.habitatsView = null;
   app.projectNewPosterView = null;
   app.reviewsView = null;
   app.reviewDetailsView = null;
@@ -229,8 +231,18 @@
       app.runState.on('change', app.reflectRunState);
     })
     .then(function() {
-      // TODO - add me to config.json
-      //app.mqtt = connect(app.config.mqtt.url, app.config.mqtt.ws_port, generateRandomClientId());
+      app.habitats = Skeletor.Model.awake.habitats;
+      // for first time setup
+      if (!app.habitats || app.habitats.length < 4) {
+        for (var i = 1; i < 5; i++) {
+          var m = new Model.Habitat();
+          m.set('number',i);
+          m.set('name','Ecosystem '+i);
+          m.wake(app.config.wakeful.url);
+          m.save();
+          app.habitats.add(m);
+        }
+      }
     })
     .done(function () {
       ready();
@@ -295,9 +307,15 @@
           jQuery().toastmessage('showWarningToast', "Not yet, kids!");
           // jQuery('#investigations-nav-btn').addClass('active');
           // jQuery('#investigations-screen').removeClass('hidden');
-        } else if (jQuery(this).hasClass('goto-chi-test-btn')) {
-          jQuery('#chi-test-nav-btn').addClass('active');
-          jQuery('#chi-test-screen').removeClass('hidden');
+        } else if (jQuery(this).hasClass('goto-habitats-btn')) {
+          var currentUser = app.users.findWhere({username: app.username});
+          if (currentUser.get('user_role') === "teacher") {
+            app.hideAllContainers();
+            jQuery('#habitats-nav-btn').addClass('active');
+            jQuery('#habitats-screen').removeClass('hidden');
+          } else {
+            jQuery().toastmessage('showWarningToast', "Teachers only!");
+          }
         }
         else {
           console.log('ERROR: unknown nav button');
@@ -367,7 +385,13 @@
       app.drawSelectorBar('relationships-write-screen');
     }
 
+    if (app.habitatsView === null) {
+      app.habitatsView = new app.View.HabitatsView({
+        el: '#habitats-screen'
+      });
 
+      app.habitatsView.render();
+    }
 
      // if (app.newProjectView === null) {
      //   app.newProjectView = new app.View.NewProjectView({
