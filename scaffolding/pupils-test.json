@@ -15,7 +15,7 @@
         "tags": [
             "test"
         ],
-        "user_role": "student",
+        "user_role": "teacher",
         "created_at": "2015-03-25T19:08:00.000Z",
         "modified_at": "2015-03-25T19:09:00.000Z"
     },
