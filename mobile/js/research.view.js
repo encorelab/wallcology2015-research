@@ -93,7 +93,7 @@
            view.$el.addClass('graph-container');
          }
          listItemTemplate = _.template(jQuery(view.graphTemplate).text());
-         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title') + " GRAPH", 'body': note.get('body'), 'author': '- '+note.get('author')});
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author')});
        } else if (noteType === "photo") {
          // if class is not set do it
          if (!view.$el.hasClass('photo-note-container')) {
@@ -554,6 +554,22 @@
       jQuery('.upload-icon').val('');
     },
 
+    appendGraph: function() {
+      var view = this;
+      var gid = view.model.get('graph_id');
+      if(gid.length > 0) { 
+        var graph = new Skeletor.Model.Graph({'_id': gid});
+        graph.fetch({
+          success: function(e) { 
+            var graphs = JSON.parse(e.get('graph'));
+            jQuery('#note-graph-container').html('');
+            jQuery('#note-graph-container').html('<population-app id="population-note" read-only="true"></population-app> ');
+            document.getElementById("population-note").graphs = graphs;
+          }
+        })
+      }
+    },
+
     render: function () {
       var view = this;
       console.log("Rendering NotesWriteView...");
@@ -573,6 +589,7 @@
         view.appendOneMedia(url);
       });
 
+      view.appendGraph();
       // check is this user is allowed to edit this note
       if (view.model.get('author') === app.username || (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === "")) {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
