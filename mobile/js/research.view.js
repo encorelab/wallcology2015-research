@@ -557,16 +557,14 @@
     appendGraph: function() {
       var view = this;
       var gid = view.model.get('graph_id');
-      if(gid.length > 0) { 
-        var graph = new Skeletor.Model.Graph({'_id': gid});
-        graph.fetch({
-          success: function(e) { 
-            var graphs = JSON.parse(e.get('graph'));
-            jQuery('#note-graph-container').html('');
-            jQuery('#note-graph-container').html('<population-app id="population-note" read-only="true"></population-app> ');
-            document.getElementById("population-note").graphs = graphs;
-          }
-        })
+      if(gid && gid.length > 0) { 
+
+        var e = Skeletor.Model.awake.graphs.where({'_id': gid})[0];
+        var graphs = JSON.parse(e.get('graph'));
+        console.log(graphs);
+        jQuery('#note-graph-container').html('');
+        jQuery('#note-graph-container').html('<population-app id="population-note" read-only="true"></population-app> ');
+        document.getElementById("population-note").graphs = graphs;
       }
     },
 

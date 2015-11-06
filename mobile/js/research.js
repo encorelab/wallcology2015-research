@@ -845,7 +845,7 @@
       // NEW NOTE
       console.log("Starting a new graph note...");
       // Getting data from graph
-      var pop = document.getElementsByClassName("population-app-0")[0]
+      var pop = document.getElementById("population-app-main")
       var graphs = pop.graphs
       var selected = _.pluck(pop.selectedItems, "index")
       var habitatidx = pop.currentToggle.index
@@ -859,6 +859,7 @@
       g.set('habitat', habitatidx)
       g.wake(app.config.wakeful.url);
       g.save();
+      Skeletor.Model.awake.graphs.add(g)
       var oid = g.attributes._id
 
       // Starting note model
