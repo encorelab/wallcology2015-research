@@ -304,7 +304,7 @@
           if (currentUser.get('habitat_group')) {
             app.hideAllContainers();
             jQuery('#investigations-nav-btn').addClass('active');
-            jQuery('#investigations-screen').removeClass('hidden');
+            jQuery('#investigations-read-screen').removeClass('hidden');
           } else {
             jQuery().toastmessage('showWarningToast', "You have not been assigned to a habitat group yet");
           }
@@ -396,7 +396,7 @@
 
     if (app.investigationsView === null) {
       app.investigationsView = new app.View.InvestigationsView({
-        el: '#investigations-screen'
+        el: '#investigations-read-screen'
       });
 
       //app.investigationsView.render();

@@ -1235,13 +1235,14 @@
         if (user.get('user_role') !== "teacher") {
           var button = jQuery('<button class="btn btn-default btn-base student-button">');
           button.text(user.get('username'));
+          var listItem = jQuery('<li>').append(button);
           if (!user.get('habitat_group') || user.get('habitat_group') === "") {
             // if the user has no group
-            jQuery('.students-names').append(button);
+            jQuery('.students-names').append(listItem);
           } else  if (user.get('habitat_group') > 0) {
             // if the user has a group
             var targetHab = jQuery(".habitat-group [data-number="+user.get('habitat_group')+"]").parent();      // eeeewwwwww. FIXME
-            jQuery(targetHab).append(button);
+            jQuery(targetHab).append(listItem);
           } else {
             console.error('User habitat group error');
           }
