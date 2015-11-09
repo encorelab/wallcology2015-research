@@ -343,7 +343,8 @@
     } else {
       className = Skeletor.Mobile.runId;
     }
-    var url = 'https://ltg.evl.uic.edu:57881/wallcology/default/runs/population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=' + className;
+    // var url = 'https://ltg.evl.uic.edu:57881/wallcology/default/runs/population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id=' + className;
+    var url = 'https://ltg.evl.uic.edu:57881/wallcology/default/runs/population-history/index.html?broker=ltg.evl.uic.edu&app_id=wallcology&run_id='+className+'&place=to';
     jQuery('#population-history-container').attr('src',url);
 
     if (app.notesReadView === null) {
