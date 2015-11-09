@@ -563,6 +563,7 @@
       if (view.model.get('author') === app.username || (view.model.get('note_type_tag') === "Big Idea" && view.model.get('write_lock') === "")) {
         jQuery('#notes-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#notes-write-screen .editable.input-field').prop("disabled", false);
+        jQuery(jQuery('#notes-write-screen .selector-container .editable').children()).prop("disabled", false);
         jQuery('#notes-write-screen .editable').removeClass('disabled');
         if (view.model.get('note_type_tag') === "Big Idea") {
           view.model.set('write_lock', app.username);
@@ -572,6 +573,7 @@
       } else {
         jQuery('#notes-write-screen .editable.input-field').addClass('uneditable');
         jQuery('#notes-write-screen .editable.input-field').prop("disabled", true);
+        jQuery(jQuery('#notes-write-screen .selector-container .editable').children()).prop("disabled", true);
         jQuery('#notes-write-screen .editable').addClass('disabled');
       }
     }
@@ -806,7 +808,7 @@
         habitatFilteredCollection = publishedCollection;
       } else {
         habitatFilteredCollection = publishedCollection.filter(function(model) {
-          return model.get('habitat_tag').index === habitatObj.index;
+          return model.get('habitat_tag') && model.get('habitat_tag').index && model.get('habitat_tag').index === habitatObj.index;
         });
       }
 
@@ -872,7 +874,7 @@
       } else {
         // filter for habitat number
         habitatFilteredCollection = publishedCollection.filter(function(model) {
-          return model.get('habitat_tag').index === targetIndex;
+          return model.get('habitat_tag') && model.get('habitat_tag').index && model.get('habitat_tag').index === targetIndex;
         });
       }
 
@@ -1206,10 +1208,12 @@
       if (view.model.get('author') === app.username) {
         jQuery('#relationships-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#relationships-write-screen .editable.input-field').prop("disabled", false);
+        jQuery(jQuery('#relationships-write-screen .selector-container .editable').children()).prop("disabled", false);
         jQuery('#relationships-write-screen .editable').removeClass('disabled');
       } else {
         jQuery('#relationships-write-screen .editable.input-field').addClass('uneditable');
         jQuery('#relationships-write-screen .editable.input-field').prop("disabled", true);
+        jQuery(jQuery('#relationships-write-screen .selector-container .editable').children()).prop("disabled", true);
         jQuery('#relationships-write-screen .editable').addClass('disabled');
       }
     }

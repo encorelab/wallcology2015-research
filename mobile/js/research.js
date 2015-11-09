@@ -274,6 +274,7 @@
     // this is a or binding to both classes
     jQuery('.top-nav-btn, .todo-btn').click(function() {
       if (app.username) {
+        var currentUser = app.users.findWhere({username: app.username});
         jQuery('.top-nav-btn').removeClass('active');     // unmark all nav items
         // app.hideAllContainers();
         // if (jQuery(this).hasClass('goto-proposal-btn')) {
@@ -300,7 +301,6 @@
           jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          var currentUser = app.users.findWhere({username: app.username});
           if (currentUser.get('habitat_group')) {
             app.hideAllContainers();
             jQuery('#investigations-nav-btn').addClass('active');
@@ -309,7 +309,6 @@
             jQuery().toastmessage('showWarningToast', "You have not been assigned to a habitat group yet");
           }
         } else if (jQuery(this).hasClass('goto-habitats-btn')) {
-          var currentUser = app.users.findWhere({username: app.username});
           if (currentUser.get('user_role') === "teacher") {
             app.hideAllContainers();
             jQuery('#habitats-nav-btn').addClass('active');
