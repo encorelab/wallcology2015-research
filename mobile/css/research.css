@@ -1087,3 +1087,67 @@ body {
         background-position: 15px 10px;
     }
 }
+
+/* Habitats */
+
+.class-info{
+    display: block;
+    width: 90%;
+    height: 100px;
+    margin: 20px auto;
+}
+#habitats-list{
+    display: block;
+    width: 90%;
+    margin: 0px auto;
+}
+.habitats-list-item{
+    display: inline-block;
+    width: 45%;
+    height: 280px;
+    margin: 0 15px;
+}
+
+.student-button{
+    z-index: 10;
+    min-width: 60px !important;
+    float: left;
+    display: inline;
+    font-size: 13px;
+    height: 34px;
+    margin: 5px;
+}
+.habitat-group{
+    float:left;
+    display: inline-block;
+    margin-top: 8px;
+}
+.habitat-thumbnail{
+    display: inline-block;
+    float: right;
+    width: 324px !important;
+    height: 220px !important;
+}
+.students-names {
+    display: inline-block;
+    width: 320px;
+    position: absolute;
+}
+.class-info .students-names{
+    width: 90% !important;
+}
+.habitat-group .students-names{
+    opacity: 0.7;
+}
+
+.habitat-name{
+    margin-left: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #044da5;
+}
+@media screen and (max-width: 900px) {
+    .class-info {
+        margin: 80px 50px;
+    }
+}
