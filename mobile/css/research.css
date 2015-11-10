@@ -689,12 +689,6 @@ input:disabled {
         margin-left: -25px;
     }
 
-    #proposal-screen textarea[name="research_question"],
-    #proposal-screen textarea[name="need_to_knows"],
-    #review-details-screen textarea {
-        height: 100px;
-    }
-
     h2.box1 {
         width: 495px;
         margin-left: -10px;
@@ -702,11 +696,6 @@ input:disabled {
     h2.box3 {
         width: 515px;
         margin-left: -20px;
-    }
-
-    #review-details-screen h3[name="research_question"],
-    #review-details-screen h3[name="need_to_knows"] {
-        max-height: 150px;
     }
 
     .note, .relationship {
@@ -733,15 +722,6 @@ input:disabled {
     .self-photo-query {
         margin-left: 8%;
     }
-    .notes-to-review-btn {
-        max-width: 475px;
-        text-overflow: ellipsis;
-    }
-    .poster-chunk .fa-star-o,
-    .poster-chunk .fa-star {
-        bottom: -1%;
-        right: -2%;
-    }
 }
 
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
@@ -763,7 +743,6 @@ input:disabled {
         font-size: 9em;
         margin-left: 21%;
     }
-
     .note h3, .relationship h3 {
         font-size: 20px;
     }
@@ -1011,7 +990,7 @@ body {
     background-repeat: no-repeat;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
     .container {
         padding-left: 35px;
     }
@@ -1092,6 +1071,15 @@ body {
     }
     #relationships-aggregate .table {
         background-position: 15px 10px;
+    }
+}
+
+/* hide the Wallcology brand container for certain widths (to accom new tabs) */
+@media screen and (min-width: 768px) and (max-width: 840px) {
+    .navbar-brand {
+        text-indent: -9999px;
+        width: 0px;
+        padding: 0px;
     }
 }
 
