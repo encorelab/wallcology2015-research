@@ -7,7 +7,7 @@
         "password": "bar",
         "uic_url": "https://ltg.evl.uic.edu/drowsy/poster"
     },
-    "wakeful": {
+    "wakeful":  {
         "url": "https://coati.encorelab.org/faye",
         "url_old": "http://wakeful.badger.encorelab.org:7777/faye",
         "url_dev": "http://localhost:7777/faye"
