@@ -553,11 +553,15 @@ textarea {
 }
 
 
-/********** INVESTIGATIONS SCREEN **********/
+/********** INVESTIGATIONS SCREENS **********/
 
-#investigations-read-screen .row {
+#investigations-read-screen .row, #investigations-write-screen .row {
     margin-top: 60px;
 }
+
+
+
+
 
 
 

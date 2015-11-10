@@ -1257,7 +1257,8 @@
     events: {
       'click .habitat-title'   : 'showHabitatNameEntry',
       'click .student-button'  : 'selectStudent',
-      'click .habitat-group'   : 'chooseGroup'
+      'click .habitat-group'   : 'chooseGroup',
+      'click .class-info'      : 'ungroupStudent'
     },
 
     showHabitatNameEntry: function(ev) {
@@ -1279,7 +1280,7 @@
       jQuery('.student-button').removeClass('selected');
       jQuery(ev.target).addClass('selected');
 
-      // to prevent propagation. Other jQuery gets confused and removes the element (!) because it can't figure out what to do with the default click event
+      // to prevent propagation. Otherwise jQuery gets confused and removes the element (!) because it can't figure out what to do with the default click event
       return false;
     },
 
@@ -1293,6 +1294,19 @@
 
         // update the UI
         jQuery('.student-button.selected').detach().appendTo(jQuery(ev.target).siblings()[0]);
+        jQuery('.student-button').removeClass('selected');
+      }
+    },
+
+    ungroupStudent: function(ev) {
+      if (jQuery('.student-button.selected').length > 0) {
+        // update the user model
+        var user = app.users.findWhere({'username': jQuery('.student-button.selected').text()});
+        user.set('habitat_group',"");
+        user.save();
+
+        // update the UI
+        jQuery('.student-button.selected').detach().appendTo(jQuery('.class-info .students-names'));
         jQuery('.student-button').removeClass('selected');
       }
     },
@@ -1318,19 +1332,51 @@
    ***********************************************************/
 
   /**
-    InvestigationsView
+    InvestigationsReadView
   **/
-  app.View.InvestigationsView = Backbone.View.extend({
+  app.View.InvestigationsReadView = Backbone.View.extend({
     initialize: function() {
       var view = this;
-      console.log('Initializing InvestigationsView...', view.el);
+      console.log('Initializing InvestigationsReadView...', view.el);
 
       var user = app.users.findWhere({'username': app.username});
       jQuery('#investigation-title-container').text('Habitat ' + user.get('habitat_group'));
     },
 
     events: {
+      'click .nav-write-btn'               : 'switchToWriteView'
+    },
 
+    switchToWriteView: function() {
+      var view = this;
+      // var m;
+
+      // // check if we need to resume
+      // // BIG NB! We use author here! This is the only place where we care about app.username (we want you only to be able to resume your own relationships)
+      // var investigationToResume = view.collection.findWhere({author: app.username, published: false});
+
+      // if (investigationToResume) {
+      //   // RESUME NOTE
+      //   console.log("Resuming...");
+      //   m = investigationToResume;
+      // } else {
+      //   // NEW NOTE
+      //   console.log("Starting a new investigation...");
+      //   m = new Model.Relationship();
+      //   m.set('author', app.username);
+      //   m.set('from_species_index', '');
+      //   m.set('to_species_index', '');
+      //   m.wake(app.config.wakeful.url);
+      //   m.save();
+      //   view.collection.add(m);
+      // }
+
+      // app.investigationsWriteView.model = m;
+      // app.investigationsWriteView.model.wake(app.config.wakeful.url);
+
+      app.hideAllContainers();
+      jQuery('#investigations-write-screen').removeClass('hidden');
+      app.investigationsWriteView.render();
     },
 
     render: function() {
@@ -1338,6 +1384,66 @@
 
     }
   });
+
+
+  /**
+    InvestigationsWriteView
+  **/
+  app.View.InvestigationsWriteView = Backbone.View.extend({
+    initialize: function() {
+      var view = this;
+      console.log('Initializing InvestigationsWriteView...', view.el);
+
+      var user = app.users.findWhere({'username': app.username});
+      jQuery('#investigation-title-container').text('Habitat ' + user.get('habitat_group'));
+    },
+
+    events: {
+      'click .nav-read-btn'               : 'switchToReadView'
+    },
+
+    switchToReadView: function() {
+      var view = this;
+      app.hideAllContainers();
+      jQuery('#investigations-write-screen').removeClass('hidden');
+
+      app.investigationsWriteView.render();
+    },
+
+    render: function() {
+      var view = this;
+
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

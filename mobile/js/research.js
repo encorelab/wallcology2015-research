@@ -44,7 +44,8 @@
   app.relationshipsReadView = null;
   app.relationshipsWriteView = null;
   app.habitatsView = null;
-  app.investigationsView = null;
+  app.investigationsReadView = null;
+  app.investigationsWriteView = null;
 
   app.keyCount = 0;
   app.autoSaveTimer = window.setTimeout(function() { } ,10);
@@ -394,12 +395,18 @@
       app.habitatsView.render();
     }
 
-    if (app.investigationsView === null) {
-      app.investigationsView = new app.View.InvestigationsView({
+    if (app.investigationsReadView === null) {
+      app.investigationsReadView = new app.View.InvestigationsReadView({
         el: '#investigations-read-screen'
       });
 
-      //app.investigationsView.render();
+      //app.investigationsReadView.render();
+    }
+
+    if (app.investigationsWriteView === null) {
+      app.investigationsWriteView = new app.View.InvestigationsWriteView({
+        el: '#investigations-write-screen'
+      });
     }
   };
 
