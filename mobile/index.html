@@ -96,34 +96,32 @@
         </div>
     </script>
 
-    <script id="review-details-template" type="text/template" class="review">
-        <div class="row">
-                <div class="side-nav col-xs-1 col-xs-offset-0 col-sm-2 col-sm-offset-1">
-                    <button id="return-to-overview-btn" class="fa fa-arrow-left fa-3x btn-circular"></button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-                    <% if (proposal.review_published) { %>
-                        <h3 id="review-details-title"><b><%= name %></b> has already been reviewed by <i><%= proposal.reviewer %></i>. You may view it, but not make any changes</h3>
-                    <% } else { %>
-                        <h3 id="review-details-title">You are currently reviewing <b><%= name %></b>. Read each section of your peer’s proposal, and add comments.</h3>
-                    <% } %>
-                    <h3 name="research_question"><%= proposal.research_question %></h3>
-                    <textarea class="input-field <%= (proposal.review_published || write_lock) ? 'disabled' : '' %>" data-nested="proposal" name="review_research_question" placeholder="Does this research question make sense? Do you have any suggestions of how it could be improved?"><%= proposal.review_research_question %></textarea>
-                    <h3 name="need_to_knows"><%= proposal.need_to_knows %></h3>
-                    <textarea class="input-field <%= (proposal.review_published || write_lock) ? 'disabled' : '' %> " data-nested="proposal" name="review_need_to_knows" placeholder="Is there anything else that you think your peers should consider?"><%= proposal.review_need_to_knows %></textarea>
-                    <% if (proposal.review_published === false && write_lock === false) { %>
-                        <button id="publish-review-btn" class="modify-proposal-btn btn-circular fa fa-check fa-3x pull-right"></button>
-                        <button id="cancel-review-btn" class="modify-proposal-btn btn-circular fa fa-times fa-3x pull-right"></button>
-                    <% } %>
-                </div>
-            </div>
+    <script id="text-investigation-template" type="text/template">
+        <div class="investigation" data-id=<%= id %>>
+            <h3 class="investigation-title" data-id=<%= id %>><%= title %></h3>
+            <div class="investigation-body" data-id=<%= id %>><%= body %></div>
+            <div class="investigation-author" data-id=<%= id %>><%= author %></div>
         </div>
     </script>
 
-    <script id="chunk-list-template" type="text/template">
-        <div class='btn chunk-edit-btn type-<%= type %>' data-id='<%= _id %>'><%= body %></div>
+    <script id="photo-investigation-template" type="text/template">
+        <div class="investigation" data-id=<%= id %>>
+            <h3 class="investigation-title" data-id=<%= id %>><%= title %></h3>
+            <div class="investigation-url" data-id=<%= id %>>
+                <img src=<%= url %> data-id=<%= id %> />
+            </div>
+            <div class="investigation-author" data-id=<%= id %>><%= author %></div>
+        </div>
+    </script>
+
+    <script id="video-investigation-template" type="text/template">
+        <div class="investigation" data-id=<%= id %>>
+            <h3 class="investigation-title" data-id=<%= id %>><%= title %></h3>
+            <div class="investigation-url" data-id=<%= id %>>
+                <i class="fa fa-5x fa-file-video-o" data-id=<%= id %>></i>
+            </div>
+            <div class="investigation-author" data-id=<%= id %>><%= author %></div>
+        </div>
     </script>
 </head>
 
@@ -465,7 +463,9 @@
                 <span class="investigation-habitat-number-container"></span> - <span class="investigation-habitat-name-container"></span>
             </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
-
+                <ul class="row investigations-list">
+                    <!-- gets filled by the readView -->
+                </ul>
             </div>
         </div>
     </div>
@@ -489,6 +489,13 @@
             <div class="investigation-body-container">
                 <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="1">
                     <textarea id="investigation-title-input" class="input-field editable" name="title" placeholder="Investigation title"></textarea>
+                </div>
+
+                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="2">
+                    SPECIES STUFF WILL GO HERE
+                </div>
+
+                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="3">
                     <div id="investigation-body-container">
                         <textarea id="investigation-body-input" class="input-field editable" name="body" placeholder="Describe what you want to find out..."></textarea>
                     </div>
@@ -502,10 +509,6 @@
                            <i id="investigation-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
                         </div>
                     </div>
-                </div>
-
-                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="2">
-
                 </div>
             </div>
         </div>

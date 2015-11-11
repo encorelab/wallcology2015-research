@@ -251,7 +251,8 @@
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date(),
-          'media': []
+          'media': [],
+          'published': true         // NB!!! Just trying this out - might be a bad idea...
         }
       });
 

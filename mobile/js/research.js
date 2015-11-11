@@ -277,12 +277,6 @@
     jQuery('.top-nav-btn, .todo-btn').click(function() {
       if (app.username) {
         jQuery('.top-nav-btn').removeClass('active');     // unmark all nav items
-        // app.hideAllContainers();
-        // if (jQuery(this).hasClass('goto-proposal-btn')) {
-        //   jQuery('#proposal-nav-btn').addClass('active');
-        //   jQuery('#proposal-screen').removeClass('hidden');
-        //   app.proposalsView.render();
-        // }
         if (jQuery(this).hasClass('goto-notes-btn')) {
           app.hideAllContainers();
           app.resetAllSelectors();
@@ -401,7 +395,7 @@
         collection: Skeletor.Model.awake.investigations
       });
 
-      //app.investigationsReadView.render();
+      app.investigationsReadView.render();
     }
 
     if (app.investigationsWriteView === null) {

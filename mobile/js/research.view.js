@@ -1331,6 +1331,96 @@
    ***********************************************************
    ***********************************************************/
 
+   /**
+    ** Investigation View
+    **/
+   app.View.Investigation = Backbone.View.extend({
+     textTemplate: "#text-investigation-template",
+     photoTemplate: "#photo-investigation-template",
+     videoTemplate: "#video-investigation-template",
+
+     events: {
+       'click' : 'editInvestigation'
+     },
+
+     initialize: function () {
+       var view = this;
+
+       view.model.on('change', function () {
+         view.render();
+       });
+
+       return view;
+     },
+
+     editInvestigation: function(ev) {
+       var view = this;
+
+       app.hideAllContainers();
+
+       app.investigationsWriteView.model = view.model;
+       jQuery('#investigations-write-screen').removeClass('hidden');
+       app.investigationsWriteView.render();
+     },
+
+     render: function () {
+       var view = this,
+           investigation = view.model,
+           investigationType,
+           firstMediaUrl,
+           listItemTemplate,
+           listItem;
+
+       // determine what kind of investigation this is, ie what kind of template do we want to use
+       if (investigation.get('media').length === 0) {
+         investigationType = "text";
+       } else if (investigation.get('media').length > 0) {
+         firstMediaUrl = investigation.get('media')[0];
+         if (app.photoOrVideo(firstMediaUrl) === "photo") {
+           investigationType = "photo";
+         } else if (app.photoOrVideo(firstMediaUrl) === "video") {
+           investigationType = "video";
+         } else {
+           jQuery().toastmessage('showErrorToast', "You have uploaded a file that is not a supported file type! How did you manage to sneak it in there? Talk to Colin to resolve the issue...");
+         }
+       } else {
+         throw "Unknown investigation type!";
+       }
+
+       if (investigationType === "text") {
+         //if class is not set do it
+         if (!view.$el.hasClass('investigation-container')) {
+           view.$el.addClass('investigation-container');
+         }
+         listItemTemplate = _.template(jQuery(view.textTemplate).text());
+         listItem = listItemTemplate({ 'id': investigation.get('_id'), 'title': investigation.get('title'), 'body': investigation.get('body'), 'author': '- '+investigation.get('author') });
+       } else if (investigationType === "photo") {
+         // if class is not set do it
+         if (!view.$el.hasClass('photo-investigation-container')) {
+           view.$el.addClass('photo-investigation-container');
+         }
+         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
+         listItem = listItemTemplate({ 'id': investigation.get('_id'), 'title': investigation.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+investigation.get('author') });
+       } else if (investigationType === "video") {
+         // if class is not set do it
+         if (!view.$el.hasClass('video-investigation-container')) {
+           view.$el.addClass('video-investigation-container');
+         }
+         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
+         listItem = listItemTemplate({ 'id': investigation.get('_id'), 'title': investigation.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+investigation.get('author') });
+       }
+       else {
+         throw "Unknown investigation type!";
+       }
+
+       // Add the newly generated DOM elements to the view's part of the DOM
+       view.$el.html(listItem);
+
+       return view;
+     }
+   });
+
+
   /**
     InvestigationsReadView
   **/
@@ -1344,10 +1434,34 @@
         jQuery('.investigation-habitat-number-container').text('Habitat ' + habitat.get('number'));
         jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
       }
+
+      /* We should not have to listen to change on collection but on add. However, due to wakefulness
+      ** and published false first we would see the element with add and see it getting created. Also not sure
+      ** how delete would do and so on.
+      ** IMPORTANT: in addOne we check if the id of the model to be added exists in the DOM and only add it to the DOM if it is new
+      */
+      view.collection.on('change', function(n) {
+        if (n.get('published') === true) {
+          view.addOne(n);
+        }
+      });
+
+      /*
+      ** See above, but mostly we would want add and change in the relationship view. But due to wakeness and published flag
+      ** we are better off with using change and filtering to react only if published true.
+      ** IMPORTANT: in addOne we check that id isn't already in the DOM
+      */
+      view.collection.on('add', function(n) {
+        if (n.get('published') === true) {
+          view.addOne(n);
+        }
+      });
+
+      return view;
     },
 
     events: {
-      'click .nav-write-btn'               : 'switchToWriteView'
+      'click .nav-write-btn' : 'switchToWriteView'
     },
 
     switchToWriteView: function() {
@@ -1365,6 +1479,7 @@
       console.log("Starting a new investigation...");
       m = new Model.Investigation();
       m.set('habitat', app.currentUser.get('habitat_group'));
+      m.set('author', 'Habitat ' + app.currentUser.get('habitat_group') + ' group');
       m.set('page_number', 1);
       m.wake(app.config.wakeful.url);
       m.save();
@@ -1379,8 +1494,45 @@
       app.investigationsWriteView.render();
     },
 
+    addOne: function(investigationModel) {
+      var view = this;
+
+      // check if the investigation already exists
+      // http://stackoverflow.com/questions/4191386/jquery-how-to-find-an-element-based-on-a-data-attribute-value
+      if (view.$el.find("[data-id='" + investigationModel.id + "']").length === 0 ) {
+        // wake up the project model
+        investigationModel.wake(app.config.wakeful.url);
+
+        // This is necessary to avoid Backbone putting all HTML into an empty div tag
+        var investigationContainer = jQuery('<li class="investigation-container col-xs-12 col-sm-4 col-lg-3" data-id="'+investigationModel.id+'"></li>');
+
+        var investigationView = new app.View.Investigation({el: investigationContainer, model: investigationModel});
+        var listToAddTo = view.$el.find('.investigations-list');
+        listToAddTo.prepend(investigationView.render().el);
+      } else {
+        console.log("The investigation with id <"+investigationModel.id+"> wasn't added since it already exists in the DOM");
+      }
+    },
+
     render: function() {
       var view = this;
+      console.log("Rendering InvestigationsReadView...");
+
+      // sort newest to oldest (prepend!)
+      view.collection.comparator = function(model) {
+        return model.get('created_at');
+      };
+
+      var publishedCollection = view.collection.sort().where({published: true});
+
+      // clear the house
+      view.$el.find('.investigations-list').html("");
+
+      if (publishedCollection) {
+        publishedCollection.forEach(function(investigation) {
+          view.addOne(investigation);
+        });
+      }
 
     }
   });
@@ -1416,7 +1568,7 @@
       if (view.model.get('page_number') === 1) {
         app.hideAllContainers();
         jQuery('#investigations-read-screen').removeClass('hidden');
-        app.investigationsWriteView.render();
+        app.investigationsReadView.render();
       } else {
         var pageNum = view.model.get('page_number');
         pageNum--;
@@ -1433,6 +1585,10 @@
       view.model.set('page_number', pageNum);
 
       view.render();
+    },
+
+    saveAllFields: function() {
+      // or should this be getting passed the view?
     },
 
     checkForAutoSave: function(ev) {
@@ -1564,6 +1720,13 @@
 
       jQuery('#investigations-write-screen .page').addClass('hidden');
       jQuery('#investigations-write-screen .investigation-body-container [data-page-number='+pageNum+']').removeClass('hidden');
+
+      jQuery('#investigation-title-input').val(view.model.get('title'));
+      jQuery('#investigation-body-input').val(view.model.get('body'));
+      jQuery('#investigation-media-container').html('');
+      view.model.get('media').forEach(function(url) {
+        view.appendOneMedia(url);
+      });
     }
   });
 

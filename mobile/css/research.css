@@ -169,7 +169,7 @@ textarea {
 }
 
 /*to create the square notes http://stackoverflow.com/questions/20456694/grid-of-responsive-squares*/
-.note-container, .relationship-container {
+.note-container, .relationship-container, .investigation-container {
     outline-offset: -10px;
 /*    -moz-outline-radius: 10px; if we want rounded corners uncomment
     -webkit-outline-radius: 10px;*/
@@ -179,20 +179,20 @@ textarea {
     overflow: hidden;
     min-height: 192px;
 }
-.notes-list > li, .relationships-list > li {
+.notes-list > li, .relationships-list > li, .investigations-list > li {
     outline: 2px solid #006699;
     background: #fff;
 }
-.notes-list .myNote, .relationships-list .myRelationship {
+.notes-list .myNote, .relationships-list .myRelationship, .investigations-list .myInvestigation {
     outline: 2px dashed #006699;            /* overwrites standard border */
 }
 .notes-list .classNote, .relationships-list .classNote {
     outline: 2px solid #DB67E6;
 }
-.notes-list > li:last-child, .relationships-list > li:last-child {
+.notes-list > li:last-child, .relationships-list > li:last-child, .investigations-list > li:last-child {
     margin-bottom: 45px;
 }
-.note, .relationship {
+.note, .relationship, .investigation {
     position: absolute;
     height: 86%; /* = 100% - 2*5% padding */
     width: 90%; /* = 100% - 2*5% padding */
@@ -200,10 +200,10 @@ textarea {
     margin-top: 5%;
     overflow: hidden;
 }
-.note img, .note video, .relationship img, .relationship video {
+.note img, .note video, .relationship img, .relationship video, .investigation img, .investigation video {
     width: 100%;
 }
-.note-title, .relationship-title {
+.note-title, .relationship-title, .investigation-title {
     height: 22%;
     max-height: 52px;
     margin: 0;
@@ -211,7 +211,7 @@ textarea {
     overflow: hidden;
     font-weight: 600;
 }
-.note-body, .relationship-body {
+.note-body, .relationship-body, .investigation-body {
     height: 66%;
     margin-top: 5px;
     overflow: hidden;
@@ -219,18 +219,18 @@ textarea {
     font-weight: 300;
 }
 /* TODO: this need work - see img-responsive */
-.note-url, .relationship-url {
+.note-url, .relationship-url, .investigation-url {
     height: 66%;
     margin-top: 5px;
     overflow-y: hidden;
 }
-.note-url img, .relationship-url img {
+.note-url img, .relationship-url img, .investigation-url img {
     width: 100%;
     /*    width: 66%;              parent is 66% height, so this allows a square... good?   then 17% is half of the remaining 34%
         height: 100%;
         margin-left: 17%;*/
 }
-.note-author, .relationship-author {
+.note-author, .relationship-author, .investigation-author {
     float: right;
     margin-top: 12px;
     margin-right: 3%;
@@ -741,7 +741,7 @@ input:disabled {
     .note-body, .relationship-body, .investigation-body {
         height: 57%;                /* TODO: this is guesswork, check me on the ipad */;
     }
-    .note-url, .relationship-url {
+    .note-url, .relationship-url, .investigation-url {
         height: 57%;
     }
     .fa-file-image-o,
@@ -776,7 +776,7 @@ input:disabled {
         font-size: 9em;
         margin-left: 21%;
     }
-    .note h3, .relationship h3 {
+    .note h3, .relationship h3, .investigation h3 {
         font-size: 20px;
     }
     .note .title-body, .relationship .title-body, .investigation .title-body {
@@ -870,11 +870,11 @@ body {
 .col-xs-9 {
     width: 100%;
 }
-.notes-list, .relationships-list {
+.notes-list, .relationships-list, .investigations-list {
     width: 75%;
     margin: 20px auto auto 14%;
 }
-.note-container, .relationship-container {
+.note-container, .relationship-container, .investigation-container {
     margin: 10px;
     width: 30%;
     height: 30%;
@@ -945,7 +945,7 @@ body {
 .vcontainer {
     width: 120px;
 }
-.notes-list, .relationships-list, .investigation-list {
+.notes-list, .relationships-list, .investigations-list {
     margin: 20px auto auto 14%;
 }
 .container {
@@ -1072,10 +1072,10 @@ body {
     .selector-container{
         height: 55px;
     }
-    .notes-list, .relationships-list {
+    .notes-list, .relationships-list, .investigations-list {
         width: 85%;
     }
-    .note-title, .relationship-title {
+    .note-title, .relationship-title, .investigation-title {
         font-size: 16px;
     }
     #note-btn-container, #relationship-btn-container, #investigation-btn-container {
@@ -1103,11 +1103,11 @@ body {
         width: 40px;
         margin: auto 3px;
     }
-    .selector-container{
+    .selector-container {
         margin: -4px -8px !important;
         padding: 0px !important;
     }
-    .species-0{
+    .species-0 {
         margin-left: 20px;
     }
     #relationships-aggregate .table {
