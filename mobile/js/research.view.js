@@ -1339,8 +1339,11 @@
       var view = this;
       console.log('Initializing InvestigationsReadView...', view.el);
 
-      var user = app.users.findWhere({'username': app.username});
-      jQuery('#investigation-title-container').text('Habitat ' + user.get('habitat_group'));
+      var habitat = app.habitats.findWhere({"number": app.currentUser.get('habitat_group')});
+      if (habitat) {
+        jQuery('.investigation-habitat-number-container').text('Habitat ' + habitat.get('number'));
+        jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
+      }
     },
 
     events: {
@@ -1349,30 +1352,27 @@
 
     switchToWriteView: function() {
       var view = this;
-      // var m;
+      var m;
 
-      // // check if we need to resume
-      // // BIG NB! We use author here! This is the only place where we care about app.username (we want you only to be able to resume your own relationships)
       // var investigationToResume = view.collection.findWhere({author: app.username, published: false});
 
       // if (investigationToResume) {
-      //   // RESUME NOTE
+      //   // RESUME INVESTIGATION
       //   console.log("Resuming...");
       //   m = investigationToResume;
       // } else {
-      //   // NEW NOTE
-      //   console.log("Starting a new investigation...");
-      //   m = new Model.Relationship();
-      //   m.set('author', app.username);
-      //   m.set('from_species_index', '');
-      //   m.set('to_species_index', '');
-      //   m.wake(app.config.wakeful.url);
-      //   m.save();
-      //   view.collection.add(m);
-      // }
+      //   // NEW INVESTIGATION
+      console.log("Starting a new investigation...");
+      m = new Model.Investigation();
+      m.set('habitat', app.currentUser.get('habitat_group'));
+      m.set('page_number', 1);
+      m.wake(app.config.wakeful.url);
+      m.save();
+      view.collection.add(m);
+      //}
 
-      // app.investigationsWriteView.model = m;
-      // app.investigationsWriteView.model.wake(app.config.wakeful.url);
+      app.investigationsWriteView.model = m;
+      app.investigationsWriteView.model.wake(app.config.wakeful.url);
 
       app.hideAllContainers();
       jQuery('#investigations-write-screen').removeClass('hidden');
@@ -1394,25 +1394,65 @@
       var view = this;
       console.log('Initializing InvestigationsWriteView...', view.el);
 
-      var user = app.users.findWhere({'username': app.username});
-      jQuery('#investigation-title-container').text('Habitat ' + user.get('habitat_group'));
+      var habitat = app.habitats.findWhere({"number": app.currentUser.get('habitat_group')});
+      if (habitat) {
+        jQuery('.investigation-habitat-number-container').text('Habitat ' + habitat.get('number'));
+        jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
+      }
     },
 
     events: {
-      'click .nav-read-btn'               : 'switchToReadView'
+      'click .nav-read-btn'               : 'moveBack',
+      'click .nav-forward-btn'            : 'moveForward',
+      'keyup :input'                      : 'checkForAutoSave'
     },
 
-    switchToReadView: function() {
+    moveBack: function() {
       var view = this;
-      app.hideAllContainers();
-      jQuery('#investigations-write-screen').removeClass('hidden');
 
-      app.investigationsWriteView.render();
+      if (view.model.get('page_number') === 1) {
+        app.hideAllContainers();
+        jQuery('#investigations-read-screen').removeClass('hidden');
+        app.investigationsWriteView.render();
+      } else {
+        var pageNum = view.model.get('page_number');
+        pageNum--;
+        view.model.set('page_number', pageNum);
+        view.render();
+      }
+    },
+
+    moveForward: function() {
+      var view = this;
+
+      var pageNum = view.model.get('page_number');
+      pageNum++;
+      view.model.set('page_number', pageNum);
+
+      view.render();
+    },
+
+    checkForAutoSave: function(ev) {
+      var view = this,
+          field = ev.target.name,
+          input = ev.target.value;
+      // clear timer on keyup so that a save doesn't happen while typing
+      app.clearAutoSaveTimer();
+
+      // save after 10 keystrokes
+      app.autoSave(view.model, field, input, false);
+
+      // setting up a timer so that if we stop typing we save stuff after 5 seconds
+      app.autoSaveTimer = setTimeout(function(){
+        app.autoSave(view.model, field, input, true);
+      }, 5000);
     },
 
     render: function() {
       var view = this;
 
+      jQuery('#investigations-write-screen .page').addClass('hidden');
+      jQuery('#investigations-write-screen [data-page-number='+view.model.get('page_number')+']').removeClass('hidden');
     }
   });
 

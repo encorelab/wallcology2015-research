@@ -27,7 +27,7 @@
   Skeletor.Model = (function() {
     function Model() {}
 
-    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'notes', 'relationships', 'habitats', 'projects'];
+    Model.requiredCollections = ['brainstorms', 'tags', 'states', 'notes', 'relationships', 'habitats', 'investigations'];
 
     Model.init = function(url, db) {
       var dfrInit,
@@ -173,9 +173,6 @@
         defaults: {
           'created_at': new Date(),
           'modified_at': new Date()
-          // Colin this won't work since the model is used by Smartboard and Skeletor.Mobile is not available
-          //'author': username,
-          // 'published': false
         }
       })
       .extend(TaggableTrait)
@@ -250,24 +247,16 @@
         model: Skeletor.Model.Habitat
       });
 
-
-
-
-      this.Project = this.db.Document('projects').extend({
+      this.Investigation = this.db.Document('investigations').extend({
         defaults: {
           'created_at': new Date(),
-          'modified_at': new Date(),
-          'proposal': {
-            'published': false,
-            'review_published': false
-          }
+          'modified_at': new Date()
         }
       });
 
-      this.Projects = this.db.Collection('projects').extend({
-        model: Skeletor.Model.Project
+      this.Investigations = this.db.Collection('investigations').extend({
+        model: Skeletor.Model.Investigation
       });
-
     };
 
     Model.wake = function(wakefulUrl) {

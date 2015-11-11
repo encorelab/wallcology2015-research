@@ -461,7 +461,9 @@
             </div>
         </div>
         <div class="row">
-            <span class="investigation-title-container"></span>
+            <div class="investigation-habitat-container">
+                <span class="investigation-habitat-number-container"></span> - <span class="investigation-habitat-name-container"></span>
+            </div>
             <div class="inner-wrapper col-xs-9 col-xs-offset-2">
 
             </div>
@@ -475,9 +477,24 @@
             </div>
         </div>
         <div class="row">
-            <span class="investigation-title-container"></span>
-            <div class="inner-wrapper col-xs-9 col-xs-offset-2">
+            <div class="investigation-habitat-container">
+                <span class="investigation-habitat-number-container"></span> - <span class="investigation-habitat-name-container"></span>
+            </div>
 
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="1">
+                <textarea id="investigation-title-input" class="input-field editable" name="title" placeholder="Investigation title"></textarea>
+                <div id="investigation-body-container">
+                    <textarea id="investigation-body-input" class="input-field editable" name="body" placeholder="Describe what you want to find out..."></textarea>
+                </div>
+            </div>
+
+            <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="2">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="forward-nav col-xs-11 col-xs-offset-11 col-sm-11 col-sm-offset-11">
+                <button class="nav-forward-btn fa fa-arrow-right fa-3x btn-circular"></button>
             </div>
         </div>
     </div>

@@ -37,6 +37,7 @@
   app.runState = null;
   app.users = null;
   app.username = null;
+  app.currentUser = null;
   app.habitats = null;
 
   app.notesReadView = null;
@@ -173,10 +174,10 @@
           };
           app.users.sort();
 
-          var currentUser = app.users.findWhere({username: app.username});
+          app.currentUser = app.users.findWhere({username: app.username});
 
-          if (currentUser) {
-            jQuery('.username-display a').text(app.runId+"'s class - "+currentUser.get('display_name'));
+          if (app.currentUser) {
+            jQuery('.username-display a').text(app.runId+"'s class - "+app.currentUser.get('display_name'));
 
             hideLogin();
             showUsername();
@@ -275,7 +276,6 @@
     // this is a or binding to both classes
     jQuery('.top-nav-btn, .todo-btn').click(function() {
       if (app.username) {
-        var currentUser = app.users.findWhere({username: app.username});
         jQuery('.top-nav-btn').removeClass('active');     // unmark all nav items
         // app.hideAllContainers();
         // if (jQuery(this).hasClass('goto-proposal-btn')) {
@@ -302,7 +302,7 @@
           jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          if (currentUser.get('habitat_group')) {
+          if (app.currentUser.get('habitat_group')) {
             app.hideAllContainers();
             jQuery('#investigations-nav-btn').addClass('active');
             jQuery('#investigations-read-screen').removeClass('hidden');
@@ -310,7 +310,7 @@
             jQuery().toastmessage('showWarningToast', "You have not been assigned to a habitat group yet");
           }
         } else if (jQuery(this).hasClass('goto-habitats-btn')) {
-          if (currentUser.get('user_role') === "teacher") {
+          if (app.currentUser.get('user_role') === "teacher") {
             app.hideAllContainers();
             jQuery('#habitats-nav-btn').addClass('active');
             jQuery('#habitats-screen').removeClass('hidden');
@@ -397,7 +397,8 @@
 
     if (app.investigationsReadView === null) {
       app.investigationsReadView = new app.View.InvestigationsReadView({
-        el: '#investigations-read-screen'
+        el: '#investigations-read-screen',
+        collection: Skeletor.Model.awake.investigations
       });
 
       //app.investigationsReadView.render();
@@ -405,7 +406,8 @@
 
     if (app.investigationsWriteView === null) {
       app.investigationsWriteView = new app.View.InvestigationsWriteView({
-        el: '#investigations-write-screen'
+        el: '#investigations-write-screen',
+        collection: Skeletor.Model.awake.investigations
       });
     }
   };
@@ -634,6 +636,7 @@
         console.log(user.toJSON());
 
         app.username = user.get('username');
+        app.currentUser = app.users.findWhere({username: app.username});
 
         jQuery.cookie('brainstorm_mobile_username', app.username, { expires: 1, path: '/' });
         jQuery('.username-display a').text(app.runId+"'s class - "+app.username);
