@@ -348,7 +348,7 @@
                     <div class="photo-wrapper">
                        <label for="relationship-photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
                        <input id="relationship-photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
-                       <i id="relatioship-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                       <i id="relationship-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
                     </div>
                     <button class="publish-relationship-btn btn-circular fa fa-check fa-3x pull-right"></button>
                 </div>
@@ -492,6 +492,16 @@
                     <div id="investigation-body-container">
                         <textarea id="investigation-body-input" class="input-field editable" name="body" placeholder="Describe what you want to find out..."></textarea>
                     </div>
+
+                    <div id="investigation-media-container"></div>
+
+                    <div id="investigation-btn-container" class="editable">
+                        <div class="photo-wrapper">
+                           <label for="investigation-photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
+                           <input id="investigation-photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                           <i id="investigation-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="2">
@@ -500,8 +510,27 @@
             </div>
         </div>
         <div class="row">
-            <div class="forward-nav col-xs-11 col-xs-offset-11 col-sm-11 col-sm-offset-11">
+            <div class="forward-nav">
                 <button class="nav-forward-btn fa fa-arrow-right fa-3x btn-circular"></button>
+            </div>
+        </div>
+
+        <div id="investigation-photo-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="true">
+            <div class="table">
+                <div class="table-cell">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <!-- NB: not supported by Safari or IE. And FF makes a mess of it. -->
+                                <button class="download-photo-btn"><a href="unknown-url" download="unknown-file-name">Download this!</a></button>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <img class="photo-content" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

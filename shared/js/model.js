@@ -250,7 +250,8 @@
       this.Investigation = this.db.Document('investigations').extend({
         defaults: {
           'created_at': new Date(),
-          'modified_at': new Date()
+          'modified_at': new Date(),
+          'media': []
         }
       });
 

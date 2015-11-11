@@ -305,7 +305,7 @@ textarea {
 .sentence-starter:hover{
     background: #fff;
 }
-#notes-write-screen button.close, #relationships-write-screen button.close {
+#notes-write-screen button.close, #relationships-write-screen button.close, #investigations-write-screen button.close {
     border: none;
 }
 
@@ -314,21 +314,21 @@ textarea {
     margin-left: 5px;
 }
 
-#note-media-container, #relationship-media-container {
+#note-media-container, #relationship-media-container, #investigation-media-container {
     margin-top: 5px;
 }
-#notes-write-screen .media-container, #relationships-write-screen .media-container {
+#notes-write-screen .media-container, #relationships-write-screen .media-container, #investigations-write-screen .media-container {
     position: relative;
     display: inline-block;
     width: 255px;
     height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
     margin: 5px 2.5px 0px 2.5px;
 }
-#notes-write-screen .media, #relationships-write-screen .media {
+#notes-write-screen .media, #relationships-write-screen .media, #investigations-write-screen .media {
     width: 255px;
     height: 255px;          /* REDO ME - this is ugly, look at img-responsive class */
 }
-#notes-write-screen .remove-btn, #relationships-write-screen .remove-btn {
+#notes-write-screen .remove-btn, #relationships-write-screen .remove-btn, #investigations-write-screen .remove-btn {
     position: absolute;
     top: 2%;
     right: 5%;
@@ -336,7 +336,7 @@ textarea {
     z-index: 999;
 }
 
-#note-btn-container, #relationship-btn-container {
+#note-btn-container, #relationship-btn-container, #investigation-btn-container {
     position: relative;
     margin-top: 20px;
     width: 70%;
@@ -344,7 +344,7 @@ textarea {
 .camera-icon-label {
     width: 60px;
 }
-#note-btn-container .fa-spinner, #relationship-btn-container .fa-spinner {
+#note-btn-container .fa-spinner, #relationship-btn-container .fa-spinner, #investigation-btn-container .fa-spinner {
     font-size: 6em;
     position: absolute;
     z-index: 999;
@@ -354,10 +354,10 @@ textarea {
 }
 
 /* TODO: THIS NEEDS A LOT OF WORK ACROSS VARIOUS DEVICES */
-#photo-modal .photo-content, #relationship-photo-modal .photo-content {
+#photo-modal .photo-content, #relationship-photo-modal .photo-content, #investigation-photo-modal .photo-content {
     max-width: 100%;
 }
-#photo-modal .download-photo-btn, #relationship-photo-modal .download-photo-btn {
+#photo-modal .download-photo-btn, #relationship-photo-modal .download-photo-btn, #investigation-photo-modal .download-photo-btn {
     background: white;
     border-radius: 4px;
 }
@@ -553,34 +553,6 @@ textarea {
 
 
 
-
-
-
-/********** P R O J E C T  N E W  P O S T E R  S C R E E N **********/
-
-.new-poster-theme-holder {
-    width: 400px;
-    margin: 0 auto;
-}
-.new-poster-theme-button {
-    height: 55px;
-    margin-bottom: 35px;
-}
-.new-poster-theme-button:nth-child(odd) {
-    float: left;
-    margin-right: 25px;
-}
-.new-poster-theme-button:nth-child(even) {
-    float: right;
-}
-#notes-new-poster-screen .selected {
-    background: #79ADC2 !important;
-}
-#notes-new-poster-screen .selected:hover {
-    border: solid 2px #006699;
-}
-
-
 /********** GLOBAL **********/
 
 body, html {
@@ -607,10 +579,6 @@ ul {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.margin-bottom-25 {
-    margin-bottom: 25px;
 }
 
 /* what's the correct way to do this? */
@@ -763,14 +731,14 @@ input:disabled {
         margin-left: -20px;
     }
 
-    .note, .relationship {
+    .note, .relationship, .investigation {
         padding: 5% 7% 0 1%;
         height: 87%;
     }
-    .note-title, .relationship-title {
+    .note-title, .relationship-title, .investigation-title {
         height: 18%;
     }
-    .note-body, .relationship-body {
+    .note-body, .relationship-body, .investigation-body {
         height: 57%;                /* TODO: this is guesswork, check me on the ipad */;
     }
     .note-url, .relationship-url {
@@ -800,7 +768,7 @@ input:disabled {
         padding: 0 200px 0 0;
     }
 
-    .note-container, .relationship-container {
+    .note-container, .relationship-container, .investigation-container {
         padding-bottom: 25%; /* = width for a 1:1 aspect ratio */
     }
     .fa-file-image-o,
@@ -811,7 +779,7 @@ input:disabled {
     .note h3, .relationship h3 {
         font-size: 20px;
     }
-    .note .title-body, .relationship .title-body {
+    .note .title-body, .relationship .title-body, .investigation .title-body {
         font-size: 16px;
         line-height: 1.2;
     }
@@ -931,10 +899,10 @@ body {
     box-shadow: inset 0 3px 3px rgba(0,0,0,0.2);
     border: 1px solid #e3e3e3 !important;
 }*/
-#note-body-container, #relationship-body-container {
+#note-body-container, #relationship-body-container, #investigation-body-container {
     height: auto;
 }
-#note-btn-container, #relationship-btn-container {
+#note-btn-container, #relationship-btn-container, #investigation-btn-container {
     /*width: 650px;*/
     width: 70%;
     margin: 30px auto;
@@ -945,11 +913,10 @@ body {
     z-index: 10;
     top: 37%;
 }
-.forward-nav {
-    padding: 150px 0 0 0;
-    right: 30px;
-    z-index: 10;
-    top: 37%;
+.nav-forward-btn {
+    float: right;
+    margin-right: 6%;
+    margin-top: 10%;
 }
 .publish-note-btn, .nav-write-btn, .fa-arrow-left, .fa-arrow-right {
     background: radial-gradient(ellipse at center, #1a7194 0%,#176686 100%) !important;
@@ -960,14 +927,14 @@ body {
 .publish-note-btn:hover, .nav-write-btn:hover, .fa-arrow-left:hover, .fa-arrow-right:hover {
     background: radial-gradient(ellipse at center, #176686 0%,#105875 100%) !important;
 }
-.note-title, .relationship-title {
+.note-title, .relationship-title, .investigation-title {
     font-size: 20px;
     color: #0a475f ;
 }
-.note-body, .relationship-body {
+.note-body, .relationship-body, .investigation-body {
     color: #666  !important;
 }
-.note-container, .relationship-container{
+.note-container, .relationship-container, .investigation-container {
     -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     box-shadow: 0 3px 3px rgba(0,0,0,0.5);
     background: linear-gradient(to bottom, #f8f5e9 0%, #f8f5e9 50%,#eee9d0 100%) !important;
@@ -978,7 +945,7 @@ body {
 .vcontainer {
     width: 120px;
 }
-.notes-list, .relationships-list{
+.notes-list, .relationships-list, .investigation-list {
     margin: 20px auto auto 14%;
 }
 .container {
@@ -994,7 +961,7 @@ body {
     position: relative;
     text-align: center;
 }
-#note-media-container, #relationship-media-container {
+#note-media-container, #relationship-media-container, #investigation-media-container {
     margin: 5px auto !important;
     text-align: center;
 }
@@ -1111,7 +1078,7 @@ body {
     .note-title, .relationship-title {
         font-size: 16px;
     }
-    #note-btn-container, #relationship-btn-container {
+    #note-btn-container, #relationship-btn-container, #investigation-btn-container {
         width: 500px;
         width: 70%;
     }

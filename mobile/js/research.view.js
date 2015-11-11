@@ -1021,7 +1021,7 @@
       formData.append('file', file);
 
       if (file.size < MAX_FILE_SIZE) {
-        jQuery('#relatioship-photo-upload-spinner').removeClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').removeClass('hidden');
         jQuery('.upload-icon').addClass('invisible');
         jQuery('.publish-relationship-btn').addClass('disabled');
 
@@ -1041,14 +1041,14 @@
       }
 
       function failure(err) {
-        jQuery('#relatioship-photo-upload-spinner').addClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
       }
 
       function success(data, status, xhr) {
-        jQuery('#relatioship-photo-upload-spinner').addClass('hidden');
+        jQuery('#relationship-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-relationship-btn').removeClass('disabled');
         console.log("UPLOAD SUCCEEDED!");
@@ -1404,7 +1404,10 @@
     events: {
       'click .nav-read-btn'               : 'moveBack',
       'click .nav-forward-btn'            : 'moveForward',
-      'keyup :input'                      : 'checkForAutoSave'
+      'keyup :input'                      : 'checkForAutoSave',
+      'change #investigation-photo-file'  : 'uploadMedia',
+      'click .remove-btn'                 : 'removeOneMedia',
+      'click .photo-container'            : 'openPhotoModal'
     },
 
     moveBack: function() {
@@ -1446,6 +1449,109 @@
       app.autoSaveTimer = setTimeout(function(){
         app.autoSave(view.model, field, input, true);
       }, 5000);
+    },
+
+    openPhotoModal: function(ev) {
+      var view = this;
+      var url = jQuery(ev.target).attr('src');
+      //the fileName isn't working for unknown reasons - so we can't add metadata to the photo file name, or make them more human readable. Also probably doesn't need the app.parseExtension(url)
+      //var fileName = view.model.get('author') + '_' + view.model.get('title').slice(0,8) + '.' + app.parseExtension(url);
+      jQuery('#investigation-photo-modal .photo-content').attr('src', url);
+      jQuery('#investigation-photo-modal .download-photo-btn a').attr('href',url);
+      //jQuery('#investigation-photo-modal .download-photo-btn a').attr('download',fileName);
+      jQuery('#investigation-photo-modal').modal({keyboard: true, backdrop: true});
+    },
+
+    uploadMedia: function() {
+      var view = this;
+
+      var file = jQuery('#investigation-photo-file')[0].files.item(0);
+      var formData = new FormData();
+      formData.append('file', file);
+
+      if (file.size < MAX_FILE_SIZE) {
+        jQuery('#investigation-photo-upload-spinner').removeClass('hidden');
+        jQuery('.upload-icon').addClass('invisible');
+        jQuery('.publish-investigation-btn').addClass('disabled');
+
+        jQuery.ajax({
+          url: app.config.pikachu.url,
+          type: 'POST',
+          success: success,
+          error: failure,
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false
+        });
+      } else {
+        jQuery().toastmessage('showErrorToast', "Max file size of 20MB exceeded");
+        jQuery('.upload-icon').val('');
+      }
+
+      function failure(err) {
+        jQuery('#investigation-photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-investigation-btn').removeClass('disabled');
+        jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
+      }
+
+      function success(data, status, xhr) {
+        jQuery('#investigation-photo-upload-spinner').addClass('hidden');
+        jQuery('.upload-icon').removeClass('invisible');
+        jQuery('.publish-investigation-btn').removeClass('disabled');
+        console.log("UPLOAD SUCCEEDED!");
+        console.log(xhr.getAllResponseHeaders());
+
+        // clear out the label value if they for some reason want to upload the same thing...
+        jQuery('.upload-icon').val('');
+
+        // update the model
+        var mediaArray = view.model.get('media');
+        mediaArray.push(data.url);
+        view.model.set('media', mediaArray);
+        view.model.save();
+        // update the view (TODO: bind this to an add event, eg do it right)
+        view.appendOneMedia(data.url);
+
+        // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
+        if (mediaArray.length === 1) {
+          var investigationBodyText = jQuery('#investigation-body-input').val();
+          jQuery('#investigation-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
+        }
+      }
+    },
+
+    // TODO: this can be done more cleanly/backbonely with views for the media containers
+    appendOneMedia: function(url) {
+      var el;
+
+      if (app.photoOrVideo(url) === "photo") {
+        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media photo-container img-responsive"></img><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+      } else if (app.photoOrVideo(url) === "video") {
+        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+      } else {
+        el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
+        throw "Error trying to append media - unknown media type!";
+      }
+      jQuery('#investigation-media-container').append(el);
+    },
+
+    removeOneMedia: function(ev) {
+      var view = this;
+      var targetUrl = jQuery(ev.target).data('url');
+      var mediaArray = view.model.get('media');
+      _.each(mediaArray, function(url, i) {
+        if (mediaArray[i] === targetUrl) {
+          mediaArray.pop(mediaArray[i]);
+        }
+      });
+      view.model.set('media', mediaArray);
+      view.model.save();
+
+      jQuery('.media-container[data-url="'+targetUrl+'"]').remove();
+      // clearing this out so the change event for this can be used (eg if they upload the same thing)
+      jQuery('.upload-icon').val('');
     },
 
     render: function() {
