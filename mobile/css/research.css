@@ -95,29 +95,9 @@ textarea {
     background: #fecc81 !important;
 }
 
-/*#notes-picker .modal-header {
-    border-bottom: none;
+.heavy-text {
+    font-weight: 600;
 }
-#notes-picker button {
-    min-width: 500px;
-    max-width: 500px;
-    overflow: hidden;
-    display: block;
-    margin: 0 auto;
-    height: 55px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-.notes-partner-holder {
-    max-width: 915px;
-}
-.notes-partner-holder button {
-    margin-right: 15px;
-    min-width: 150px;
-}
-.notes-partner-holder button:nth-child(5n) {
-    margin-right: 0;
-}*/
 
 
 
@@ -565,7 +545,7 @@ textarea {
     margin-top: 30px;
 }
 
-.investigation-habitat-container {
+.investigation-header-container {
     width: 100%;
     height: 60px;
     background-color: #D4D4D4;

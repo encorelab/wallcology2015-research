@@ -1451,8 +1451,13 @@
     render: function() {
       var view = this;
 
+      var pageNum = view.model.get('page_number');
+
+      jQuery('#investigations-write-screen .investigation-phase').removeClass('heavy-text');
+      jQuery('#investigations-write-screen .investigation-header-container [data-page-number='+pageNum+']').addClass('heavy-text');
+
       jQuery('#investigations-write-screen .page').addClass('hidden');
-      jQuery('#investigations-write-screen [data-page-number='+view.model.get('page_number')+']').removeClass('hidden');
+      jQuery('#investigations-write-screen .investigation-body-container [data-page-number='+pageNum+']').removeClass('hidden');
     }
   });
 
