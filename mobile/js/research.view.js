@@ -1413,6 +1413,11 @@
          throw "Unknown investigation type!";
        }
 
+       // add the myInvestigation class if needed
+       if (investigation.get('habitat') === app.currentUser.get('habitat_group')) {
+         view.$el.addClass('myInvestigation');
+       }
+
        // Add the newly generated DOM elements to the view's part of the DOM
        view.$el.html(listItem);
 
@@ -1565,7 +1570,10 @@
     moveBack: function() {
       var view = this;
 
+      view.setAllInputFields();
+
       if (view.model.get('page_number') === 1) {
+        view.model.save();
         app.hideAllContainers();
         jQuery('#investigations-read-screen').removeClass('hidden');
         app.investigationsReadView.render();
@@ -1573,6 +1581,7 @@
         var pageNum = view.model.get('page_number');
         pageNum--;
         view.model.set('page_number', pageNum);
+        view.model.save();
         view.render();
       }
     },
@@ -1584,11 +1593,17 @@
       pageNum++;
       view.model.set('page_number', pageNum);
 
+      view.setAllInputFields();
+      view.model.save();
+
       view.render();
     },
 
-    saveAllFields: function() {
-      // or should this be getting passed the view?
+    setAllInputFields: function() {
+      var view = this;
+
+      view.model.set('title',jQuery('#investigation-title-input').val());
+      view.model.set('body',jQuery('#investigation-body-input').val());
     },
 
     checkForAutoSave: function(ev) {
