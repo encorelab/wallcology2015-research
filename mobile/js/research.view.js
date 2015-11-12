@@ -1730,8 +1730,20 @@
 
       var pageNum = view.model.get('page_number');
 
-      jQuery('#investigations-write-screen .investigation-phase').removeClass('heavy-text');
-      jQuery('#investigations-write-screen .investigation-header-container [data-page-number='+pageNum+']').addClass('heavy-text');
+      jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
+      if (pageNum === 1) {
+        jQuery('li:contains("Describe")').addClass('heavy-text');
+      } else if (pageNum === 2 || pageNum === 3) {
+        jQuery('li:contains("Plan")').addClass('heavy-text');
+      } else if (pageNum === 4 || pageNum === 5) {
+        jQuery('li:contains("Predict")').addClass('heavy-text');
+      } else if (pageNum === 6 || pageNum === 7) {
+        jQuery('li:contains("Report")').addClass('heavy-text');
+      } else if (pageNum === 8 || pageNum === 9) {
+        jQuery('li:contains("Present")').addClass('heavy-text');
+      } else {
+        console.error('Unknown page number!');
+      }
 
       jQuery('#investigations-write-screen .page').addClass('hidden');
       jQuery('#investigations-write-screen .investigation-body-container [data-page-number='+pageNum+']').removeClass('hidden');
