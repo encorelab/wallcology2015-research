@@ -1293,7 +1293,7 @@
         user.save();
 
         // update the UI
-        jQuery('.student-button.selected').detach().appendTo(jQuery(ev.target).siblings()[0]);
+        jQuery('.student-button.selected').detach().appendTo(jQuery(jQuery(ev.target).parent().find('ul')));
         jQuery('.student-button').removeClass('selected');
       }
     },
