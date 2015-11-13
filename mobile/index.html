@@ -488,29 +488,35 @@
                 </ul>
             </div>
 
-            <div class="investigation-body-container">
-                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="1">
+            <div class="investigation-plan-body-container">
+                <div class="inner-wrapper page hidden" data-page-number="1">
                     <textarea id="investigation-title-input" class="input-field editable" name="title" placeholder="Investigation title"></textarea>
+                    <div>Please select which species are in your ecosystem (including any you wish to introduce)</div>
+                    <div class="species-present-container"></div>
                 </div>
 
-                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="2">
-                    SPECIES STUFF WILL GO HERE
+                <div class="inner-wrapper page hidden" data-page-number="2">
+                    <div class="species-chart"></div>
                 </div>
 
-                <div class="inner-wrapper col-xs-9 col-xs-offset-2 page hidden" data-page-number="3">
-                    <div id="investigation-body-container">
-                        <textarea id="investigation-body-input" class="input-field editable" name="body" placeholder="Describe what you want to find out..."></textarea>
+                <div class="inner-wrapper page hidden" data-page-number="3">
+                    <div id="investigation-plan-body-container">
+                        <textarea id="investigation-plan-body-input" class="input-field editable" name="body" placeholder="Describe what you want to find out..."></textarea>
                     </div>
 
-                    <div id="investigation-media-container"></div>
+                    <div id="investigation-plan-media-container"></div>
 
-                    <div id="investigation-btn-container" class="editable">
+                    <div id="investigation-plan-btn-container" class="editable">
                         <div class="photo-wrapper">
-                           <label for="investigation-photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
-                           <input id="investigation-photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
-                           <i id="investigation-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
+                           <label for="investigation-plan-photo-file" class="upload-icon camera-icon-label"><img src="img/camera-icon.png" class="upload-icon camera-icon img-responsive" alt="camera icon" /></label>
+                           <input id="investigation-plan-photo-file" class="upload-icon" type="file" name="file" accept=".jpg,.gif,.jpeg,.png,.mp4,.m4v,.mov" />
+                           <i id="investigation-plan-photo-upload-spinner" class="fa fa-spinner fa-pulse hidden"></i>
                         </div>
                     </div>
+                </div>
+
+                <div class="inner-wrapper page hidden" data-page-number="4">
+                    <div class="species-chart"></div>
                 </div>
             </div>
         </div>

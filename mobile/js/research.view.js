@@ -1559,12 +1559,55 @@
     },
 
     events: {
-      'click .nav-read-btn'               : 'moveBack',
-      'click .nav-forward-btn'            : 'moveForward',
-      'keyup :input'                      : 'checkForAutoSave',
-      'change #investigation-photo-file'  : 'uploadMedia',
-      'click .remove-btn'                 : 'removeOneMedia',
-      'click .photo-container'            : 'openPhotoModal'
+      'click .nav-read-btn'                 : 'moveBack',
+      'click .nav-forward-btn'              : 'moveForward',
+      'keyup :input'                        : 'checkForAutoSave',
+      'change #investigation-plan-photo-file'    : 'uploadMedia',
+      'click .remove-btn'                   : 'removeOneMedia',
+      'click .photo-container'              : 'openPhotoModal',
+      'click .species-selector-img'         : 'selectSpeciesPresent',
+      'click .trend-container'              : 'checkForTrendClickPermitted'
+    },
+
+    selectSpeciesPresent: function(ev) {
+      var view = this;
+      if (jQuery(ev.target).attr('data-selected') === "off") {
+        jQuery(ev.target).attr('src', app.images[jQuery(ev.target).data().speciesIndex].selected);
+        jQuery(ev.target).attr('data-selected', 'on');                                    // brutal - jquery can't deal with multiple data attributes
+      } else if (jQuery(ev.target).attr('data-selected') === "on") {
+        jQuery(ev.target).attr('src', app.images[jQuery(ev.target).data().speciesIndex].unselected);
+        jQuery(ev.target).attr('data-selected', 'off');
+      } else {
+        console.error('Somehow clicking on the wrong thing');
+      }
+    },
+
+    checkForTrendClickPermitted: function(ev) {
+      var view = this;
+
+      // if (jQuery(ev.target).hasClass('plan-column')) {
+
+      // })
+      view.setTrend(ev);
+    },
+
+    setTrend: function(ev) {
+      var currentTrend = jQuery(ev.target).attr('data-trend');
+      if (currentTrend === "") {
+        jQuery(ev.target).attr("data-trend","=");
+        jQuery(ev.target).text("=");
+      } else if (currentTrend === "=") {
+        jQuery(ev.target).attr("data-trend","up");
+        jQuery(ev.target).text("up");
+      } else if (currentTrend === "up") {
+        jQuery(ev.target).attr("data-trend","down");
+        jQuery(ev.target).text("down");
+      } else if (currentTrend === "down") {
+        jQuery(ev.target).attr("data-trend","");
+        jQuery(ev.target).text("");
+      } else {
+        console.error('Unknown trend');
+      }
     },
 
     moveBack: function() {
@@ -1602,8 +1645,14 @@
     setAllInputFields: function() {
       var view = this;
 
-      view.model.set('title',jQuery('#investigation-title-input').val());
-      view.model.set('body',jQuery('#investigation-body-input').val());
+      view.model.set('title', jQuery('#investigation-title-input').val());
+
+      var speciesArr = [];
+      _.each(jQuery('.species-selector-img[data-selected=on]'), function(el) {
+        speciesArr.push(parseInt(jQuery(el).attr('data-species-index')));
+        view.model.set('habitat_species',speciesArr);
+      });
+      view.model.set('body',jQuery('#investigation-plan-body-input').val());
     },
 
     checkForAutoSave: function(ev) {
@@ -1636,12 +1685,12 @@
     uploadMedia: function() {
       var view = this;
 
-      var file = jQuery('#investigation-photo-file')[0].files.item(0);
+      var file = jQuery('#investigation-plan-photo-file')[0].files.item(0);
       var formData = new FormData();
       formData.append('file', file);
 
       if (file.size < MAX_FILE_SIZE) {
-        jQuery('#investigation-photo-upload-spinner').removeClass('hidden');
+        jQuery('#investigation-plan-photo-upload-spinner').removeClass('hidden');
         jQuery('.upload-icon').addClass('invisible');
         jQuery('.publish-investigation-btn').addClass('disabled');
 
@@ -1661,14 +1710,14 @@
       }
 
       function failure(err) {
-        jQuery('#investigation-photo-upload-spinner').addClass('hidden');
+        jQuery('#investigation-plan-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-investigation-btn').removeClass('disabled');
         jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
       }
 
       function success(data, status, xhr) {
-        jQuery('#investigation-photo-upload-spinner').addClass('hidden');
+        jQuery('#investigation-plan-photo-upload-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
         jQuery('.publish-investigation-btn').removeClass('disabled');
         console.log("UPLOAD SUCCEEDED!");
@@ -1687,8 +1736,8 @@
 
         // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
         if (mediaArray.length === 1) {
-          var investigationBodyText = jQuery('#investigation-body-input').val();
-          jQuery('#investigation-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
+          var investigationBodyText = jQuery('#investigation-plan-body-input').val();
+          jQuery('#investigation-plan-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
         }
       }
     },
@@ -1705,7 +1754,7 @@
         el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
         throw "Error trying to append media - unknown media type!";
       }
-      jQuery('#investigation-media-container').append(el);
+      jQuery('#investigation-plan-media-container').append(el);
     },
 
     removeOneMedia: function(ev) {
@@ -1725,11 +1774,36 @@
       jQuery('.upload-icon').val('');
     },
 
+    renderSpeciesChart: function() {
+      var view = this;
+      jQuery('.species-chart').html('');
+
+      var table = '<table class="table table-bordered table-hover"></table>';
+
+      // create the header row
+      var headerRow = '<tr><td class="species-chart-cell"></td>';
+      headerRow += '<td class="species-chart-cell">Plan</td>';
+      headerRow += '<td class="species-chart-cell">Predict</td>';
+      headerRow += '<td class="species-chart-cell">Result</td>';
+      headerRow += '</tr>';
+
+      // create all of the other rows
+      var remainingRows = '';
+      _.each(view.model.get('habitat_species'), function(i) {
+        remainingRows += '<tr><td class="species-chart-cell"><img class="species-box" src="'+app.images[i].selected+'"></img></td>';
+        remainingRows += '<td class="plan-column species-chart-cell trend-container" data-trend=""></td>';
+        remainingRows += '<td class="predict-column species-chart-cell trend-container" data-trend=""></td>';
+        remainingRows += '<td class="result-column species-chart-cell trend-container" data-trend=""></td>';
+        remainingRows += '</tr>';
+      });
+
+      jQuery('.species-chart').html(jQuery(table).html(headerRow+remainingRows));
+    },
+
     render: function() {
       var view = this;
 
       var pageNum = view.model.get('page_number');
-
       jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
       if (pageNum === 1) {
         jQuery('li:contains("Describe")').addClass('heavy-text');
@@ -1744,16 +1818,26 @@
       } else {
         console.error('Unknown page number!');
       }
-
       jQuery('#investigations-write-screen .page').addClass('hidden');
-      jQuery('#investigations-write-screen .investigation-body-container [data-page-number='+pageNum+']').removeClass('hidden');
+      jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number='+pageNum+']').removeClass('hidden');
 
       jQuery('#investigation-title-input').val(view.model.get('title'));
-      jQuery('#investigation-body-input').val(view.model.get('body'));
-      jQuery('#investigation-media-container').html('');
-      view.model.get('media').forEach(function(url) {
-        view.appendOneMedia(url);
+      jQuery('.species-present-container').html('');
+      _.each(app.images, function(imgObj, index) {
+        if (_.contains(view.model.get('habitat_species'), index)) {
+          jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="on" data-species-index='+index+' src="'+imgObj.selected+'"></img>');
+        } else {
+          jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="off" data-species-index='+index+' src="'+imgObj.unselected+'"></img>');
+        }
       });
+
+      view.renderSpeciesChart();
+
+      //jQuery('#investigation-plan-body-input').val(view.model.get('body'));
+      // jQuery('#investigation-plan-media-container').html('');
+      // view.model.get('media').forEach(function(url) {
+      //   view.appendOneMedia(url);
+      // });
     }
   });
 
