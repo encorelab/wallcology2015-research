@@ -549,26 +549,38 @@ textarea {
 }
 
 .investigation-habitat-name-container {
+    font-weight: bold;
     color: #116b8f;
 }
 
-#investigations-nav{
+#investigation-nav{
     float: right;
 }
-
-#investigations-nav li{
+#investigation-nav li{
     display: inline;
     color: #000;
     margin-left: 30px;
 }
 
 #investigations-write-screen .inner-wrapper {
-    height: 60%;
+    height: 80%;
     overflow-y: scroll;
-    margin-top: 5px;
+    margin-top: 75px !important;
     width: 70%;
     margin-left: 15%;
     margin-right: 15%;
+}
+
+#investigations-write-screen .row .forward-nav {
+    margin-top: 50px;
+}
+
+.investigation-species-selector {
+    text-align: center;
+    margin: 70px 20px;
+}
+.investigation-species-selector p{
+    margin-bottom: 20px;
 }
 
 .species-selector-img {
@@ -801,6 +813,15 @@ input:disabled {
     .investigation-header-container {
         font-size:14px;
         padding-top: 15px;
+    }
+    #investigations-write-screen .inner-wrapper {
+        height: 80% !important;
+    }
+    #investigations-write-screen .row .forward-nav {
+        margin-top: 120px;
+    }
+    .investigation-species-selector {
+        margin: 70px 40px;
     }
 }
 
