@@ -1662,13 +1662,27 @@
       var view = this;
 
       var pageNum = view.model.get('page_number');
-      pageNum++;
-      view.model.set('page_number', pageNum);
+      if (pageNum === 5) {
+        jQuery().toastmessage('showSuccessToast', "You have a plan, have made a prediction and have explained your reasoning for each. It is time to start the experiment!");
+      } else {
+        var proceedFlag = true;
+        _.each(jQuery('[data-page-number=4] .predict-column'), function(el) {
+          if (jQuery(el).text() === "") {
+            proceedFlag = false;
+          }
+        });
+        if (pageNum === 4 && proceedFlag === false) {
+          jQuery().toastmessage('showWarningToast', "Please fill out all of your predictions");
+        } else {
+          pageNum++;
+          view.model.set('page_number', pageNum);
 
-      view.setAllInputFields();
-      view.model.save();
+          view.setAllInputFields();
+          view.model.save();
 
-      view.render();
+          view.render();
+        }
+      }
     },
 
     setAllInputFields: function() {
