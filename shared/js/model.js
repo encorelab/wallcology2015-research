@@ -253,6 +253,9 @@
           'modified_at': new Date(),
           'habitat_species': [],
           'media': [],
+          'plan_species': [],
+          'predict_species': [],
+          'results_species': [],
           'published': true         // NB!!! Just trying this out - might be a bad idea...
         }
       });

@@ -1559,14 +1559,14 @@
     },
 
     events: {
-      'click .nav-read-btn'                 : 'moveBack',
-      'click .nav-forward-btn'              : 'moveForward',
-      'keyup :input'                        : 'checkForAutoSave',
-      'change #investigation-plan-photo-file'    : 'uploadMedia',
-      'click .remove-btn'                   : 'removeOneMedia',
-      'click .photo-container'              : 'openPhotoModal',
-      'click .species-selector-img'         : 'selectSpeciesPresent',
-      'click .trend-container'              : 'checkForTrendClickPermitted'
+      'click .nav-read-btn'                   : 'moveBack',
+      'click .nav-forward-btn'                : 'moveForward',
+      'keyup :input'                          : 'checkForAutoSave',
+      'change #investigation-plan-photo-file' : 'uploadMedia',
+      'click .remove-btn'                     : 'removeOneMedia',
+      'click .photo-container'                : 'openPhotoModal',
+      'click .species-selector-img'           : 'selectSpeciesPresent',
+      'click .trend-container'                : 'setTrend'
     },
 
     selectSpeciesPresent: function(ev) {
@@ -1582,32 +1582,61 @@
       }
     },
 
-    checkForTrendClickPermitted: function(ev) {
-      var view = this;
-
-      // if (jQuery(ev.target).hasClass('plan-column')) {
-
-      // })
-      view.setTrend(ev);
-    },
-
     setTrend: function(ev) {
-      var currentTrend = jQuery(ev.target).attr('data-trend');
-      if (currentTrend === "") {
-        jQuery(ev.target).attr("data-trend","=");
-        jQuery(ev.target).text("=");
-      } else if (currentTrend === "=") {
-        jQuery(ev.target).attr("data-trend","up");
-        jQuery(ev.target).text("up");
-      } else if (currentTrend === "up") {
-        jQuery(ev.target).attr("data-trend","down");
-        jQuery(ev.target).text("down");
-      } else if (currentTrend === "down") {
-        jQuery(ev.target).attr("data-trend","");
-        jQuery(ev.target).text("");
+      var view = this;
+      var trendArr;
+      var phase;
+      var phaseArr = [];
+      var speciesObj = {};
+      var speciesIndex = jQuery(ev.target).data('species-index');
+
+      // which type of cell are we clicking on
+      if (jQuery(ev.target).hasClass('plan-column')) {
+        phase = "plan";
+        trendArr = ["decrease", "increase"];
+      } else if (jQuery(ev.target).hasClass('predict-column')) {
+        phase = "predict";
+        trendArr = ["goes down", "goes up", "stays the same"];
+      } else if (jQuery(ev.target).hasClass('results-column')) {
+        phase = "results";
+        trendArr = ["went down", "went up", "stayed the same"];
       } else {
-        console.error('Unknown trend');
+        console.error('Unknown cell type - cannot set trend');
       }
+
+      //var result = _.without(results_species, _.findWhere(results_species, {"index": 1}));
+
+      // move forward in the array, update ui and save
+      var index = _.indexOf(trendArr, jQuery(ev.target).text());
+      var trend;
+      if (index === -1) {
+        // use the first val to cause the cell to be blank
+        trend = trendArr[0];
+      } else if (index+1 === trendArr.length) {
+        // reset the cell to blank
+        trend = "";
+      } else {
+        // if there is an index and we haven't reached the end of the arr, increment the value and then update ui
+        trend = trendArr[index+1];
+      }
+      jQuery(ev.target).text(trend);
+
+      //var newPhaseArr = _.without(phaseArr, _.findWhere(phaseArr, {"index": jQuery(ev.target).data('species-index')}));
+
+      // save this to the model
+      var phaseArr = view.model.get(phase+'_species');
+      var newPhaseArr = [];
+      // remove any previous copies of this index (don't need to worry about phase at this point)
+      _.each(phaseArr, function(obj, i) {
+        if (obj.index !== speciesIndex) {
+          newPhaseArr.push(obj);
+        }
+      });
+      speciesObj.index = speciesIndex;
+      speciesObj.trend = trend;
+      newPhaseArr.push(speciesObj);
+      view.model.set(phase+'_species',newPhaseArr);
+      view.model.save();
     },
 
     moveBack: function() {
@@ -1647,11 +1676,18 @@
 
       view.model.set('title', jQuery('#investigation-title-input').val());
 
-      var speciesArr = [];
+      var habitatSpeciesArr = [];
       _.each(jQuery('.species-selector-img[data-selected=on]'), function(el) {
-        speciesArr.push(parseInt(jQuery(el).attr('data-species-index')));
-        view.model.set('habitat_species',speciesArr);
+        habitatSpeciesArr.push(parseInt(jQuery(el).attr('data-species-index')));
+        view.model.set('habitat_species',habitatSpeciesArr);
       });
+      // _.each(view.model.get('habitat_species'), function(speciesIndex) {
+      //   var speciesObj = {}
+      //   speciesObj.index = speciesIndex;
+      //   speciesObj.trend = "";
+      // });
+      // view.model.set('plan_species'planArr)
+
       view.model.set('body',jQuery('#investigation-plan-body-input').val());
     },
 
@@ -1781,19 +1817,35 @@
       var table = '<table class="table table-bordered table-hover"></table>';
 
       // create the header row
-      var headerRow = '<tr><td class="species-chart-cell"></td>';
-      headerRow += '<td class="species-chart-cell">Plan</td>';
-      headerRow += '<td class="species-chart-cell">Predict</td>';
-      headerRow += '<td class="species-chart-cell">Result</td>';
+      var headerRow = '<tr class="header-row"><td class="species-chart-cell header-row"></td>';
+      headerRow += '<td class="plan-column species-chart-cell header-row">Plan</td>';
+      headerRow += '<td class="predict-column species-chart-cell header-row">Predict</td>';
+      headerRow += '<td class="results-column species-chart-cell header-row">Result</td>';
       headerRow += '</tr>';
 
       // create all of the other rows
       var remainingRows = '';
-      _.each(view.model.get('habitat_species'), function(i) {
-        remainingRows += '<tr><td class="species-chart-cell"><img class="species-box" src="'+app.images[i].selected+'"></img></td>';
-        remainingRows += '<td class="plan-column species-chart-cell trend-container" data-trend=""></td>';
-        remainingRows += '<td class="predict-column species-chart-cell trend-container" data-trend=""></td>';
-        remainingRows += '<td class="result-column species-chart-cell trend-container" data-trend=""></td>';
+      _.each(view.model.get('habitat_species'), function(i, iterator) {
+        // create the header row
+        remainingRows += '<tr><td class="species-column species-chart-cell" data-species-index='+i+'><img class="species-box" src="'+app.images[i].selected+'"></img></td>';
+        // these ifs check if this species has a trend (eg increase)
+        if (_.where(view.model.get('plan_species'), {"index": i}).length) {
+          remainingRows += '<td class="plan-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('plan_species'), {"index": i})[0].trend+'</td>';
+        } else {
+          remainingRows += '<td class="plan-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+        }
+        // these ifs check if this species has a trend (eg goes up)
+        if (_.where(view.model.get('predict_species'), {"index": i}).length) {
+          remainingRows += '<td class="predict-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('predict_species'), {"index": i})[0].trend+'</td>';
+        } else {
+          remainingRows += '<td class="predict-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+        }
+        // these ifs check if this species has a trend (eg went up)
+        if (_.where(view.model.get('results_species'), {"index": i}).length) {
+          remainingRows += '<td class="results-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('results_species'), {"index": i})[0].trend+'</td>';
+        } else {
+          remainingRows += '<td class="results-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+        }
         remainingRows += '</tr>';
       });
 
@@ -1802,22 +1854,8 @@
 
     render: function() {
       var view = this;
-
       var pageNum = view.model.get('page_number');
-      jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
-      if (pageNum === 1) {
-        jQuery('li:contains("Describe")').addClass('heavy-text');
-      } else if (pageNum === 2 || pageNum === 3) {
-        jQuery('li:contains("Plan")').addClass('heavy-text');
-      } else if (pageNum === 4 || pageNum === 5) {
-        jQuery('li:contains("Predict")').addClass('heavy-text');
-      } else if (pageNum === 6 || pageNum === 7) {
-        jQuery('li:contains("Report")').addClass('heavy-text');
-      } else if (pageNum === 8 || pageNum === 9) {
-        jQuery('li:contains("Present")').addClass('heavy-text');
-      } else {
-        console.error('Unknown page number!');
-      }
+
       jQuery('#investigations-write-screen .page').addClass('hidden');
       jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number='+pageNum+']').removeClass('hidden');
 
@@ -1832,6 +1870,26 @@
       });
 
       view.renderSpeciesChart();
+
+      jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
+      jQuery('.species-chart-cell').prop("disabled", false);
+      jQuery('.species-chart-cell').removeClass('uneditable');
+      if (pageNum === 1) {
+        jQuery('li:contains("Describe")').addClass('heavy-text');
+      } else if (pageNum === 2 || pageNum === 3) {
+        jQuery('li:contains("Plan")').addClass('heavy-text');
+        jQuery('.species-chart .predict-column').prop("disabled", true).addClass('uneditable');
+        jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
+      } else if (pageNum === 4 || pageNum === 5) {
+        jQuery('li:contains("Predict")').addClass('heavy-text');
+        jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
+      } else if (pageNum === 6 || pageNum === 7) {
+        jQuery('li:contains("Report")').addClass('heavy-text');
+      } else if (pageNum === 8 || pageNum === 9) {
+        jQuery('li:contains("Present")').addClass('heavy-text');
+      } else {
+        console.error('Unknown page number!');
+      }
 
       //jQuery('#investigation-plan-body-input').val(view.model.get('body'));
       // jQuery('#investigation-plan-media-container').html('');
