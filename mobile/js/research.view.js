@@ -527,12 +527,13 @@
       var view = this;
       var targetUrl = jQuery(ev.target).data('url');
       var mediaArray = view.model.get('media');
+      var newMediaArray = [];
       _.each(mediaArray, function(url, i) {
-        if (mediaArray[i] === targetUrl) {
-          mediaArray.pop(mediaArray[i]);
+        if (mediaArray[i] !== targetUrl) {
+          newMediaArray.push(mediaArray[i]);
         }
       });
-      view.model.set('media', mediaArray);
+      view.model.set('media', newMediaArray);
       view.model.save();
 
       jQuery('.media-container[data-url="'+targetUrl+'"]').remove();
@@ -1146,12 +1147,13 @@
       var view = this;
       var targetUrl = jQuery(ev.target).data('url');
       var mediaArray = view.model.get('media');
+      var newMediaArray = [];
       _.each(mediaArray, function(url, i) {
-        if (mediaArray[i] === targetUrl) {
-          mediaArray.pop(mediaArray[i]);
+        if (mediaArray[i] !== targetUrl) {
+          newMediaArray.push(mediaArray[i]);
         }
       });
-      view.model.set('media', mediaArray);
+      view.model.set('media', newMediaArray);
       view.model.save();
 
       jQuery('.media-container[data-url="'+targetUrl+'"]').remove();
@@ -1372,10 +1374,11 @@
            listItem;
 
        // determine what kind of investigation this is, ie what kind of template do we want to use
-       if (investigation.get('media').length === 0) {
+       // CHECKME: do we want 'plan' here?
+       if (investigation.get('plan_media').length === 0) {
          investigationType = "text";
-       } else if (investigation.get('media').length > 0) {
-         firstMediaUrl = investigation.get('media')[0];
+       } else if (investigation.get('plan_media').length > 0) {
+         firstMediaUrl = investigation.get('plan_media')[0];
          if (app.photoOrVideo(firstMediaUrl) === "photo") {
            investigationType = "photo";
          } else if (app.photoOrVideo(firstMediaUrl) === "video") {
@@ -1562,7 +1565,7 @@
       'click .nav-read-btn'                   : 'moveBack',
       'click .nav-forward-btn'                : 'moveForward',
       'keyup :input'                          : 'checkForAutoSave',
-      'change #investigation-plan-photo-file' : 'uploadMedia',
+      'change .investigation-photo-file'      : 'uploadMedia',
       'click .remove-btn'                     : 'removeOneMedia',
       'click .photo-container'                : 'openPhotoModal',
       'click .species-selector-img'           : 'selectSpeciesPresent',
@@ -1711,17 +1714,18 @@
       jQuery('#investigation-photo-modal').modal({keyboard: true, backdrop: true});
     },
 
-    uploadMedia: function() {
+    uploadMedia: function(ev) {
       var view = this;
+      var phase = jQuery(ev.target).data('phase');
 
-      var file = jQuery('#investigation-plan-photo-file')[0].files.item(0);
+      var file = jQuery('#investigation-'+phase+'-photo-file')[0].files.item(0);
       var formData = new FormData();
       formData.append('file', file);
 
       if (file.size < MAX_FILE_SIZE) {
-        jQuery('#investigation-plan-photo-upload-spinner').removeClass('hidden');
+        jQuery('#investigation-'+phase+'-photo-upload-spinner').removeClass('hidden');
         jQuery('.upload-icon').addClass('invisible');
-        jQuery('.publish-investigation-btn').addClass('disabled');
+        jQuery('.btn-circular').prop('disabled', true);
 
         jQuery.ajax({
           url: app.config.pikachu.url,
@@ -1739,16 +1743,16 @@
       }
 
       function failure(err) {
-        jQuery('#investigation-plan-photo-upload-spinner').addClass('hidden');
+        jQuery('.photo-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
-        jQuery('.publish-investigation-btn').removeClass('disabled');
+        jQuery('.btn-circular').prop('disabled', false);
         jQuery().toastmessage('showErrorToast', "Photo could not be uploaded. Please try again");
       }
 
       function success(data, status, xhr) {
-        jQuery('#investigation-plan-photo-upload-spinner').addClass('hidden');
+        jQuery('.photo-spinner').addClass('hidden');
         jQuery('.upload-icon').removeClass('invisible');
-        jQuery('.publish-investigation-btn').removeClass('disabled');
+        jQuery('.btn-circular').prop('disabled', false);
         console.log("UPLOAD SUCCEEDED!");
         console.log(xhr.getAllResponseHeaders());
 
@@ -1756,46 +1760,48 @@
         jQuery('.upload-icon').val('');
 
         // update the model
-        var mediaArray = view.model.get('media');
+        var mediaArray = view.model.get(phase+'_media');
         mediaArray.push(data.url);
-        view.model.set('media', mediaArray);
+        view.model.set(phase+'_media', mediaArray);
         view.model.save();
         // update the view (TODO: bind this to an add event, eg do it right)
-        view.appendOneMedia(data.url);
+        view.appendOneMedia(data.url, phase);
 
         // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
         if (mediaArray.length === 1) {
-          var investigationBodyText = jQuery('#investigation-plan-body-input').val();
-          jQuery('#investigation-plan-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
+          var investigationBodyText = jQuery('#investigation-'+phase+'-body-input').val();
+          jQuery('#investigation-'+phase+'-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
         }
       }
     },
 
     // TODO: this can be done more cleanly/backbonely with views for the media containers
-    appendOneMedia: function(url) {
+    appendOneMedia: function(url, phase) {
       var el;
 
       if (app.photoOrVideo(url) === "photo") {
-        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media photo-container img-responsive"></img><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+        el = '<span class="media-container" data-url="'+url+'"><img src="'+app.config.pikachu.url+url+'" class="media photo-container img-responsive"></img><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'" data-phase='+phase+'/></span>';
       } else if (app.photoOrVideo(url) === "video") {
-        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'"/></span>';
+        el = '<span class="media-container" data-url="'+url+'"><video src="' + app.config.pikachu.url+url + '" class="camera-icon img-responsive" controls /><i class="fa fa-times fa-2x remove-btn editable" data-url="'+url+'" data-phase='+phase+'/></span>';
       } else {
         el = '<img src="img/camera_icon.png" class="media img-responsive" alt="camera icon" />';
         throw "Error trying to append media - unknown media type!";
       }
-      jQuery('#investigation-plan-media-container').append(el);
+      jQuery('#investigation-'+phase+'-media-container').append(el);
     },
 
     removeOneMedia: function(ev) {
       var view = this;
-      var targetUrl = jQuery(ev.target).data('url');
-      var mediaArray = view.model.get('media');
+      var targetUrl = jQuery(ev.target).attr('data-url');
+      var phase = jQuery(ev.target).attr('data-phase');
+      var mediaArray = view.model.get(phase+'_media');
+      var newMediaArray = [];
       _.each(mediaArray, function(url, i) {
-        if (mediaArray[i] === targetUrl) {
-          mediaArray.pop(mediaArray[i]);
+        if (mediaArray[i] !== targetUrl) {
+          newMediaArray.push(mediaArray[i]);
         }
       });
-      view.model.set('media', mediaArray);
+      view.model.set(phase+'_media', newMediaArray);
       view.model.save();
 
       jQuery('.media-container[data-url="'+targetUrl+'"]').remove();
@@ -1890,10 +1896,18 @@
       jQuery('#investigation-plan-body-input').val(view.model.get('plan_body'));
       jQuery('#investigation-predict-body-input').val(view.model.get('predict_body'));
       jQuery('#investigation-results-body-input').val(view.model.get('results_body'));
-      // jQuery('#investigation-plan-media-container').html('');
-      // view.model.get('media').forEach(function(url) {
-      //   view.appendOneMedia(url);
-      // });
+      jQuery('#investigation-plan-media-container').html('');
+      view.model.get('plan_media').forEach(function(url) {
+        view.appendOneMedia(url, 'plan');
+      });
+      jQuery('#investigation-predict-media-container').html('');
+      view.model.get('predict_media').forEach(function(url) {
+        view.appendOneMedia(url, 'predict');
+      });
+      jQuery('#investigation-results-media-container').html('');
+      view.model.get('results_media').forEach(function(url) {
+        view.appendOneMedia(url, 'results');
+      });
     }
   });
 

@@ -252,10 +252,12 @@
           'created_at': new Date(),
           'modified_at': new Date(),
           'habitat_species': [],
-          'media': [],
           'plan_species': [],
           'predict_species': [],
           'results_species': [],
+          'plan_media': [],
+          'predict_media': [],
+          'results_media': [],
           'published': true         // NB!!! Just trying this out - might be a bad idea...
         }
       });
