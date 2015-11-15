@@ -1604,8 +1604,6 @@
         console.error('Unknown cell type - cannot set trend');
       }
 
-      //var result = _.without(results_species, _.findWhere(results_species, {"index": 1}));
-
       // move forward in the array, update ui and save
       var index = _.indexOf(trendArr, jQuery(ev.target).text());
       var trend;
@@ -1621,8 +1619,6 @@
       }
       jQuery(ev.target).text(trend);
 
-      //var newPhaseArr = _.without(phaseArr, _.findWhere(phaseArr, {"index": jQuery(ev.target).data('species-index')}));
-
       // save this to the model
       var phaseArr = view.model.get(phase+'_species');
       var newPhaseArr = [];
@@ -1632,6 +1628,7 @@
           newPhaseArr.push(obj);
         }
       });
+      // create the new species obj and push it in - should now be the only one
       speciesObj.index = speciesIndex;
       speciesObj.trend = trend;
       newPhaseArr.push(speciesObj);
@@ -1681,14 +1678,10 @@
         habitatSpeciesArr.push(parseInt(jQuery(el).attr('data-species-index')));
         view.model.set('habitat_species',habitatSpeciesArr);
       });
-      // _.each(view.model.get('habitat_species'), function(speciesIndex) {
-      //   var speciesObj = {}
-      //   speciesObj.index = speciesIndex;
-      //   speciesObj.trend = "";
-      // });
-      // view.model.set('plan_species'planArr)
 
-      view.model.set('body',jQuery('#investigation-plan-body-input').val());
+      view.model.set('plan_body',jQuery('#investigation-plan-body-input').val());
+      view.model.set('predict_body',jQuery('#investigation-predict-body-input').val());
+      view.model.set('results_body',jQuery('#investigation-results-body-input').val());
     },
 
     checkForAutoSave: function(ev) {
@@ -1891,7 +1884,9 @@
         console.error('Unknown page number!');
       }
 
-      //jQuery('#investigation-plan-body-input').val(view.model.get('body'));
+      jQuery('#investigation-plan-body-input').val(view.model.get('plan_body'));
+      jQuery('#investigation-predict-body-input').val(view.model.get('predict_body'));
+      jQuery('#investigation-results-body-input').val(view.model.get('results_body'));
       // jQuery('#investigation-plan-media-container').html('');
       // view.model.get('media').forEach(function(url) {
       //   view.appendOneMedia(url);
