@@ -1875,9 +1875,12 @@
         jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
       } else if (pageNum === 4 || pageNum === 5) {
         jQuery('li:contains("Predict")').addClass('heavy-text');
+        jQuery('.species-chart .plan-column').prop("disabled", true);
         jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
       } else if (pageNum === 6 || pageNum === 7) {
         jQuery('li:contains("Report")').addClass('heavy-text');
+        jQuery('.species-chart .plan-column').prop("disabled", true);
+        jQuery('.species-chart .predict-column').prop("disabled", true);
       } else if (pageNum === 8 || pageNum === 9) {
         jQuery('li:contains("Present")').addClass('heavy-text');
       } else {
