@@ -1891,12 +1891,15 @@
         jQuery('li:contains("Describe")').addClass('heavy-text');
       } else if (pageNum === 2 || pageNum === 3) {
         jQuery('li:contains("Plan")').addClass('heavy-text');
-        jQuery('.species-chart .predict-column').prop("disabled", true).addClass('uneditable');
-        jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
+        jQuery('.species-chart .predict-column').prop("disabled", true);
+        jQuery('.species-chart .predict-column').addClass('uneditable');
+        jQuery('.species-chart .results-column').prop("disabled", true);
+        jQuery('.species-chart .results-column').addClass('uneditable');
       } else if (pageNum === 4 || pageNum === 5) {
         jQuery('li:contains("Predict")').addClass('heavy-text');
         jQuery('.species-chart .plan-column').prop("disabled", true);
-        jQuery('.species-chart .results-column').prop("disabled", true).addClass('uneditable');
+        jQuery('.species-chart .results-column').prop("disabled", true);
+        jQuery('.species-chart .results-column').addClass('uneditable');
       } else if (pageNum === 6 || pageNum === 7) {
         jQuery('li:contains("Report")').addClass('heavy-text');
         jQuery('.species-chart .plan-column').prop("disabled", true);
@@ -1927,7 +1930,7 @@
       if (view.model.get('habitat') === app.currentUser.get('habitat_group')) {
         jQuery('#investigations-write-screen .editable.input-field').removeClass('uneditable');
         jQuery('#investigations-write-screen .editable.input-field').prop("disabled", false);
-        jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", false);
+        //jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", false);
         jQuery('#investigations-write-screen .editable').removeClass('disabled');
       } else {
         jQuery('#investigations-write-screen .editable.input-field').addClass('uneditable');
