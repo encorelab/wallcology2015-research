@@ -563,9 +563,9 @@ textarea {
 }
 
 #investigations-write-screen .inner-wrapper {
-    height: 80%;
+    height: 85%;
     overflow-y: scroll;
-    margin-top: 75px !important;
+    margin-top: 70px !important;
     width: 70%;
     margin-left: 15%;
     margin-right: 15%;
@@ -606,7 +606,12 @@ textarea {
     font-size: 18px !important;
 }
 
-
+.investigation-header{
+    margin-bottom: 15px;
+}
+.plan-column, .predict-column, .results-column {
+    min-width: 180px;
+}
 
 /********** GLOBAL **********/
 
@@ -823,6 +828,10 @@ input:disabled {
     .investigation-species-selector {
         margin: 70px 40px;
     }
+    .plan-column, .predict-column, .results-column {
+        min-width: 140px;
+        font-size: 16px !important;
+    }
 }
 
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
@@ -980,6 +989,7 @@ body {
     left: -15px;
     z-index: 10;
     top: 37%;
+    width: 50px;
 }
 .nav-forward-btn {
     float: right;
