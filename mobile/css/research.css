@@ -553,8 +553,10 @@ textarea {
     color: #116b8f;
 }
 
-#investigation-nav{
+#investigation-nav {
     float: right;
+    font-size: 14px;
+    margin-top: 4px;
 }
 #investigation-nav li{
     display: inline;
@@ -600,10 +602,16 @@ textarea {
     margin: auto;
 }
 
+.header-row .species-chart-cell {
+    font-size: 16px !important;
+    font-weight: bold;
+}
 .species-chart-cell {
-    width: px !important;
     vertical-align: middle !important;
-    font-size: 18px !important;
+    font-size: 14px !important;
+}
+.inner-wrapper .investigation-header{
+    text-align: center;
 }
 
 .investigation-header{
@@ -612,6 +620,8 @@ textarea {
 .plan-column, .predict-column, .results-column {
     min-width: 180px;
 }
+
+
 
 /********** GLOBAL **********/
 
@@ -819,11 +829,14 @@ input:disabled {
         font-size:14px;
         padding-top: 15px;
     }
+    .investigation-header {
+        text-align: center;
+    }
     #investigations-write-screen .inner-wrapper {
         height: 80% !important;
     }
     #investigations-write-screen .row .forward-nav {
-        margin-top: 120px;
+        margin-top: 190px;
     }
     .investigation-species-selector {
         margin: 70px 40px;
@@ -831,6 +844,10 @@ input:disabled {
     .plan-column, .predict-column, .results-column {
         min-width: 140px;
         font-size: 16px !important;
+    }
+    #investigation-nav {
+        font-size: 12px;
+        margin-top: 2px;
     }
 }
 
