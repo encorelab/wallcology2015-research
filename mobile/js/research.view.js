@@ -1396,7 +1396,7 @@
            view.$el.addClass('investigation-container');
          }
          listItemTemplate = _.template(jQuery(view.textTemplate).text());
-         listItem = listItemTemplate({ 'id': investigation.get('_id'), 'title': investigation.get('title'), 'body': investigation.get('body'), 'author': '- '+investigation.get('author') });
+         listItem = listItemTemplate({ 'id': investigation.get('_id'), 'title': investigation.get('title'), 'body': investigation.get('plan_body'), 'author': '- '+investigation.get('author') });
        } else if (investigationType === "photo") {
          // if class is not set do it
          if (!view.$el.hasClass('photo-investigation-container')) {
@@ -1843,21 +1843,21 @@
         remainingRows += '<tr><td class="species-column species-chart-cell" data-species-index='+i+'><img class="species-box" src="'+app.images[i].selected+'"></img></td>';
         // these ifs check if this species has a trend (eg increase)
         if (_.where(view.model.get('plan_species'), {"index": i}).length) {
-          remainingRows += '<td class="plan-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('plan_species'), {"index": i})[0].trend+'</td>';
+          remainingRows += '<td class="plan-column species-chart-cell trend-container editable" data-species-index='+i+'>'+_.where(view.model.get('plan_species'), {"index": i})[0].trend+'</td>';
         } else {
-          remainingRows += '<td class="plan-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+          remainingRows += '<td class="plan-column species-chart-cell trend-container editable" data-species-index='+i+'></td>';
         }
         // these ifs check if this species has a trend (eg goes up)
         if (_.where(view.model.get('predict_species'), {"index": i}).length) {
-          remainingRows += '<td class="predict-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('predict_species'), {"index": i})[0].trend+'</td>';
+          remainingRows += '<td class="predict-column species-chart-cell trend-container editable" data-species-index='+i+'>'+_.where(view.model.get('predict_species'), {"index": i})[0].trend+'</td>';
         } else {
-          remainingRows += '<td class="predict-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+          remainingRows += '<td class="predict-column species-chart-cell trend-container editable" data-species-index='+i+'></td>';
         }
         // these ifs check if this species has a trend (eg went up)
         if (_.where(view.model.get('results_species'), {"index": i}).length) {
-          remainingRows += '<td class="results-column species-chart-cell trend-container" data-species-index='+i+'>'+_.where(view.model.get('results_species'), {"index": i})[0].trend+'</td>';
+          remainingRows += '<td class="results-column species-chart-cell trend-container editable" data-species-index='+i+'>'+_.where(view.model.get('results_species'), {"index": i})[0].trend+'</td>';
         } else {
-          remainingRows += '<td class="results-column species-chart-cell trend-container" data-species-index='+i+'></td>';
+          remainingRows += '<td class="results-column species-chart-cell trend-container editable" data-species-index='+i+'></td>';
         }
         remainingRows += '</tr>';
       });
@@ -1922,6 +1922,19 @@
       view.model.get('results_media').forEach(function(url) {
         view.appendOneMedia(url, 'results');
       });
+
+      // check if this user is allowed to edit this relationship
+      if (view.model.get('habitat') === app.currentUser.get('habitat_group')) {
+        jQuery('#investigations-write-screen .editable.input-field').removeClass('uneditable');
+        jQuery('#investigations-write-screen .editable.input-field').prop("disabled", false);
+        jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", false);
+        jQuery('#investigations-write-screen .editable').removeClass('disabled');
+      } else {
+        jQuery('#investigations-write-screen .editable.input-field').addClass('uneditable');
+        jQuery('#investigations-write-screen .editable.input-field').prop("disabled", true);
+        jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", true);
+        jQuery('#investigations-write-screen .editable').addClass('disabled');
+      }
     }
   });
 
