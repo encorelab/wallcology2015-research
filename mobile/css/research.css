@@ -928,6 +928,9 @@ body {
     margin-top: 15px !important;
     width: 100%;
 }
+#investigations-read-screen .inner-wrapper {
+    margin-top: 70px !important;
+}
 .note-type-selector-container  {
     display: block !important;
     float: right !important;
@@ -967,6 +970,9 @@ body {
 .notes-list, .relationships-list, .investigations-list {
     width: 75%;
     margin: 20px auto auto 14%;
+}
+.investigations-list {
+    margin-top: 0px !important;
 }
 .note-container, .relationship-container, .investigation-container {
     margin: 10px;

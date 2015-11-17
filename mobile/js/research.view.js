@@ -1532,16 +1532,18 @@
       };
 
       var publishedCollection = view.collection.sort().where({published: true});
+      var titledCollection = publishedCollection.filter(function(investigation) {
+        return investigation.get('title') !== '';
+      });
 
       // clear the house
       view.$el.find('.investigations-list').html("");
 
-      if (publishedCollection) {
-        publishedCollection.forEach(function(investigation) {
+      if (titledCollection) {
+        titledCollection.forEach(function(investigation) {
           view.addOne(investigation);
         });
       }
-
     }
   });
 
