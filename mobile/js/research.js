@@ -296,7 +296,7 @@
           jQuery('#populations-screen').removeClass('hidden');
         } else if (jQuery(this).hasClass('goto-investigations-btn')) {
           // jQuery().toastmessage('showWarningToast', "Not yet, kids!");
-          if (app.currentUser.get('habitat_group')) {
+          if (app.currentUser.get('habitat_group') || app.currentUser.get('user_role') === "smartboard") {
             app.hideAllContainers();
             jQuery('#investigations-nav-btn').addClass('active');
             jQuery('#investigations-read-screen').removeClass('hidden');

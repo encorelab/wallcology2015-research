@@ -1238,7 +1238,7 @@
 
       // user buttons
       app.users.forEach(function(user) {
-        if (user.get('user_role') !== "teacher") {
+        if (user.get('user_role') !== "teacher" && user.get('user_role') !== "smartboard") {
           var button = jQuery('<button class="btn btn-default btn-base student-button">');
           button.text(user.get('username'));
           var listItem = jQuery('<li>').append(button);
@@ -1441,6 +1441,11 @@
       if (habitat) {
         jQuery('.investigation-habitat-number-container').text('Ecosystem ' + habitat.get('number'));
         jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
+      } else if (app.currentUser.get('user_role') === "smartboard") {
+        jQuery('.investigation-habitat-number-container').text('No ecosystem');
+        jQuery('.investigation-habitat-name-container').text('Smartboard');
+      } else {
+        console.error('User is somehow neither the smartboard or have an ecosystem assigned');
       }
 
       /* We should not have to listen to change on collection but on add. However, due to wakefulness
@@ -1560,6 +1565,11 @@
       if (habitat) {
         jQuery('.investigation-habitat-number-container').text('Ecosystem ' + habitat.get('number'));
         jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
+      } else if (app.currentUser.get('user_role') === "smartboard") {
+        jQuery('.investigation-habitat-number-container').text('No ecosystem');
+        jQuery('.investigation-habitat-name-container').text('Smartboard');
+      } else {
+        console.error('User is somehow neither the smartboard or have an ecosystem assigned');
       }
     },
 
