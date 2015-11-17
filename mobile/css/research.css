@@ -96,7 +96,11 @@ textarea {
 }
 
 .heavy-text {
-    font-weight: 600;
+    font-weight: 900;
+    background-color: #FCF9CA;
+    border: 1px solid #FCF9CA;
+    border-radius: 10px;
+    padding: 4px;
 }
 
 
@@ -567,7 +571,7 @@ textarea {
 #investigations-write-screen .inner-wrapper {
     height: 85%;
     overflow-y: scroll;
-    margin-top: 70px !important;
+    margin-top: 60px !important;
     width: 70%;
     margin-left: 15%;
     margin-right: 15%;

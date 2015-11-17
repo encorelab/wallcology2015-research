@@ -1566,6 +1566,7 @@
     events: {
       'click .nav-read-btn'                   : 'moveBack',
       'click .nav-forward-btn'                : 'moveForward',
+      'click .investigation-phase'            : 'jumpToPage',
       'keyup :input'                          : 'checkForAutoSave',
       'change .investigation-photo-file'      : 'uploadMedia',
       'click .remove-btn'                     : 'removeOneMedia',
@@ -1598,13 +1599,13 @@
       // which type of cell are we clicking on
       if (jQuery(ev.target).hasClass('plan-column')) {
         phase = "plan";
-        trendArr = ["decrease", "increase", "introduce"];
+        trendArr = ["introduce", "increase", "decrease"];
       } else if (jQuery(ev.target).hasClass('predict-column')) {
         phase = "predict";
-        trendArr = ["goes down", "goes up", "stays the same"];
+        trendArr = ["goes up", "goes down", "stays the same"];
       } else if (jQuery(ev.target).hasClass('results-column')) {
         phase = "results";
-        trendArr = ["went down", "went up", "stayed the same"];
+        trendArr = ["went up", "went down", "stayed the same"];
       } else {
         console.error('Unknown cell type - cannot set trend');
       }
@@ -1685,6 +1686,14 @@
           view.render();
         }
       }
+    },
+
+    jumpToPage: function(ev) {
+      var view = this;
+      view.model.set('page_number', jQuery(ev.target).data('page-number'));
+      view.model.save();
+
+      view.render();
     },
 
     setAllInputFields: function() {
