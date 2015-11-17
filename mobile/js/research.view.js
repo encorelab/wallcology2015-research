@@ -1439,7 +1439,7 @@
 
       var habitat = app.habitats.findWhere({"number": app.currentUser.get('habitat_group')});
       if (habitat) {
-        jQuery('.investigation-habitat-number-container').text('Habitat ' + habitat.get('number'));
+        jQuery('.investigation-habitat-number-container').text('Ecosystem ' + habitat.get('number'));
         jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
       }
 
@@ -1558,7 +1558,7 @@
 
       var habitat = app.habitats.findWhere({"number": app.currentUser.get('habitat_group')});
       if (habitat) {
-        jQuery('.investigation-habitat-number-container').text('Habitat ' + habitat.get('number'));
+        jQuery('.investigation-habitat-number-container').text('Ecosystem ' + habitat.get('number'));
         jQuery('.investigation-habitat-name-container').text(habitat.get('name'));
       }
     },
@@ -1598,7 +1598,7 @@
       // which type of cell are we clicking on
       if (jQuery(ev.target).hasClass('plan-column')) {
         phase = "plan";
-        trendArr = ["decrease", "increase"];
+        trendArr = ["decrease", "increase", "introduce"];
       } else if (jQuery(ev.target).hasClass('predict-column')) {
         phase = "predict";
         trendArr = ["goes down", "goes up", "stays the same"];
