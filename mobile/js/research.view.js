@@ -550,6 +550,10 @@
       var view = this;
       console.log("Rendering NotesWriteView...");
 
+      // FOR BRENDA - CAN BE REMOVED IN A COUPLE DAYS
+      var date = new Date(view.model.get('created_at'));
+      jQuery('#date-container').text(date.toLocaleString());
+
       if (view.model.get('habitat_tag')) {
         app.setHabitat("notes-write-screen", view.model.get('habitat_tag').index);
       }

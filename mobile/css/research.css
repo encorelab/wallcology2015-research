@@ -285,6 +285,12 @@ textarea {
     padding-right: 60px;
 }
 
+#date-container {
+    position: absolute;
+    right: 15%;
+    bottom: 1%;
+    padding: 10px 20px;
+}
 .fa-lightbulb-o {
     color: #006699;
     position: absolute;
