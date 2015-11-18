@@ -1252,7 +1252,7 @@
             jQuery('.class-info .students-names').append(listItem);
           } else  if (user.get('habitat_group') > 0) {
             // if the user has a group
-            var targetHab = jQuery(".habitats-list-item .habitat-group [data-number="+user.get('habitat_group')+"]").siblings()[0];      // eeeewwwwww. FIXME
+            var targetHab = jQuery(".habitats-list-item .habitat-thumbnail[data-number="+user.get('habitat_group')+"]").siblings()[0];      // eeeewwwwww. FIXME
             jQuery(targetHab).append(listItem);
           } else {
             console.error('User habitat group error');
@@ -1450,7 +1450,7 @@
         jQuery('.investigation-habitat-number-container').text('No ecosystem');
         jQuery('.investigation-habitat-name-container').text('Smartboard');
       } else {
-        console.error('User is somehow neither the smartboard or have an ecosystem assigned');
+        console.log('Teacher logged in');
       }
 
       /* We should not have to listen to change on collection but on add. However, due to wakefulness
@@ -1574,7 +1574,7 @@
         jQuery('.investigation-habitat-number-container').text('No ecosystem');
         jQuery('.investigation-habitat-name-container').text('Smartboard');
       } else {
-        console.error('User is somehow neither the smartboard or have an ecosystem assigned');
+        console.log('Teacher logged in');
       }
     },
 
@@ -1682,7 +1682,7 @@
 
       // THIS IS SO INSANELY UGLY - FIXME
       var pageNum = view.model.get('page_number');
-      if (pageNum === 7) {
+      if (pageNum === 6) {
         jQuery().toastmessage('showSuccessToast', "Present coming soon...");
       } else if (pageNum === 4) {
         _.each(jQuery('[data-page-number=4] .predict-column'), function(el) {
