@@ -165,6 +165,7 @@
     habitatChanged: function() {
       var view = this;
       app.habitatSelectorChange("notes-read-screen");
+      app.setHabitat("notes-write-screen", jQuery('#notes-read-screen .habitat-selector').val());       // Tom request
       view.render();
     },
 
@@ -202,7 +203,7 @@
 
       app.hideAllContainers();
       jQuery('#notes-write-screen').removeClass('hidden');
-      app.resetSelectorValue("notes-write-screen");
+      //app.resetSelectorValue("notes-write-screen");         // Tom request
       app.notesWriteView.render();
     },
 
@@ -322,6 +323,8 @@
       app.habitatSelectorChange("notes-write-screen");
       view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));
       view.model.save();
+
+      app.setHabitat("notes-read-screen", jQuery('#notes-write-screen .habitat-selector').val());         // Tom request
     },
 
     speciesSelected: function(ev) {
@@ -467,6 +470,8 @@
         app.clearAutoSaveTimer();
         view.model.set('title',title);
         view.model.set('body',body);
+        view.model.set('habitat_tag', app.getHabitatObject("notes-write-screen"));        // Tom request
+        view.model.set('species_tags', app.getSpeciesObjectsArray());                     // Tom request
         view.model.set('published', true);
         view.model.set('modified_at', new Date());
 
@@ -501,8 +506,8 @@
       jQuery('#notes-write-screen .input-field').css('border', '1px solid #237599');
       jQuery('#note-body-input').attr('placeholder', '');
 
-      app.resetSelectorValue("notes-write-screen");
-      app.resetSelectorValue("notes-read-screen");
+      // app.resetSelectorValue("notes-write-screen");        // Tom request
+      // app.resetSelectorValue("notes-read-screen");         // Tom request
 
       // rerender everything
       app.notesReadView.render();
@@ -1673,28 +1678,34 @@
 
     moveForward: function() {
       var view = this;
+      var proceedFlag = true;
 
+      // THIS IS SO INSANELY UGLY - FIXME
       var pageNum = view.model.get('page_number');
-      if (pageNum === 5) {
-        jQuery().toastmessage('showSuccessToast', "You have a plan, have made a prediction and have explained your reasoning for each. It is time to start the experiment!");
-      } else {
-        var proceedFlag = true;
+      if (pageNum === 7) {
+        jQuery().toastmessage('showSuccessToast', "Present coming soon...");
+      } else if (pageNum === 4) {
         _.each(jQuery('[data-page-number=4] .predict-column'), function(el) {
           if (jQuery(el).text() === "") {
             proceedFlag = false;
           }
         });
-        if (pageNum === 4 && proceedFlag === false) {
-          jQuery().toastmessage('showWarningToast', "Please fill out all of your predictions");
-        } else {
-          pageNum++;
-          view.model.set('page_number', pageNum);
+      } else if (pageNum === 6) {
+        _.each(jQuery('[data-page-number=6] .results-column'), function(el) {
+          if (jQuery(el).text() === "") {
+            proceedFlag = false;
+          }
+        });
+      }
 
-          view.setAllInputFields();
-          view.model.save();
-
-          view.render();
-        }
+      if (proceedFlag === false) {
+        jQuery().toastmessage('showWarningToast', "Please fill out all of the fields!");
+      } else {
+        pageNum++;
+        view.model.set('page_number', pageNum);
+        view.setAllInputFields();
+        view.model.save();
+        view.render();
       }
     },
 

@@ -568,6 +568,10 @@ textarea {
     margin-left: 30px;
 }
 
+.investigation-phase {
+    cursor: pointer;
+}
+
 #investigations-write-screen .inner-wrapper {
     height: 85%;
     overflow-y: scroll;
