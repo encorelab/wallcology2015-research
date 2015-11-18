@@ -1682,7 +1682,7 @@
 
       // THIS IS SO INSANELY UGLY - FIXME
       var pageNum = view.model.get('page_number');
-      if (pageNum === 6) {
+      if (pageNum === 7) {
         jQuery().toastmessage('showSuccessToast', "Present coming soon...");
       } else if (pageNum === 4) {
         _.each(jQuery('[data-page-number=4] .predict-column'), function(el) {
@@ -1899,76 +1899,75 @@
 
     render: function() {
       var view = this;
-      var pageNum = view.model.get('page_number');
 
       jQuery('#investigations-write-screen .page').addClass('hidden');
-      jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number='+pageNum+']').removeClass('hidden');
-
-      jQuery('#investigation-title-input').val(view.model.get('title'));
-      jQuery('.species-present-container').html('');
-      _.each(app.images, function(imgObj, index) {
-        if (_.contains(view.model.get('habitat_species'), index)) {
-          jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="on" data-species-index='+index+' src="'+imgObj.selected+'"></img>');
-        } else {
-          jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="off" data-species-index='+index+' src="'+imgObj.unselected+'"></img>');
-        }
-      });
-
-      view.renderSpeciesChart();
-
-      jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
-      jQuery('.species-chart-cell').prop("disabled", false);
-      jQuery('.species-chart-cell').removeClass('uneditable');
-      if (pageNum === 1) {
-        jQuery('li:contains("Describe")').addClass('heavy-text');
-      } else if (pageNum === 2 || pageNum === 3) {
-        jQuery('li:contains("Plan")').addClass('heavy-text');
-        jQuery('.species-chart .predict-column').prop("disabled", true);
-        jQuery('.species-chart .predict-column').addClass('uneditable');
-        jQuery('.species-chart .results-column').prop("disabled", true);
-        jQuery('.species-chart .results-column').addClass('uneditable');
-      } else if (pageNum === 4 || pageNum === 5) {
-        jQuery('li:contains("Predict")').addClass('heavy-text');
-        jQuery('.species-chart .plan-column').prop("disabled", true);
-        jQuery('.species-chart .results-column').prop("disabled", true);
-        jQuery('.species-chart .results-column').addClass('uneditable');
-      } else if (pageNum === 6 || pageNum === 7) {
-        jQuery('li:contains("Report")').addClass('heavy-text');
-        jQuery('.species-chart .plan-column').prop("disabled", true);
-        jQuery('.species-chart .predict-column').prop("disabled", true);
-      } else if (pageNum === 8 || pageNum === 9) {
-        jQuery('li:contains("Present")').addClass('heavy-text');
-      } else {
-        console.error('Unknown page number!');
-      }
-
-      jQuery('#investigation-plan-body-input').val(view.model.get('plan_body'));
-      jQuery('#investigation-predict-body-input').val(view.model.get('predict_body'));
-      jQuery('#investigation-results-body-input').val(view.model.get('results_body'));
-      jQuery('#investigation-plan-media-container').html('');
-      view.model.get('plan_media').forEach(function(url) {
-        view.appendOneMedia(url, 'plan');
-      });
-      jQuery('#investigation-predict-media-container').html('');
-      view.model.get('predict_media').forEach(function(url) {
-        view.appendOneMedia(url, 'predict');
-      });
-      jQuery('#investigation-results-media-container').html('');
-      view.model.get('results_media').forEach(function(url) {
-        view.appendOneMedia(url, 'results');
-      });
 
       // check if this user is allowed to edit this relationship
       if (view.model.get('habitat') === app.currentUser.get('habitat_group')) {
-        jQuery('#investigations-write-screen .editable.input-field').removeClass('uneditable');
-        jQuery('#investigations-write-screen .editable.input-field').prop("disabled", false);
-        //jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", false);
-        jQuery('#investigations-write-screen .editable').removeClass('disabled');
+        var pageNum = view.model.get('page_number');
+
+        jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number='+pageNum+']').removeClass('hidden');
+
+        jQuery('#investigation-title-input').val(view.model.get('title'));
+        jQuery('.species-present-container').html('');
+        _.each(app.images, function(imgObj, index) {
+          if (_.contains(view.model.get('habitat_species'), index)) {
+            jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="on" data-species-index='+index+' src="'+imgObj.selected+'"></img>');
+          } else {
+            jQuery('.species-present-container').append('<img class="species-selector-img" data-selected="off" data-species-index='+index+' src="'+imgObj.unselected+'"></img>');
+          }
+        });
+
+        view.renderSpeciesChart();
+
+        jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
+        jQuery('.forward-nav').removeClass('invisible');
+        jQuery('.species-chart-cell').prop("disabled", false);
+        jQuery('.species-chart-cell').removeClass('uneditable');
+        if (pageNum === 1) {
+          jQuery('li:contains("Describe")').addClass('heavy-text');
+        } else if (pageNum === 2 || pageNum === 3) {
+          jQuery('li:contains("Plan")').addClass('heavy-text');
+          jQuery('.species-chart .predict-column').prop("disabled", true);
+          jQuery('.species-chart .predict-column').addClass('uneditable');
+          jQuery('.species-chart .results-column').prop("disabled", true);
+          jQuery('.species-chart .results-column').addClass('uneditable');
+        } else if (pageNum === 4 || pageNum === 5) {
+          jQuery('li:contains("Predict")').addClass('heavy-text');
+          jQuery('.species-chart .plan-column').prop("disabled", true);
+          jQuery('.species-chart .results-column').prop("disabled", true);
+          jQuery('.species-chart .results-column').addClass('uneditable');
+        } else if (pageNum === 6 || pageNum === 7) {
+          jQuery('li:contains("Report")').addClass('heavy-text');
+          jQuery('.species-chart .plan-column').prop("disabled", true);
+          jQuery('.species-chart .predict-column').prop("disabled", true);
+        } else if (pageNum === 8) {
+          jQuery('li:contains("Present")').addClass('heavy-text');
+          // remove the forward btn
+          jQuery('.forward-nav').addClass('invisible');
+        } else {
+          console.error('Unknown page number!');
+        }
+
+        jQuery('#investigation-plan-body-input').val(view.model.get('plan_body'));
+        jQuery('#investigation-predict-body-input').val(view.model.get('predict_body'));
+        jQuery('#investigation-results-body-input').val(view.model.get('results_body'));
+        jQuery('#investigation-plan-media-container').html('');
+        view.model.get('plan_media').forEach(function(url) {
+          view.appendOneMedia(url, 'plan');
+        });
+        jQuery('#investigation-predict-media-container').html('');
+        view.model.get('predict_media').forEach(function(url) {
+          view.appendOneMedia(url, 'predict');
+        });
+        jQuery('#investigation-results-media-container').html('');
+        view.model.get('results_media').forEach(function(url) {
+          view.appendOneMedia(url, 'results');
+        });
       } else {
-        jQuery('#investigations-write-screen .editable.input-field').addClass('uneditable');
-        jQuery('#investigations-write-screen .editable.input-field').prop("disabled", true);
-        jQuery('#investigations-write-screen .species-chart-cell').prop("disabled", true);
-        jQuery('#investigations-write-screen .editable').addClass('disabled');
+        jQuery('.side-nav').addClass('invisible');
+        jQuery('.forward-nav').addClass('invisible');
+        jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number=8]').removeClass('hidden');
       }
     }
   });
