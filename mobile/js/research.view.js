@@ -1645,7 +1645,7 @@
       jQuery(ev.target).text(trend);
 
       // save this to the model
-      var phaseArr = view.model.get(phase+'_species');
+      phaseArr = view.model.get(phase+'_species');
       var newPhaseArr = [];
       // remove any previous copies of this index (don't need to worry about phase at this point)
       _.each(phaseArr, function(obj, i) {
@@ -1686,9 +1686,7 @@
 
       // THIS IS SO INSANELY UGLY - FIXME
       var pageNum = view.model.get('page_number');
-      if (pageNum === 7) {
-        jQuery().toastmessage('showSuccessToast', "Present coming soon...");
-      } else if (pageNum === 4) {
+      if (pageNum === 4) {
         _.each(jQuery('[data-page-number=4] .predict-column'), function(el) {
           if (jQuery(el).text() === "") {
             proceedFlag = false;
@@ -1901,6 +1899,19 @@
       jQuery('.species-chart').html(jQuery(table).html(headerRow+remainingRows));
     },
 
+    renderPresentPage: function() {
+      var view = this;
+
+      jQuery('.forward-nav').addClass('invisible');
+
+      jQuery('#investigation-present-title').text(view.model.get('title'));
+      jQuery('#investigation-present-species-container').html('');
+      jQuery('#investigation-present-body-container').text(view.model.get('plan_body'));
+      view.model.get('plan_media').forEach(function(url) {
+        view.appendOneMedia(url, 'present');
+      });
+    },
+
     render: function() {
       var view = this;
 
@@ -1947,8 +1958,7 @@
           jQuery('.species-chart .predict-column').prop("disabled", true);
         } else if (pageNum === 8) {
           jQuery('li:contains("Present")').addClass('heavy-text');
-          // remove the forward btn
-          jQuery('.forward-nav').addClass('invisible');
+          view.renderPresentPage();
         } else {
           console.error('Unknown page number!');
         }
@@ -1970,7 +1980,7 @@
         });
       } else {
         jQuery('.side-nav').addClass('invisible');
-        jQuery('.forward-nav').addClass('invisible');
+        view.renderPresentPage();
         jQuery('#investigations-write-screen .investigation-plan-body-container [data-page-number=8]').removeClass('hidden');
       }
     }
