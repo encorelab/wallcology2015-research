@@ -1591,7 +1591,8 @@
       'click .remove-btn'                     : 'removeOneMedia',
       'click .photo-container'                : 'openPhotoModal',
       'click .species-selector-img'           : 'selectSpeciesPresent',
-      'click .trend-container'                : 'setTrend'
+      'click .trend-container'                : 'setTrend',
+      'click .investigation-present-btn'      : 'renderPresentPage'
     },
 
     selectSpeciesPresent: function(ev) {
@@ -1816,10 +1817,10 @@
         view.appendOneMedia(data.url, phase);
 
         // one lightweight way of doing captions for this wallcology - but only do it once (eg if length is one)
-        if (mediaArray.length === 1) {
-          var investigationBodyText = jQuery('#investigation-'+phase+'-body-input').val();
-          jQuery('#investigation-'+phase+'-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
-        }
+        // if (mediaArray.length === 1) {
+        //   var investigationBodyText = jQuery('#investigation-'+phase+'-body-input').val();
+        //   jQuery('#investigation-'+phase+'-body-input').val(investigationBodyText + '\n\nNotes on pictures and videos: ');
+        // }
       }
     },
 
@@ -1857,9 +1858,9 @@
       jQuery('.upload-icon').val('');
     },
 
-    renderSpeciesChart: function() {
+    renderSpeciesChart: function(el) {
       var view = this;
-      jQuery('.species-chart').html('');
+      jQuery(el).html('');
 
       var table = '<table class="table table-bordered table-hover"></table>';
 
@@ -1896,28 +1897,52 @@
         remainingRows += '</tr>';
       });
 
-      jQuery('.species-chart').html(jQuery(table).html(headerRow+remainingRows));
+      jQuery(el).html(jQuery(table).html(headerRow+remainingRows));
     },
 
-    renderPresentPage: function() {
+    // this gets called without an ev sometimes (eg from render), in which case we always want plan
+    renderPresentPage: function(ev) {
       var view = this;
 
+      // this is the last page
       jQuery('.forward-nav').addClass('invisible');
 
+      // clear everything out
+      jQuery('#investigation-present-media-container').html('');
+
       jQuery('#investigation-present-title').text(view.model.get('title'));
-      jQuery('#investigation-present-species-container').html('');
-      jQuery('#investigation-present-body-container').text(view.model.get('plan_body'));
-      view.model.get('plan_media').forEach(function(url) {
-        view.appendOneMedia(url, 'present');
-      });
+      view.renderSpeciesChart('#investigation-present-species-container');
+      jQuery('#investigation-present-species-container .species-chart-cell').prop('disabled', true);
+
+      if (ev && jQuery(ev.target).data('phase') === "predict") {
+        jQuery('#investigation-present-species-container .results-column').remove();
+        jQuery('#investigation-present-body-container').text(view.model.get('predict_body'));
+        view.model.get('predict_media').forEach(function(url) {
+          view.appendOneMedia(url, 'present');
+        });
+      } else if (ev && jQuery(ev.target).data('phase') === "results") {
+        jQuery('#investigation-present-body-container').text(view.model.get('results_body'));
+        view.model.get('results_media').forEach(function(url) {
+          view.appendOneMedia(url, 'present');
+        });
+      } else {
+        // remove certain pieces of the chart here - pretty hacky, but we've got less than 12 hours to get this finished up
+        jQuery('#investigation-present-species-container .predict-column').remove();
+        jQuery('#investigation-present-species-container .results-column').remove();
+        jQuery('#investigation-present-body-container').text(view.model.get('plan_body'));
+        view.model.get('plan_media').forEach(function(url) {
+          view.appendOneMedia(url, 'present');
+        });
+      }
     },
 
     render: function() {
       var view = this;
 
       jQuery('#investigations-write-screen .page').addClass('hidden');
+      jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
 
-      // check if this user is allowed to edit this relationship
+      // do we jump straight to present or chooes a page (jump to present if user is not in this group)
       if (view.model.get('habitat') === app.currentUser.get('habitat_group')) {
         var pageNum = view.model.get('page_number');
 
@@ -1933,10 +1958,10 @@
           }
         });
 
-        view.renderSpeciesChart();
+        view.renderSpeciesChart('.species-chart');
 
-        jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
         jQuery('.forward-nav').removeClass('invisible');
+        jQuery('.side-nav').removeClass('invisible');
         jQuery('.species-chart-cell').prop("disabled", false);
         jQuery('.species-chart-cell').removeClass('uneditable');
         if (pageNum === 1) {
