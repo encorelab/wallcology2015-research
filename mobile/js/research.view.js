@@ -1969,24 +1969,24 @@
         jQuery('.species-chart-cell').prop("disabled", false);
         jQuery('.species-chart-cell').removeClass('uneditable');
         if (pageNum === 1) {
-          jQuery('li:contains("Describe")').addClass('heavy-text');
+          jQuery('.investigation-phase[data-page-number=1]').addClass('heavy-text');
         } else if (pageNum === 2 || pageNum === 3) {
-          jQuery('li:contains("Plan")').addClass('heavy-text');
+          jQuery('.investigation-phase[data-page-number=2]').addClass('heavy-text');
           jQuery('.species-chart .predict-column').prop("disabled", true);
           jQuery('.species-chart .predict-column').addClass('uneditable');
           jQuery('.species-chart .results-column').prop("disabled", true);
           jQuery('.species-chart .results-column').addClass('uneditable');
         } else if (pageNum === 4 || pageNum === 5) {
-          jQuery('li:contains("Predict")').addClass('heavy-text');
+          jQuery('.investigation-phase[data-page-number=4]').addClass('heavy-text');
           jQuery('.species-chart .plan-column').prop("disabled", true);
           jQuery('.species-chart .results-column').prop("disabled", true);
           jQuery('.species-chart .results-column').addClass('uneditable');
         } else if (pageNum === 6 || pageNum === 7) {
-          jQuery('li:contains("Report")').addClass('heavy-text');
+          jQuery('.investigation-phase[data-page-number=6]').addClass('heavy-text');
           jQuery('.species-chart .plan-column').prop("disabled", true);
           jQuery('.species-chart .predict-column').prop("disabled", true);
         } else if (pageNum === 8) {
-          jQuery('li:contains("Present")').addClass('heavy-text');
+          jQuery('.investigation-phase[data-page-number=8]').addClass('heavy-text');
           jQuery('.side-nav').addClass('my-group');
           view.renderPresentPage();
         } else {
