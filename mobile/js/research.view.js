@@ -74,27 +74,30 @@
          throw "Unknown note type!";
        }
 
+       var date = new Date(view.model.get('created_at'));
+       date = date.toLocaleString();
+
        if (noteType === "text") {
          //if class is not set do it
          if (!view.$el.hasClass('note-container')) {
            view.$el.addClass('note-container');
          }
          listItemTemplate = _.template(jQuery(view.textTemplate).text());
-         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author') });
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'body': note.get('body'), 'author': '- '+note.get('author'), 'date': date });
        } else if (noteType === "photo") {
          // if class is not set do it
          if (!view.$el.hasClass('photo-note-container')) {
            view.$el.addClass('photo-note-container');
          }
          listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author'), 'date': date });
        } else if (noteType === "video") {
          // if class is not set do it
          if (!view.$el.hasClass('video-note-container')) {
            view.$el.addClass('video-note-container');
          }
          listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author') });
+         listItem = listItemTemplate({ 'id': note.get('_id'), 'title': note.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+note.get('author'), 'date': date });
        }
        else {
          throw "Unknown note type!";
