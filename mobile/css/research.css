@@ -672,6 +672,9 @@ textarea {
     padding: 15px;
     min-height: 170px;
 }
+#investigation-present-media-container{
+    padding-left: 110px;
+}
 #investigation-present-media-container .media-container{
     width: 160px !important;
     height: 120px !important;
@@ -691,7 +694,9 @@ textarea {
 #investigation-present-species-container td{
     font-size: 18px !important;
 }
-
+.my-group{
+    top: 630px !important;
+}
 
 /********** GLOBAL **********/
 
@@ -919,7 +924,6 @@ input:disabled {
         font-size: 12px;
         margin-top: 2px;
     }
-
 }
 
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
