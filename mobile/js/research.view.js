@@ -1944,6 +1944,7 @@
 
       jQuery('#investigations-write-screen .page').addClass('hidden');
       jQuery('#investigation-nav .investigation-phase').removeClass('heavy-text');
+      jQuery('.side-nav').removeClass('my-group');
 
       // do we jump straight to present or chooes a page (jump to present if user is not in this group)
       if (view.model.get('habitat') === app.currentUser.get('habitat_group')) {
@@ -1986,6 +1987,7 @@
           jQuery('.species-chart .predict-column').prop("disabled", true);
         } else if (pageNum === 8) {
           jQuery('li:contains("Present")').addClass('heavy-text');
+          jQuery('.side-nav').addClass('my-group');
           view.renderPresentPage();
         } else {
           console.error('Unknown page number!');
