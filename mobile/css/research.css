@@ -669,7 +669,8 @@ textarea {
 #investigation-present-bottom-container{
     clear:both;
     background-color: #f6f6f6;
-    padding: 15px
+    padding: 15px;
+    min-height: 170px;
 }
 #investigation-present-media-container .media-container{
     width: 160px !important;
