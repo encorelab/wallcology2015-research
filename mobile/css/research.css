@@ -634,7 +634,62 @@ textarea {
 .plan-column, .predict-column, .results-column {
     min-width: 180px;
 }
+.investigation-present {
+    width: 95% !important;
+    margin: 3% !important;
+}
 
+#investigation-present-title{
+    background-color: #eef5f7;
+    color: #116b8f;
+    height: 60px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+#investigation-present-species-container table{
+    width: 65% !important;
+    float: left;
+    margin-right: 25px;
+}
+#investigation-present-top-container{
+    min-height: 390px;
+}
+#investigation-present-body-container{
+    font-size: 16px;
+    line-height: 26px;
+    max-width: 30% !important;
+    max-height: 350px !important;
+    display: inline-block;
+    overflow: scroll;
+}
+#investigation-present-bottom-container{
+    clear:both;
+    background-color: #f6f6f6;
+    padding: 15px
+}
+#investigation-present-media-container .media-container{
+    width: 160px !important;
+    height: 120px !important;
+}
+#investigation-present-button-container{
+    float: right;
+}
+.investigation-present-nav button{
+    width: 150px;
+    height: 40px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: none;
+    background-color: #d2e0ae;
+}
+#investigation-present-species-container td{
+    font-size: 18px !important;
+}
 
 
 /********** GLOBAL **********/
@@ -863,6 +918,7 @@ input:disabled {
         font-size: 12px;
         margin-top: 2px;
     }
+
 }
 
 /* Large devices (LARGE DESKTOPS, 1200px and up) */
@@ -1227,6 +1283,9 @@ body {
     }
     #relationships-aggregate .table {
         background-position: 15px 10px;
+    }
+        #investigation-present-body-container{
+        max-width: 25% !important;
     }
 }
 
