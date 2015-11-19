@@ -656,7 +656,7 @@ textarea {
     margin-right: 25px;
 }
 #investigation-present-top-container{
-    min-height: 390px;
+    min-height: 370px;
 }
 #investigation-present-body-container{
     font-size: 16px;
@@ -684,9 +684,9 @@ textarea {
 }
 .investigation-present-nav button{
     width: 150px;
-    height: 40px;
-    margin-bottom: 10px;
-    font-size: 18px;
+    height: 25px;
+    margin-bottom: 5px;
+    font-size: 15px;
     border-radius: 30px;
     border: none;
     background-color: #d2e0ae;
