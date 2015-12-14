@@ -657,27 +657,30 @@
         throw "Unknown relationship type!";
       }
 
+      var date = new Date(view.model.get('created_at'));
+      date = date.toLocaleString();
+
       if (relationshipType === "text") {
         //if class is not set do it
         if (!view.$el.hasClass('relationship-container')) {
           view.$el.addClass('relationship-container');
         }
         listItemTemplate = _.template(jQuery(view.textTemplate).text());
-        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'body': relationship.get('body'), 'author': '- '+relationship.get('author') });
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'body': relationship.get('body'), 'author': '- '+relationship.get('author'), 'date': date });
       } else if (relationshipType === "photo") {
         // if class is not set do it
         if (!view.$el.hasClass('photo-relationship-container')) {
           view.$el.addClass('photo-relationship-container');
         }
         listItemTemplate = _.template(jQuery(view.photoTemplate).text());
-        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author') });
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author'), 'date': date });
       } else if (relationshipType === "video") {
         // if class is not set do it
         if (!view.$el.hasClass('video-relationship-container')) {
           view.$el.addClass('video-relationship-container');
         }
         listItemTemplate = _.template(jQuery(view.videoTemplate).text());
-        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author') });
+        listItem = listItemTemplate({ 'id': relationship.get('_id'), 'title': relationship.get('title'), 'url': app.config.pikachu.url + firstMediaUrl, 'author': '- '+relationship.get('author'), 'date': date });
       }
       else {
         throw "Unknown relationship type!";
